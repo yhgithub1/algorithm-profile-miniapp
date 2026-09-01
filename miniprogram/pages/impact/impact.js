@@ -21,5 +21,13 @@ Page({
 
   backToProfile() {
     wx.navigateBack({ delta: 1 })
+  },
+
+  goMatch() {
+    wx.navigateTo({ url: '/pages/match/match' })
+  },
+
+  goShare() {
+    wx.navigateTo({ url: '/pages/share/share' })
   }
 })
