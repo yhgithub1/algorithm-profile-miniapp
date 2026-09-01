@@ -1,3 +1,14 @@
+const dimensionLabels = {
+  exploration: '探索度',
+  deepDive: '深挖度',
+  nostalgia: '怀旧度',
+  priceSensitivity: '价格敏感',
+  decisionCare: '决策谨慎',
+  contentInitiative: '内容主动性',
+  socialExpression: '社交表达',
+  trendSensitivity: '热点敏感'
+}
+
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value))
 }
@@ -27,18 +38,23 @@ function buildImpact(persona, rawPersona, profile = []) {
   const initiative = current.contentInitiative || 50
   const price = current.priceSensitivity || 50
   const decision = current.decisionCare || 50
-  const localLife = nodeMap.local_life || 45
+  const social = current.socialExpression || 50
+  const trend = current.trendSensitivity || 50
+  const localLife = nodeMap.local_life || nodeMap.local_explore || 45
   const weekend = nodeMap.weekend_explore || 45
 
   const content = [
     { label: '经典 / 怀旧内容', value: weight(nostalgia, 38, 48), reason: '受怀旧度影响' },
     { label: '新鲜探索内容', value: weight(exploration, 36, 50), reason: '受探索度影响' },
     { label: '长内容 / 深度内容', value: weight(deepDive, 34, 52), reason: '受深挖度影响' },
-    { label: '主动搜索相关延伸', value: weight(initiative, 32, 50), reason: '受内容主动性影响' }
+    { label: '主动搜索相关延伸', value: weight(initiative, 32, 50), reason: '受内容主动性影响' },
+    { label: '热点 / 趋势内容', value: weight(trend, 30, 54), reason: '受热点敏感度影响' },
+    { label: '评论 / 讨论型内容', value: weight(social, 30, 48), reason: '受社交表达维度影响' }
   ].sort((a, b) => b.value - a.value)
 
   const promotion = [
     { label: '优惠 / 比价信息', value: weight(price, 35, 50), reason: '价格敏感度较高时模拟提高展示权重' },
+    { label: '决策辅助 / 测评内容', value: weight(decision, 32, 44), reason: '决策谨慎度较高时模拟增加信息型内容' },
     { label: '本地生活内容', value: clamp(Math.round(localLife), 10, 95), reason: '由本地生活兴趣节点提供证据' },
     { label: '周末出行内容', value: clamp(Math.round(weekend), 10, 95), reason: '由周末探索节点提供证据' }
   ].sort((a, b) => b.value - a.value)
@@ -52,6 +68,7 @@ function buildImpact(persona, rawPersona, profile = []) {
   const corrections = Object.keys(current)
     .map(id => ({
       id,
+      label: dimensionLabels[id] || id,
       before: raw[id] || 50,
       after: current[id] || 50
     }))
