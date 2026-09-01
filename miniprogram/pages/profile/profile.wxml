@@ -1,8 +1,8 @@
 <view class="page">
-  <view class="card">
+  <view class="card intro-card">
     <view class="step">02 / 02</view>
     <view class="h2">算法眼中的你</view>
-    <view class="muted">下面每个标签都来自你刚才选择的线索。越往下，推断越远，不确定性也越高。</view>
+    <view class="muted">下面不是一组静态标签，而是一条条从你的真实线索向外扩散的推断路径。</view>
   </view>
 
   <view class="summary card">
@@ -12,20 +12,56 @@
     </view>
     <view class="summary-divider"></view>
     <view>
-      <view class="summary-number">3</view>
+      <view class="summary-number">{{maxDepth}}</view>
       <view class="summary-label">最大推断层级</view>
+    </view>
+    <view class="summary-divider"></view>
+    <view>
+      <view class="summary-number">{{visibleDepth}}</view>
+      <view class="summary-label">当前展开层级</view>
     </view>
   </view>
 
-  <view class="layer-title">人物图谱</view>
+  <view class="graph-card card">
+    <view class="graph-head">
+      <view>
+        <view class="layer-title">人物推断图谱</view>
+        <view class="graph-subtitle">从“你做过什么”到“算法可能怎么理解你”</view>
+      </view>
+      <button class="replay-button" bindtap="replay">重播</button>
+    </view>
+
+    <view class="legend">
+      <view class="legend-item"><view class="legend-dot input-dot"></view>用户线索</view>
+      <view class="legend-item"><view class="legend-dot inference-dot"></view>中间推断</view>
+      <view class="legend-item"><view class="legend-dot dimension-dot"></view>人格维度</view>
+    </view>
+
+    <scroll-view class="graph-scroll" scroll-x="true" enhanced="true" show-scrollbar="false">
+      <canvas
+        canvas-id="profileGraph"
+        class="graph-canvas"
+        style="width: {{graphWidth}}px; height: {{graphHeight}}px;"
+      ></canvas>
+    </scroll-view>
+
+    <view class="graph-status" wx:if="{{!animationDone}}">
+      正在展开第 {{visibleDepth}} 层推断…
+    </view>
+    <view class="graph-status done" wx:else>
+      推断链路已展开完成
+    </view>
+  </view>
 
   <view wx:if="{{profile.length === 0}}" class="card muted">
     当前线索还没有形成足够强的推断。返回上一页换一组线索试试。
   </view>
 
+  <view wx:if="{{profile.length > 0}}" class="detail-title">推断依据</view>
+
   <view wx:for="{{profile}}" wx:key="id" class="node-card depth-{{item.depth}}">
     <view class="node-head">
-      <view>
+      <view class="node-main">
         <view class="depth-label">第 {{item.depth}} 层推断</view>
         <view class="node-title">{{item.label}}</view>
       </view>
@@ -41,7 +77,7 @@
 
   <view class="card disclaimer">
     <view class="disclaimer-title">这不是事实判断</view>
-    <view class="muted">这里的百分比只是当前模拟规则中的推断强度，用来展示算法如何从少量行为不断扩展标签。</view>
+    <view class="muted">这里的百分比只是当前模拟规则中的推断强度。越往外扩散，不确定性越高；它展示的是“算法可能如何推断”，不是对你的真实身份或人格下结论。</view>
   </view>
 
   <button class="primary" bindtap="again">换一组线索再试</button>
