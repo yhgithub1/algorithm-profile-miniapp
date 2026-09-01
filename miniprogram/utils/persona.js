@@ -1,10 +1,20 @@
 const { tags } = require('../data/tags')
 const { dimensions, dimensionEvidence } = require('../data/dimensions')
+const { feedbackFactor } = require('./feedback')
 
 const tagLabels = tags.reduce((map, item) => {
   map[item.id] = item.label
   return map
 }, {})
+
+const dimensionFeedbackNodes = {
+  exploration: ['active_explore', 'weekend_explore', 'exploration'],
+  deepDive: ['deep_consume', 'deep_dive'],
+  nostalgia: ['cn_pop', 'classic_tv', 'early_web', 'nostalgia', 'nostalgia_score'],
+  priceSensitivity: ['price_compare', 'price_sensitive', 'price_score'],
+  decisionCare: ['price_compare', 'price_sensitive'],
+  contentInitiative: ['active_explore', 'exploration']
+}
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value))
@@ -34,7 +44,7 @@ function buildTitle(dimensionMap) {
   return '多元观察者'
 }
 
-function buildSummary(items) {
+function buildSummary(items, feedbackMap) {
   const strongest = [...items]
     .filter(item => item.evidenceCount > 0)
     .sort((a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50))
@@ -45,10 +55,34 @@ function buildSummary(items) {
   }
 
   const phrases = strongest.map(item => `${item.label}更偏向“${item.descriptor}”`)
-  return `${phrases.join('，')}。这是根据你主动提供的行为线索生成的阶段性画像。`
+  const corrected = Object.keys(feedbackMap || {}).length > 0
+  return `${phrases.join('，')}。${corrected ? '这个结果已经根据你的纠错反馈重新计算。' : '这是根据你主动提供的行为线索生成的阶段性画像。'}`
 }
 
-function buildPersona(selectedTags) {
+function applyDimensionFeedback(item, feedbackMap = {}) {
+  const nodes = dimensionFeedbackNodes[item.id] || []
+  let factor = 1
+  const applied = []
+
+  nodes.forEach(nodeId => {
+    const status = feedbackMap[nodeId]
+    if (!status) return
+    factor *= feedbackFactor(status)
+    applied.push({ nodeId, status })
+  })
+
+  // 用户否定的是“算法推断”，因此只削弱从中性 50 向外的偏移，不直接反向判定人格。
+  const deviation = item.score - 50
+  const score = clamp(Math.round(50 + deviation * factor), 0, 100)
+
+  return {
+    ...item,
+    score,
+    feedbackApplied: applied
+  }
+}
+
+function buildPersona(selectedTags, feedbackMap = {}) {
   const itemMap = {}
 
   dimensions.forEach(dimension => {
@@ -75,7 +109,7 @@ function buildPersona(selectedTags) {
   })
 
   const items = dimensions.map(dimension => {
-    const item = itemMap[dimension.id]
+    const item = applyDimensionFeedback(itemMap[dimension.id], feedbackMap)
     return {
       ...item,
       evidenceCount: item.evidence.length,
@@ -90,11 +124,13 @@ function buildPersona(selectedTags) {
   }, {})
 
   const evidenceTotal = items.reduce((sum, item) => sum + item.evidenceCount, 0)
+  const correctedCount = Object.keys(feedbackMap).length
 
   return {
     title: buildTitle(dimensionMap),
-    summary: buildSummary(items),
+    summary: buildSummary(items, feedbackMap),
     evidenceTotal,
+    correctedCount,
     completeness: Math.min(100, Math.round((evidenceTotal / 10) * 100)),
     items
   }
