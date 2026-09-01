@@ -15,13 +15,8 @@
   <view class="section-title">内容推荐可能怎样改变</view>
   <view class="card scenario-card">
     <view wx:for="{{impact.content}}" wx:key="label" class="impact-row">
-      <view class="impact-head">
-        <view class="impact-label">{{item.label}}</view>
-        <view class="impact-value">{{item.value}}</view>
-      </view>
-      <view class="impact-track">
-        <view class="impact-fill" style="width: {{item.value}}%;"></view>
-      </view>
+      <view class="impact-head"><view class="impact-label">{{item.label}}</view><view class="impact-value">{{item.value}}</view></view>
+      <view class="impact-track"><view class="impact-fill" style="width: {{item.value}}%;"></view></view>
       <view class="impact-reason">{{item.reason}}</view>
     </view>
   </view>
@@ -29,13 +24,8 @@
   <view class="section-title">广告 / 促销触达可能怎样改变</view>
   <view class="card scenario-card">
     <view wx:for="{{impact.promotion}}" wx:key="label" class="impact-row">
-      <view class="impact-head">
-        <view class="impact-label">{{item.label}}</view>
-        <view class="impact-value">{{item.value}}</view>
-      </view>
-      <view class="impact-track soft">
-        <view class="impact-fill soft-fill" style="width: {{item.value}}%;"></view>
-      </view>
+      <view class="impact-head"><view class="impact-label">{{item.label}}</view><view class="impact-value">{{item.value}}</view></view>
+      <view class="impact-track soft"><view class="impact-fill soft-fill" style="width: {{item.value}}%;"></view></view>
       <view class="impact-reason">{{item.reason}}</view>
     </view>
   </view>
@@ -43,31 +33,13 @@
   <view class="section-title">差异化优惠仿真</view>
   <view class="card pricing-card">
     <view class="pricing-note">同一个模拟商品，基础价始终保持不变，只演示“画像参与优惠券分配”的可能机制。</view>
-
     <view class="price-grid">
-      <view class="price-box">
-        <view class="price-label">基础价</view>
-        <view class="price-number">¥{{impact.pricing.basePrice}}</view>
-      </view>
-      <view class="price-box">
-        <view class="price-label">中性画像模拟券</view>
-        <view class="price-number">-¥{{impact.pricing.neutralCoupon}}</view>
-      </view>
-      <view class="price-box accent">
-        <view class="price-label">当前画像模拟券</view>
-        <view class="price-number">-¥{{impact.pricing.profileCoupon}}</view>
-      </view>
-      <view class="price-box dark">
-        <view class="price-label">当前模拟实付</view>
-        <view class="price-number">¥{{impact.pricing.payable}}</view>
-      </view>
+      <view class="price-box"><view class="price-label">基础价</view><view class="price-number">¥{{impact.pricing.basePrice}}</view></view>
+      <view class="price-box"><view class="price-label">中性画像模拟券</view><view class="price-number">-¥{{impact.pricing.neutralCoupon}}</view></view>
+      <view class="price-box accent"><view class="price-label">当前画像模拟券</view><view class="price-number">-¥{{impact.pricing.profileCoupon}}</view></view>
+      <view class="price-box dark"><view class="price-label">当前模拟实付</view><view class="price-number">¥{{impact.pricing.payable}}</view></view>
     </view>
-
-    <view class="difference" wx:if="{{impact.pricing.difference !== 0}}">
-      相比中性画像，当前画像的模拟优惠差异为
-      <text>{{impact.pricing.difference > 0 ? '+' : ''}}{{impact.pricing.difference}} 元</text>
-    </view>
-
+    <view class="difference" wx:if="{{impact.pricing.difference !== 0}}">相比中性画像，当前画像的模拟优惠差异为 <text>{{impact.pricing.difference > 0 ? '+' : ''}}{{impact.pricing.difference}} 元</text></view>
     <view class="warning-box">这是机制演示，不是真实价格检测，也不代表美团、携程、电商或其他平台的实际规则。</view>
   </view>
 
@@ -75,13 +47,8 @@
   <view wx:if="{{impact.hasCorrections}}" class="card correction-card">
     <view class="correction-intro">你在上一页否定或质疑了部分推断，所以系统重新计算了人格维度。下面是纠错前后差异。</view>
     <view wx:for="{{impact.corrections}}" wx:key="id" class="correction-row">
-      <view class="correction-id">{{item.id}}</view>
-      <view class="correction-values">
-        <text>{{item.before}}</text>
-        <text class="arrow">→</text>
-        <text class="after">{{item.after}}</text>
-        <text class="delta">{{item.delta > 0 ? '+' : ''}}{{item.delta}}</text>
-      </view>
+      <view class="correction-id">{{item.label}}</view>
+      <view class="correction-values"><text>{{item.before}}</text><text class="arrow">→</text><text class="after">{{item.after}}</text><text class="delta">{{item.delta > 0 ? '+' : ''}}{{item.delta}}</text></view>
     </view>
   </view>
 
@@ -91,16 +58,8 @@
   </view>
 
   <view class="next-grid">
-    <button class="next-card social" bindtap="goMatch">
-      <view class="next-kicker">04</view>
-      <view class="next-title">去做圈子融合实验</view>
-      <view class="next-desc">看看两个数字人格为什么可能聊得来</view>
-    </button>
-    <button class="next-card share" bindtap="goShare">
-      <view class="next-kicker">05</view>
-      <view class="next-title">直接生成分享卡</view>
-      <view class="next-desc">把“算法眼中的我”保存成图片</view>
-    </button>
+    <button class="next-card social" bindtap="goMatch"><view class="next-kicker">04</view><view class="next-title">去做圈子融合实验</view><view class="next-desc">看看两个数字人格为什么可能聊得来</view></button>
+    <button class="next-card share" bindtap="goShare"><view class="next-kicker">05</view><view class="next-title">直接生成分享卡</view><view class="next-desc">把“算法眼中的我”保存成图片</view></button>
   </view>
 
   <button class="back-button" bindtap="backToProfile">返回画像继续纠错</button>
