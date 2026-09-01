@@ -11,7 +11,8 @@ Page({
     const list = platforms.map(item => ({
       ...item,
       completed: !!saved[item.id],
-      resultTitle: saved[item.id] ? saved[item.id].title : ''
+      resultTitle: saved[item.id] ? saved[item.id].title : '',
+      resultSource: saved[item.id] ? saved[item.id].source || 'survey' : ''
     }))
     this.setData({
       platforms: list,
@@ -22,6 +23,11 @@ Page({
   openPlatform(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({ url: `/pages/survey/survey?platform=${id}` })
+  },
+
+  openScreenshot(e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({ url: `/pages/screenshot/screenshot?platform=${id}` })
   },
 
   goMerge() {
