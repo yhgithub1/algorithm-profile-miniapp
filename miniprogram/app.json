@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/platforms/platforms",
+    "pages/screenshot/screenshot",
     "pages/survey/survey",
     "pages/platform-result/platform-result",
     "pages/merge/merge",
