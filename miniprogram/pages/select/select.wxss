@@ -6,13 +6,99 @@
   letter-spacing: 2rpx;
 }
 
+.preset-card,
+.group-card {
+  margin-top: 18rpx;
+}
+
+.preset-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.section-name,
+.group-title {
+  color: #334155;
+  font-size: 26rpx;
+  font-weight: 800;
+}
+
+.section-note {
+  margin-top: 6rpx;
+  color: #94a3b8;
+  font-size: 20rpx;
+  line-height: 1.5;
+}
+
+.mini-button {
+  height: 54rpx;
+  padding: 0 18rpx;
+  margin: 0;
+  color: #64748b;
+  background: #f1f5f9;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+  line-height: 54rpx;
+}
+
+.mini-button::after {
+  border: none;
+}
+
+.preset-scroll {
+  margin-top: 22rpx;
+  white-space: nowrap;
+}
+
+.preset-row {
+  display: inline-flex;
+  gap: 14rpx;
+  padding-right: 18rpx;
+}
+
+.preset-item {
+  width: 250rpx;
+  padding: 22rpx;
+  white-space: normal;
+  background: #111827;
+  border-radius: 20rpx;
+}
+
+.preset-name {
+  color: #ffffff;
+  font-size: 25rpx;
+  font-weight: 800;
+}
+
+.preset-desc {
+  margin-top: 10rpx;
+  color: #cbd5e1;
+  font-size: 19rpx;
+  line-height: 1.5;
+}
+
+.group-title {
+  margin-bottom: 18rpx;
+}
+
 .tag-list {
-  margin-top: 26rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
 }
 
 .counter {
-  margin-top: 24rpx;
   color: #64748b;
-  font-size: 24rpx;
+  font-size: 23rpx;
   text-align: center;
+}
+
+.sticky-action {
+  position: sticky;
+  z-index: 10;
+  bottom: 0;
+  padding: 18rpx 0 26rpx;
+  background: linear-gradient(180deg, rgba(246,247,251,0), #f6f7fb 30%);
 }
