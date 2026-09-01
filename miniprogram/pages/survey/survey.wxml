@@ -1,0 +1,40 @@
+<view class="page" wx:if="{{platform && currentQuestion}}">
+  <view class="survey-head">
+    <view class="platform-line">
+      <view class="platform-icon" style="background: {{platform.color}}; color: {{platform.accent}};">{{platform.icon}}</view>
+      <view>
+        <view class="platform-name">{{platform.name}}眼中的你</view>
+        <view class="question-count">第 {{currentIndex + 1}} / {{questions.length}} 题</view>
+      </view>
+    </view>
+    <view class="progress-track"><view class="progress-fill" style="width: {{progress}}%; background: {{platform.accent}};"></view></view>
+  </view>
+
+  <view class="question-card">
+    <view class="question-title">{{currentQuestion.title}}</view>
+    <view wx:if="{{currentQuestion.type === 'multiple'}}" class="question-tip">可多选{{currentQuestion.max ? '，最多 ' + currentQuestion.max + ' 个' : ''}}</view>
+
+    <view class="option-list">
+      <view
+        wx:for="{{currentQuestion.options}}"
+        wx:key="value"
+        class="option {{currentSelected[item.value] ? 'active' : ''}}"
+        style="{{currentSelected[item.value] ? 'border-color:' + platform.accent + ';background:' + platform.color + ';' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="selectOption"
+      >
+        <view class="option-radio" style="{{currentSelected[item.value] ? 'background:' + platform.accent + ';border-color:' + platform.accent + ';' : ''}}">
+          <view wx:if="{{currentSelected[item.value]}}" class="check">✓</view>
+        </view>
+        <view class="option-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="nav-actions">
+    <button class="secondary" bindtap="previous">{{currentIndex === 0 ? '返回' : '上一题'}}</button>
+    <button class="primary next" bindtap="next">{{currentIndex === questions.length - 1 ? '生成这个平台眼中的我' : '下一题'}}</button>
+  </view>
+
+  <view class="privacy">这里填写的是你的主观回忆，不会连接或读取任何第三方 App 账号。</view>
+</view>
