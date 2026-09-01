@@ -134,6 +134,27 @@
   font-weight: 700;
 }
 
+.merge-explain {
+  margin-top: 24rpx;
+  padding: 26rpx;
+  background: #ffffff;
+  border: 2rpx solid #eef2f7;
+  border-radius: 24rpx;
+}
+
+.merge-explain-title {
+  color: #111827;
+  font-size: 25rpx;
+  font-weight: 900;
+}
+
+.merge-explain-text {
+  margin-top: 10rpx;
+  color: #64748b;
+  font-size: 21rpx;
+  line-height: 1.72;
+}
+
 .advanced-card {
   margin-top: 30rpx;
   padding: 28rpx;
