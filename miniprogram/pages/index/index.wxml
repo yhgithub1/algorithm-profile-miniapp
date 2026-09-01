@@ -1,0 +1,13 @@
+<view class="page">
+  <view class="card hero">
+    <view class="eyebrow">ALGORITHM PROFILE</view>
+    <view class="h1">看看算法是怎样一步步“认识”你的</view>
+    <view class="muted intro">
+      只选择几个真实兴趣和行为线索，观察一个模拟算法如何把它们扩展成人物画像。
+    </view>
+    <view class="notice">
+      本项目为算法科普模拟，所有推断都是概率性标签，不代表对你的真实身份判断。
+    </view>
+    <button class="primary" bindtap="start">开始体验</button>
+  </view>
+</view>
