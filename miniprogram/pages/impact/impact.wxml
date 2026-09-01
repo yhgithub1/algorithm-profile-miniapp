@@ -1,6 +1,6 @@
 <view class="page">
   <view class="hero-card card">
-    <view class="step">03 / 03</view>
+    <view class="step">03 / 05</view>
     <view class="hero-kicker">画像进入算法之后</view>
     <view class="hero-title">如果平台相信了这张画像，会发生什么？</view>
     <view class="hero-desc">下面全部是透明的本地仿真，用来展示“画像可能怎样参与推荐、广告与优惠决策”。不代表任何真实平台算法。</view>
@@ -90,5 +90,18 @@
     <view class="conclusion-text">算法不只是“猜你喜欢什么”。一旦画像形成，它可能继续影响你看到什么内容、广告、促销，以及系统如何对你进行分类。更重要的是：这些画像并不一定正确。</view>
   </view>
 
-  <button class="primary" bindtap="backToProfile">返回画像继续纠错</button>
+  <view class="next-grid">
+    <button class="next-card social" bindtap="goMatch">
+      <view class="next-kicker">04</view>
+      <view class="next-title">去做圈子融合实验</view>
+      <view class="next-desc">看看两个数字人格为什么可能聊得来</view>
+    </button>
+    <button class="next-card share" bindtap="goShare">
+      <view class="next-kicker">05</view>
+      <view class="next-title">直接生成分享卡</view>
+      <view class="next-desc">把“算法眼中的我”保存成图片</view>
+    </button>
+  </view>
+
+  <button class="back-button" bindtap="backToProfile">返回画像继续纠错</button>
 </view>
