@@ -1,14 +1,23 @@
 const { buildProfileGraph } = require('../../utils/profile-graph')
 const { buildPersona } = require('../../utils/persona')
+const { applyFeedback, feedbackStats, persistFeedback } = require('../../utils/feedback')
 
 Page({
   data: {
     profile: [],
     selectedTags: [],
+    feedbackMap: {},
+    feedbackStats: {
+      total: 0,
+      accurate: 0,
+      unsure: 0,
+      inaccurate: 0
+    },
     persona: {
       title: '多元观察者',
       summary: '',
       evidenceTotal: 0,
+      correctedCount: 0,
       completeness: 0,
       items: []
     },
@@ -21,22 +30,36 @@ Page({
 
   onLoad() {
     const app = getApp()
-    const profile = app.globalData.profile || []
+    const baseProfile = app.globalData.profile || []
     const selectedTags = app.globalData.selectedTags || []
-    const persona = buildPersona(selectedTags)
 
-    this.setData({ profile, selectedTags, persona })
+    this.baseProfile = baseProfile.map(item => ({
+      ...item,
+      originalScore: item.originalScore || item.score
+    }))
+
+    const feedbackMap = {}
+    const profile = applyFeedback(this.baseProfile, feedbackMap)
+    const persona = buildPersona(selectedTags, feedbackMap)
+
+    this.setData({
+      profile,
+      selectedTags,
+      feedbackMap,
+      feedbackStats: feedbackStats(feedbackMap),
+      persona
+    })
   },
 
   onReady() {
-    this.prepareGraph()
+    this.prepareGraph(true)
   },
 
   onUnload() {
     if (this.animationTimer) clearTimeout(this.animationTimer)
   },
 
-  prepareGraph() {
+  prepareGraph(animate = false) {
     const graph = buildProfileGraph(this.data.selectedTags, this.data.profile)
     this.graph = graph
 
@@ -44,10 +67,14 @@ Page({
       graphWidth: graph.width,
       graphHeight: graph.height,
       maxDepth: graph.maxDepth,
-      visibleDepth: 0,
-      animationDone: false
+      visibleDepth: animate ? 0 : graph.maxDepth,
+      animationDone: !animate
     }, () => {
-      setTimeout(() => this.startAnimation(), 80)
+      if (animate) {
+        setTimeout(() => this.startAnimation(), 80)
+      } else {
+        this.drawGraph(graph.maxDepth)
+      }
     })
   },
 
@@ -75,6 +102,46 @@ Page({
     this.startAnimation()
   },
 
+  submitFeedback(e) {
+    const nodeId = e.currentTarget.dataset.id
+    const status = e.currentTarget.dataset.status
+    const feedbackMap = { ...this.data.feedbackMap }
+
+    if (feedbackMap[nodeId] === status) {
+      delete feedbackMap[nodeId]
+    } else {
+      feedbackMap[nodeId] = status
+      persistFeedback(this.data.selectedTags, nodeId, status)
+    }
+
+    const profile = applyFeedback(this.baseProfile, feedbackMap)
+    const persona = buildPersona(this.data.selectedTags, feedbackMap)
+
+    this.setData({
+      feedbackMap,
+      feedbackStats: feedbackStats(feedbackMap),
+      profile,
+      persona
+    }, () => {
+      this.prepareGraph(false)
+    })
+  },
+
+  resetFeedback() {
+    const feedbackMap = {}
+    const profile = applyFeedback(this.baseProfile, feedbackMap)
+    const persona = buildPersona(this.data.selectedTags, feedbackMap)
+
+    this.setData({
+      feedbackMap,
+      feedbackStats: feedbackStats(feedbackMap),
+      profile,
+      persona
+    }, () => {
+      this.prepareGraph(false)
+    })
+  },
+
   drawGraph(visibleDepth) {
     const graph = this.graph
     if (!graph) return
@@ -98,6 +165,8 @@ Page({
       const endX = to.x + to.width / 2
       const endY = to.y
       const controlOffset = Math.max(28, (endY - startY) * 0.45)
+      const weakened = from.feedback === 'inaccurate' || to.feedback === 'inaccurate'
+      const uncertain = from.feedback === 'unsure' || to.feedback === 'unsure'
 
       ctx.beginPath()
       ctx.moveTo(startX, startY)
@@ -109,15 +178,15 @@ Page({
         endX,
         endY
       )
-      ctx.setStrokeStyle('#cbd5e1')
-      ctx.setLineWidth(1.5)
+      ctx.setStrokeStyle(weakened ? '#fecaca' : (uncertain ? '#fde68a' : '#cbd5e1'))
+      ctx.setLineWidth(weakened ? 1 : 1.5)
       ctx.stroke()
 
       ctx.beginPath()
       ctx.moveTo(endX - 4, endY - 7)
       ctx.lineTo(endX, endY)
       ctx.lineTo(endX + 4, endY - 7)
-      ctx.setStrokeStyle('#94a3b8')
+      ctx.setStrokeStyle(weakened ? '#fca5a5' : (uncertain ? '#fbbf24' : '#94a3b8'))
       ctx.setLineWidth(1.2)
       ctx.stroke()
     })
@@ -149,10 +218,28 @@ Page({
         stroke: '#a855f7',
         title: '#581c87',
         meta: '#7e22ce'
+      },
+      inaccurate: {
+        fill: '#fff7f7',
+        stroke: '#fca5a5',
+        title: '#991b1b',
+        meta: '#b91c1c'
+      },
+      unsure: {
+        fill: '#fffbeb',
+        stroke: '#fbbf24',
+        title: '#92400e',
+        meta: '#a16207'
+      },
+      accurate: {
+        fill: '#f0fdf4',
+        stroke: '#86efac',
+        title: '#166534',
+        meta: '#15803d'
       }
     }
 
-    const palette = palettes[node.type] || palettes.inference
+    const palette = node.feedback ? palettes[node.feedback] : (palettes[node.type] || palettes.inference)
     const x = node.x
     const y = node.y
     const w = node.width
@@ -191,7 +278,9 @@ Page({
 
     ctx.setFillStyle(palette.meta)
     ctx.setFontSize(10)
-    const meta = node.type === 'input' ? '用户线索' : `推断强度 ${node.score}%`
+    const meta = node.type === 'input'
+      ? '用户线索'
+      : `${node.feedback === 'inaccurate' ? '已削弱 · ' : ''}${node.score}%`
     ctx.fillText(meta, x + w / 2, y + h - 10)
   },
 
