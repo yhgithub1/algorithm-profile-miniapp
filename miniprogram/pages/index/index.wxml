@@ -1,33 +1,32 @@
 <view class="page">
   <view class="hero">
     <view class="eyebrow">ALGORITHM PROFILE</view>
-    <view class="h1">你以为自己只有一个身份，但每个 App 都认识一个不一样的你。</view>
-    <view class="intro">从“今天点什么外卖”“刷到什么视频”“旅行住多少钱的酒店”这些普通小事出发，看看算法可能怎样一点点拼出你的数字画像。</view>
+    <view class="h1">同一个你，在美团、抖音、小红书和淘宝眼里，可能完全不一样。</view>
+    <view class="intro">从“今天点什么外卖”“抖音给你刷什么”“小红书给你种什么草”“淘宝猜你会买什么”这些普通小事出发，看看算法可能怎样一点点拼出你的数字画像。</view>
 
     <view class="app-strip">
-      <view class="app-pill"><text>🥡</text> 外卖</view>
-      <view class="app-pill"><text>📱</text> 短视频</view>
-      <view class="app-pill"><text>✈️</text> 旅游</view>
-      <view class="app-pill"><text>🛒</text> 电商</view>
-      <view class="app-pill"><text>🎧</text> 音乐影视</view>
+      <view class="app-pill"><text>🥡</text> 美团</view>
+      <view class="app-pill"><text>🎵</text> 抖音</view>
+      <view class="app-pill"><text>📕</text> 小红书</view>
+      <view class="app-pill"><text>🛒</text> 淘宝</view>
     </view>
 
-    <button class="primary start" bindtap="start">看看不同 App 眼中的我</button>
+    <button class="primary start" bindtap="start">看看四个 App 眼中的我</button>
   </view>
 
   <view class="story-card">
-    <view class="story-kicker">它会怎样认识你？</view>
-    <view class="story-row"><view class="story-num">01</view><view><view class="story-title">回答生活化问题</view><view class="story-desc">例如外卖价位、常点餐厅、旅行频率、短视频推荐内容。</view></view></view>
-    <view class="story-row"><view class="story-num">02</view><view><view class="story-title">分别生成平台画像</view><view class="story-desc">外卖平台可能觉得你价格敏感，短视频平台却可能觉得你深度观看。</view></view></view>
-    <view class="story-row"><view class="story-num">03</view><view><view class="story-title">把它们拼成数字分身</view><view class="story-desc">单个平台只知道一部分，跨平台合并后却可能越来越接近你的生活方式。</view></view></view>
+    <view class="story-kicker">它们分别认识你的哪一面？</view>
+    <view class="story-row"><view class="story-num">01</view><view><view class="story-title">回答真实生活问题</view><view class="story-desc">比如美团一顿花多少、抖音刷到什么、小红书会不会先搜攻略、淘宝会不会等大促。</view></view></view>
+    <view class="story-row"><view class="story-num">02</view><view><view class="story-title">生成四套不同画像</view><view class="story-desc">美团可能觉得你优惠敏感，抖音可能觉得你深度观看，小红书觉得你爱做攻略，淘宝却觉得你决策谨慎。</view></view></view>
+    <view class="story-row"><view class="story-num">03</view><view><view class="story-title">把碎片拼成数字分身</view><view class="story-desc">每个平台只看到一部分；当这些生活信号被放在一起，一个更完整的“你”就开始出现。</view></view></view>
   </view>
 
   <view class="advanced" bindtap="goAdvanced">
     <view class="advanced-kicker">高级模式</view>
     <view class="advanced-title">想直接看“一个线索怎样扩散成十几个标签”？</view>
-    <view class="advanced-desc">进入原来的算法图谱实验室，体验推断链、纠错、推荐与优惠仿真。</view>
+    <view class="advanced-desc">进入算法图谱实验室，体验推断链、纠错、推荐与优惠仿真。</view>
     <view class="advanced-link">进入高级实验室 →</view>
   </view>
 
-  <view class="notice">本项目不会读取或登录任何真实外卖、短视频、旅游、电商账号。所有画像都来自你主动填写的本地模拟数据，也不代表任何真实平台的内部算法。</view>
+  <view class="notice">本项目不会读取或登录美团、抖音、小红书或淘宝账号。所有画像都来自你主动填写的本地模拟数据，不代表这些平台的真实内部算法，也不暗示平台之间实际共享数据。</view>
 </view>
