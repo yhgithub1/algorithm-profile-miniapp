@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/select/select",
     "pages/profile/profile",
-    "pages/impact/impact"
+    "pages/impact/impact",
+    "pages/match/match",
+    "pages/share/share"
   ],
   "window": {
     "navigationBarTitleText": "算法侧写",
