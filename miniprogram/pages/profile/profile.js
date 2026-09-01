@@ -1,9 +1,17 @@
 const { buildProfileGraph } = require('../../utils/profile-graph')
+const { buildPersona } = require('../../utils/persona')
 
 Page({
   data: {
     profile: [],
     selectedTags: [],
+    persona: {
+      title: '多元观察者',
+      summary: '',
+      evidenceTotal: 0,
+      completeness: 0,
+      items: []
+    },
     graphWidth: 340,
     graphHeight: 420,
     visibleDepth: 0,
@@ -15,8 +23,9 @@ Page({
     const app = getApp()
     const profile = app.globalData.profile || []
     const selectedTags = app.globalData.selectedTags || []
+    const persona = buildPersona(selectedTags)
 
-    this.setData({ profile, selectedTags })
+    this.setData({ profile, selectedTags, persona })
   },
 
   onReady() {
