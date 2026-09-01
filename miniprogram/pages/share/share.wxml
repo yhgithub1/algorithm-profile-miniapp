@@ -1,0 +1,23 @@
+<view class="page">
+  <view class="card intro-card">
+    <view class="step">05 / 05</view>
+    <view class="h2">算法眼中的我</view>
+    <view class="muted">把复杂的推断结果压缩成一张可以保存和转发的数字人格卡。</view>
+  </view>
+
+  <view class="canvas-shell">
+    <canvas canvas-id="shareCanvas" class="share-canvas"></canvas>
+    <view wx:if="{{!cardReady}}" class="loading-mask">正在生成分享卡…</view>
+  </view>
+
+  <view class="card action-card">
+    <button class="primary" bindtap="saveCard">保存图片到相册</button>
+    <button class="share-button" open-type="share">分享给微信好友</button>
+    <view class="share-note">分享卡只展示你主动选择的线索与本地模拟结果，不包含手机号、真实姓名、通讯录或第三方账号数据。</view>
+  </view>
+
+  <view class="card finish-card">
+    <view class="finish-title">第一版完整体验已经闭环</view>
+    <view class="finish-flow">真实线索 → 推断图谱 → 数字人格 → 用户纠错 → 算法影响 → 圈子融合 → 分享卡</view>
+  </view>
+</view>
