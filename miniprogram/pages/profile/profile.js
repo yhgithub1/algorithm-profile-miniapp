@@ -49,6 +49,8 @@ Page({
       feedbackStats: feedbackStats(feedbackMap),
       persona
     })
+
+    this.syncGlobalState(profile, feedbackMap, persona)
   },
 
   onReady() {
@@ -57,6 +59,13 @@ Page({
 
   onUnload() {
     if (this.animationTimer) clearTimeout(this.animationTimer)
+  },
+
+  syncGlobalState(profile, feedbackMap, persona) {
+    const app = getApp()
+    app.globalData.adjustedProfile = profile
+    app.globalData.feedbackMap = feedbackMap
+    app.globalData.persona = persona
   },
 
   prepareGraph(animate = false) {
@@ -123,6 +132,7 @@ Page({
       profile,
       persona
     }, () => {
+      this.syncGlobalState(profile, feedbackMap, persona)
       this.prepareGraph(false)
     })
   },
@@ -138,8 +148,14 @@ Page({
       profile,
       persona
     }, () => {
+      this.syncGlobalState(profile, feedbackMap, persona)
       this.prepareGraph(false)
     })
+  },
+
+  goImpact() {
+    this.syncGlobalState(this.data.profile, this.data.feedbackMap, this.data.persona)
+    wx.navigateTo({ url: '/pages/impact/impact' })
   },
 
   drawGraph(visibleDepth) {
