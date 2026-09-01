@@ -10,34 +10,34 @@ const globalAxes = {
 
 const platforms = [
   {
-    id: 'takeaway',
+    id: 'meituan',
     icon: '🥡',
-    name: '外卖平台',
-    shortName: '外卖',
-    color: '#ffedd5',
-    accent: '#ea580c',
-    subtitle: '从点餐频率、客单价、餐厅选择，看平台可能怎样理解你的生活节奏。',
+    name: '美团',
+    shortName: '美团',
+    color: '#fff7d6',
+    accent: '#d97706',
+    subtitle: '从外卖频率、客单价、吃什么、餐厅选择和优惠习惯，看美团可能怎样理解你的生活节奏。',
     dimensions: [
-      { id: 'frequency', label: '外卖依赖', low: '偶尔点餐', high: '高频点餐', lowTag: '低频自理型', highTag: '高频外卖型' },
+      { id: 'frequency', label: '外卖依赖', low: '偶尔点餐', high: '高频点餐', lowTag: '低频外卖型', highTag: '高频外卖型' },
       { id: 'budget', label: '客单预算', low: '经济实惠', high: '品质预算', lowTag: '实惠预算型', highTag: '品质预算型' },
       { id: 'price', label: '优惠敏感', low: '便利优先', high: '先看优惠', lowTag: '便利优先型', highTag: '优惠敏感型' },
-      { id: 'novelty', label: '尝新意愿', low: '固定熟店', high: '经常尝新', lowTag: '熟店忠诚型', highTag: '餐厅探索型' },
-      { id: 'speed', label: '时效偏好', low: '口味优先', high: '速度优先', lowTag: '口味耐心型', highTag: '效率优先型' }
+      { id: 'novelty', label: '餐厅探索', low: '固定熟店', high: '经常尝新', lowTag: '熟店忠诚型', highTag: '餐厅探索型' },
+      { id: 'speed', label: '时效偏好', low: '口味优先', high: '速度优先', lowTag: '口味优先型', highTag: '效率优先型' }
     ],
     questions: [
-      { id: 'frequency', title: '你平时更常自己做饭，还是点外卖？', type: 'single', options: [
-        { value: 'cook', label: '基本自己做 / 堂食', effects: { frequency: -28 }, global: { convenience: -12, planning: 8 } },
-        { value: '12', label: '每周 1～2 次', effects: { frequency: -8 } },
-        { value: '35', label: '每周 3～5 次', effects: { frequency: 16 }, global: { convenience: 8 } },
-        { value: 'daily', label: '几乎每天', effects: { frequency: 30 }, global: { convenience: 18 } }
+      { id: 'frequency', title: '你平时更常自己做饭 / 堂食，还是点外卖？', type: 'single', options: [
+        { value: 'cook', label: '基本自己做 / 堂食', effects: { frequency: -30 }, global: { convenience: -14, planning: 8 } },
+        { value: '12', label: '每周点 1～2 次', effects: { frequency: -8 } },
+        { value: '35', label: '每周点 3～5 次', effects: { frequency: 16 }, global: { convenience: 8 } },
+        { value: 'daily', label: '几乎每天都点', effects: { frequency: 30 }, global: { convenience: 18 } }
       ]},
       { id: 'budget', title: '你最常见的一顿外卖是多少钱？', type: 'single', options: [
-        { value: 'under20', label: '20 元以下', effects: { budget: -24, price: 10 }, global: { price: 10 } },
+        { value: 'under20', label: '20 元以下', effects: { budget: -24, price: 10 }, global: { price: 12 } },
         { value: '2035', label: '20～35 元', effects: { budget: -6 } },
         { value: '3550', label: '35～50 元', effects: { budget: 12 } },
         { value: '50plus', label: '50 元以上', effects: { budget: 26, price: -8 }, global: { price: -8 } }
       ]},
-      { id: 'food', title: '你最常点哪些类型？（可多选）', type: 'multiple', max: 3, options: [
+      { id: 'food', title: '你最常点什么？（最多选 3 个）', type: 'multiple', max: 3, options: [
         { value: 'rice', label: '盖饭 / 快餐', effects: { speed: 8 }, global: { convenience: 6 } },
         { value: 'noodle', label: '面 / 粉 / 麻辣烫', effects: { budget: -4 } },
         { value: 'burger', label: '汉堡 / 炸鸡', effects: { speed: 10 }, global: { convenience: 5 } },
@@ -45,13 +45,13 @@ const platforms = [
         { value: 'light', label: '轻食 / 健身餐', effects: { budget: 8 }, global: { planning: 6 } },
         { value: 'restaurant', label: '品牌餐厅 / 正餐', effects: { budget: 14, speed: -6 } }
       ]},
-      { id: 'restaurant', title: '选餐厅时，你通常会怎么选？', type: 'single', options: [
+      { id: 'restaurant', title: '在美团选餐厅时，你通常怎么选？', type: 'single', options: [
         { value: 'fixed', label: '固定吃熟悉的几家', effects: { novelty: -26 }, global: { exploration: -12 } },
         { value: 'rating', label: '看评分和评论再决定', effects: { novelty: 4, price: 5 }, global: { planning: 12, depth: 7 } },
         { value: 'new', label: '经常点没吃过的新店', effects: { novelty: 28 }, global: { exploration: 18 } },
         { value: 'fast', label: '谁送得快就点谁', effects: { speed: 28 }, global: { convenience: 18 } }
       ]},
-      { id: 'coupon', title: '下单前你会特意找红包、满减或优惠券吗？', type: 'single', options: [
+      { id: 'coupon', title: '下单前你会特意找红包、满减或神券吗？', type: 'single', options: [
         { value: 'always', label: '基本都会', effects: { price: 30 }, global: { price: 24, planning: 8 } },
         { value: 'sometimes', label: '有时会', effects: { price: 10 }, global: { price: 8 } },
         { value: 'rare', label: '很少，想吃就点', effects: { price: -22 }, global: { price: -16, convenience: 8 } }
@@ -59,13 +59,13 @@ const platforms = [
     ]
   },
   {
-    id: 'shortvideo',
-    icon: '📱',
-    name: '短视频平台',
-    shortName: '短视频',
-    color: '#f3e8ff',
-    accent: '#7e22ce',
-    subtitle: '不用授权账号，只看你的推荐页与观看动作，反推推荐系统可能给你的标签。',
+    id: 'douyin',
+    icon: '🎵',
+    name: '抖音',
+    shortName: '抖音',
+    color: '#f5f3ff',
+    accent: '#7c3aed',
+    subtitle: '看你的推荐页里都是什么、会不会看完、搜索、收藏和追热点，模拟抖音可能给你的兴趣画像。',
     dimensions: [
       { id: 'depth', label: '观看深度', low: '快速划过', high: '持续观看', lowTag: '快速浏览型', highTag: '深度观看型' },
       { id: 'initiative', label: '内容主动性', low: '推荐驱动', high: '主动搜索', lowTag: '推荐驱动型', highTag: '主动检索型' },
@@ -74,7 +74,7 @@ const platforms = [
       { id: 'interaction', label: '互动表达', low: '安静观看', high: '评论分享', lowTag: '安静观看型', highTag: '互动表达型' }
     ],
     questions: [
-      { id: 'feed', title: '打开短视频 App，你首页最常出现什么？（最多选 4 个）', type: 'multiple', max: 4, options: [
+      { id: 'feed', title: '打开抖音，你首页最常出现什么？（最多选 4 个）', type: 'multiple', max: 4, options: [
         { value: 'funny', label: '搞笑 / 段子', effects: { hotspot: 8 } },
         { value: 'car', label: '汽车', effects: { breadth: -4 }, global: { depth: 4 } },
         { value: 'digital', label: '数码 / 科技', effects: { breadth: -3 }, global: { depth: 6 } },
@@ -92,12 +92,12 @@ const platforms = [
         { value: 'finish', label: '经常看完', effects: { depth: 24 }, global: { depth: 18 } },
         { value: 'repeat', label: '会重播 / 看合集', effects: { depth: 32 }, global: { depth: 24 } }
       ]},
-      { id: 'search', title: '看到感兴趣的话题后，你会主动搜索吗？', type: 'single', options: [
+      { id: 'search', title: '刷到感兴趣的话题后，你会主动搜关键词或点主页吗？', type: 'single', options: [
         { value: 'never', label: '基本不会', effects: { initiative: -24 }, global: { exploration: -6 } },
         { value: 'sometimes', label: '偶尔', effects: { initiative: 8 } },
-        { value: 'often', label: '经常搜关键词 / 看主页', effects: { initiative: 28, depth: 8 }, global: { exploration: 12, depth: 10 } }
+        { value: 'often', label: '经常会', effects: { initiative: 28, depth: 8 }, global: { exploration: 12, depth: 10 } }
       ]},
-      { id: 'interact', title: '你最常做哪些互动？', type: 'multiple', max: 3, options: [
+      { id: 'interact', title: '你在抖音最常做哪些互动？', type: 'multiple', max: 3, options: [
         { value: 'none', label: '只看，不互动', effects: { interaction: -24 }, global: { social: -14 } },
         { value: 'like', label: '点赞', effects: { interaction: 5 } },
         { value: 'collect', label: '收藏', effects: { interaction: 8, depth: 5 }, global: { depth: 5 } },
@@ -112,137 +112,96 @@ const platforms = [
     ]
   },
   {
-    id: 'travel',
-    icon: '✈️',
-    name: '旅游平台',
-    shortName: '旅游',
-    color: '#e0f2fe',
-    accent: '#0369a1',
-    subtitle: '从出游频率、目的地、酒店预算和预订习惯，看旅游平台可能怎样分层你。',
+    id: 'xiaohongshu',
+    icon: '📕',
+    name: '小红书',
+    shortName: '小红书',
+    color: '#fff1f2',
+    accent: '#e11d48',
+    subtitle: '从首页内容、搜索攻略、收藏清单、种草与分享习惯，看小红书可能怎样理解你的生活方式。',
     dimensions: [
-      { id: 'frequency', label: '出游频率', low: '低频出游', high: '高频出游', lowTag: '低频出游型', highTag: '高频旅行型' },
-      { id: 'budget', label: '住宿预算', low: '经济住宿', high: '品质住宿', lowTag: '经济住宿型', highTag: '品质住宿型' },
-      { id: 'planning', label: '行程计划', low: '说走就走', high: '提前规划', lowTag: '随性出发型', highTag: '计划旅行型' },
-      { id: 'exploration', label: '目的地探索', low: '熟悉热门', high: '小众探索', lowTag: '经典目的地型', highTag: '目的地探索型' },
-      { id: 'compare', label: '比价程度', low: '省事优先', high: '反复比较', lowTag: '省事预订型', highTag: '精细比价型' }
+      { id: 'initiative', label: '主动搜索', low: '首页驱动', high: '主动做攻略', lowTag: '推荐驱动型', highTag: '攻略搜索型' },
+      { id: 'planning', label: '决策规划', low: '随性看看', high: '收藏后执行', lowTag: '随性感受型', highTag: '计划执行型' },
+      { id: 'exploration', label: '生活探索', low: '熟悉偏好', high: '尝新发现', lowTag: '稳定偏好型', highTag: '生活探索型' },
+      { id: 'social', label: '表达分享', low: '只看不发', high: '评论发布', lowTag: '安静浏览型', highTag: '表达分享型' },
+      { id: 'commercial', label: '种草响应', low: '理性筛选', high: '容易被种草', lowTag: '理性筛选型', highTag: '种草响应型' }
     ],
     questions: [
-      { id: 'frequency', title: '你一年大概会出去旅游几次？', type: 'single', options: [
-        { value: '0', label: '基本不旅游', effects: { frequency: -30 }, global: { exploration: -10 } },
-        { value: '12', label: '1～2 次', effects: { frequency: -8 } },
-        { value: '35', label: '3～5 次', effects: { frequency: 16 }, global: { exploration: 8 } },
-        { value: '6plus', label: '6 次以上', effects: { frequency: 30 }, global: { exploration: 15 } }
+      { id: 'feed', title: '你的小红书首页最常是什么？（最多选 4 个）', type: 'multiple', max: 4, options: [
+        { value: 'food', label: '美食 / 探店', effects: { exploration: 8 }, global: { exploration: 6 } },
+        { value: 'travel', label: '旅行 / 攻略', effects: { planning: 8, exploration: 8 }, global: { planning: 6, exploration: 8 } },
+        { value: 'beauty', label: '美妆 / 穿搭', effects: { commercial: 8 } },
+        { value: 'home', label: '家居 / 装修', effects: { planning: 10 }, global: { planning: 8 } },
+        { value: 'digital', label: '数码 / 效率工具', effects: { initiative: 5 }, global: { depth: 6 } },
+        { value: 'fitness', label: '健身 / 健康生活方式', effects: { planning: 8 } },
+        { value: 'work', label: '职场 / 学习', effects: { initiative: 8 }, global: { depth: 7 } },
+        { value: 'emotion', label: '情感 / 日常生活', effects: { social: 5 }, global: { social: 4 } }
       ]},
-      { id: 'destination', title: '你更常选择哪类目的地？', type: 'multiple', max: 3, options: [
-        { value: 'nearby', label: '周边短途', effects: { planning: -5 } },
-        { value: 'city', label: '热门城市', effects: { exploration: -5 } },
-        { value: 'nature', label: '山海 / 自然景区', effects: { exploration: 8 }, global: { exploration: 5 } },
-        { value: 'niche', label: '小众城市 / 冷门路线', effects: { exploration: 24 }, global: { exploration: 16 } },
-        { value: 'overseas', label: '境外旅行', effects: { budget: 14, planning: 10 }, global: { planning: 8 } }
+      { id: 'search', title: '遇到要买、要吃、要去的东西，你会先上小红书搜攻略吗？', type: 'single', options: [
+        { value: 'rare', label: '很少，首页看看就好', effects: { initiative: -24, planning: -8 } },
+        { value: 'sometimes', label: '偶尔会搜', effects: { initiative: 8 } },
+        { value: 'often', label: '经常先搜评价 / 攻略', effects: { initiative: 30, planning: 12 }, global: { planning: 12, depth: 10 } }
       ]},
-      { id: 'hotel', title: '你通常会选什么价位的酒店？', type: 'single', options: [
-        { value: 'under200', label: '200 元以下', effects: { budget: -28, compare: 8 }, global: { price: 10 } },
-        { value: '200400', label: '200～400 元', effects: { budget: -8 } },
-        { value: '400700', label: '400～700 元', effects: { budget: 14 } },
-        { value: '700plus', label: '700 元以上', effects: { budget: 30, compare: -6 }, global: { price: -8 } }
+      { id: 'collect', title: '看到有用的笔记，你通常会？', type: 'single', options: [
+        { value: 'scroll', label: '看看就过去', effects: { planning: -20 } },
+        { value: 'like', label: '点赞留个印象', effects: { planning: -4, social: 4 } },
+        { value: 'collect', label: '收藏，之后真的会翻', effects: { planning: 24 }, global: { planning: 16, depth: 8 } },
+        { value: 'list', label: '整理成自己的清单 / 攻略', effects: { planning: 32, initiative: 12 }, global: { planning: 22, depth: 12 } }
       ]},
-      { id: 'booking', title: '你一般提前多久订票 / 酒店？', type: 'single', options: [
-        { value: 'same', label: '当天或临时决定', effects: { planning: -28 }, global: { planning: -20 } },
-        { value: 'days', label: '提前几天', effects: { planning: -5 } },
-        { value: 'weeks', label: '提前几周', effects: { planning: 20 }, global: { planning: 14 } },
-        { value: 'months', label: '提前一两个月以上', effects: { planning: 30 }, global: { planning: 20 } }
+      { id: 'social', title: '你在小红书会评论、发笔记或分享给朋友吗？', type: 'single', options: [
+        { value: 'silent', label: '基本只看', effects: { social: -26 }, global: { social: -16 } },
+        { value: 'comment', label: '偶尔评论 / 私信', effects: { social: 10 }, global: { social: 6 } },
+        { value: 'share', label: '经常转给朋友', effects: { social: 20 }, global: { social: 16 } },
+        { value: 'post', label: '自己也会发笔记', effects: { social: 30 }, global: { social: 24 } }
       ]},
-      { id: 'compare', title: '订酒店或机票时，你会反复比较不同平台吗？', type: 'single', options: [
-        { value: 'rare', label: '很少，省事最重要', effects: { compare: -24 }, global: { price: -10, convenience: 12 } },
-        { value: 'some', label: '会简单比较一下', effects: { compare: 8 }, global: { price: 5 } },
-        { value: 'often', label: '经常多平台比价', effects: { compare: 30 }, global: { price: 20, planning: 8 } }
+      { id: 'plant', title: '被一篇“种草”笔记打动后，你通常会？', type: 'single', options: [
+        { value: 'ignore', label: '看看而已，不太会买', effects: { commercial: -26 }, global: { price: 4 } },
+        { value: 'compare', label: '会再查评价 / 比价', effects: { commercial: -6, planning: 12 }, global: { price: 10, depth: 8 } },
+        { value: 'save', label: '先收藏，之后可能买', effects: { commercial: 10, planning: 8 } },
+        { value: 'buy', label: '经常直接去搜同款 / 下单', effects: { commercial: 28 }, global: { convenience: 8 } }
       ]}
     ]
   },
   {
-    id: 'shopping',
+    id: 'taobao',
     icon: '🛒',
-    name: '电商平台',
-    shortName: '电商',
-    color: '#dcfce7',
-    accent: '#15803d',
-    subtitle: '从购物预算、搜索、收藏和比价习惯，看电商推荐与促销系统可能怎样理解你。',
+    name: '淘宝',
+    shortName: '淘宝',
+    color: '#fff7ed',
+    accent: '#ea580c',
+    subtitle: '从搜索、比价、收藏、活动和新品习惯，看淘宝可能怎样判断你的购买意图和消费决策。',
     dimensions: [
-      { id: 'price', label: '价格敏感', low: '省事优先', high: '精细比价', lowTag: '省事购买型', highTag: '精打细算型' },
-      { id: 'research', label: '购买研究', low: '快速下单', high: '充分研究', lowTag: '快速决策型', highTag: '研究决策型' },
-      { id: 'brand', label: '品牌倾向', low: '性价比优先', high: '品牌优先', lowTag: '性价比型', highTag: '品牌偏好型' },
-      { id: 'impulse', label: '冲动购买', low: '计划购买', high: '容易种草', lowTag: '计划消费型', highTag: '容易种草型' },
-      { id: 'novelty', label: '新品兴趣', low: '成熟产品', high: '新品尝鲜', lowTag: '成熟选择型', highTag: '新品尝鲜型' }
+      { id: 'price', label: '价格敏感', low: '省事优先', high: '精细比价', lowTag: '便利购买型', highTag: '精细比价型' },
+      { id: 'research', label: '购买研究', low: '快速下单', high: '做足功课', lowTag: '快速决策型', highTag: '研究决策型' },
+      { id: 'impulse', label: '即时购买', low: '长期考虑', high: '容易下单', lowTag: '延迟决策型', highTag: '即时购买型' },
+      { id: 'brand', label: '品牌倾向', low: '性价比优先', high: '品牌优先', lowTag: '性价比导向型', highTag: '品牌偏好型' },
+      { id: 'novelty', label: '新品兴趣', low: '熟悉稳定', high: '喜欢新品', lowTag: '稳定购买型', highTag: '新品探索型' }
     ],
     questions: [
-      { id: 'buy', title: '买一个几百元的东西前，你通常会？', type: 'single', options: [
-        { value: 'direct', label: '看着合适就下单', effects: { research: -24, impulse: 14 }, global: { planning: -10, convenience: 8 } },
-        { value: 'review', label: '先看评价', effects: { research: 10 }, global: { depth: 6 } },
-        { value: 'compare', label: '查参数、测评、多个平台', effects: { research: 30, price: 12 }, global: { depth: 18, planning: 12 } }
+      { id: 'research', title: '淘宝买东西前，你一般会做多少功课？', type: 'single', options: [
+        { value: 'quick', label: '看着合适就买', effects: { research: -26, impulse: 20 }, global: { convenience: 14, planning: -8 } },
+        { value: 'review', label: '会看评价 / 买家秀', effects: { research: 10 }, global: { depth: 6 } },
+        { value: 'compare', label: '会看参数、问大家、同款对比', effects: { research: 28, price: 8 }, global: { depth: 14, planning: 12 } }
       ]},
-      { id: 'coupon', title: '大促、优惠券、跨店满减对你影响大吗？', type: 'single', options: [
-        { value: 'big', label: '很大，会等活动', effects: { price: 30, impulse: -5 }, global: { price: 24, planning: 12 } },
-        { value: 'some', label: '有优惠更好', effects: { price: 10 }, global: { price: 8 } },
-        { value: 'little', label: '不太在意', effects: { price: -24 }, global: { price: -16 } }
+      { id: 'price', title: '你会不会为了优惠等 618、双 11 或者领券？', type: 'single', options: [
+        { value: 'rare', label: '很少，想买就买', effects: { price: -24, impulse: 10 }, global: { price: -16, convenience: 10 } },
+        { value: 'sometimes', label: '价格合适会等', effects: { price: 10 } },
+        { value: 'often', label: '经常比价、凑券、等活动', effects: { price: 30, impulse: -8 }, global: { price: 24, planning: 12 } }
       ]},
       { id: 'brand', title: '同类商品里，你更偏向？', type: 'single', options: [
-        { value: 'brand', label: '熟悉的大品牌', effects: { brand: 28, novelty: -8 } },
-        { value: 'value', label: '参数 / 性价比更重要', effects: { brand: -22, research: 8 }, global: { price: 8, depth: 5 } },
-        { value: 'design', label: '颜值 / 风格打动我', effects: { impulse: 12, brand: 5 }, global: { social: 4 } }
+        { value: 'value', label: '参数够用、性价比高就行', effects: { brand: -26, price: 8 }, global: { price: 8 } },
+        { value: 'balanced', label: '品牌和价格都会看', effects: { brand: 4 } },
+        { value: 'brand', label: '更信任熟悉品牌', effects: { brand: 26 }, global: { convenience: 6 } }
       ]},
-      { id: 'cart', title: '看到喜欢的东西，你更常？', type: 'single', options: [
-        { value: 'buy', label: '很快下单', effects: { impulse: 28, research: -8 }, global: { planning: -8 } },
-        { value: 'cart', label: '先加购物车 / 收藏', effects: { impulse: 5, research: 8 }, global: { planning: 6 } },
-        { value: 'wait', label: '放几天再决定', effects: { impulse: -24, research: 12 }, global: { planning: 14 } }
+      { id: 'decision', title: '看到喜欢的东西，你通常怎么下单？', type: 'single', options: [
+        { value: 'instant', label: '经常当场下单', effects: { impulse: 30 }, global: { planning: -14, convenience: 10 } },
+        { value: 'cart', label: '先放购物车再说', effects: { impulse: -2, research: 6 } },
+        { value: 'collect', label: '收藏很久，降价才买', effects: { impulse: -26, price: 12 }, global: { price: 10, planning: 12 } }
       ]},
-      { id: 'new', title: '新款、新品刚上市时，你通常？', type: 'single', options: [
-        { value: 'early', label: '喜欢第一时间尝鲜', effects: { novelty: 30 }, global: { exploration: 16 } },
-        { value: 'watch', label: '先观望评价', effects: { novelty: 5, research: 12 }, global: { depth: 7 } },
-        { value: 'mature', label: '更喜欢成熟稳定的款', effects: { novelty: -25 }, global: { exploration: -8, planning: 7 } }
-      ]}
-    ]
-  },
-  {
-    id: 'content',
-    icon: '🎧',
-    name: '音乐影视平台',
-    shortName: '内容',
-    color: '#fee2e2',
-    accent: '#be123c',
-    subtitle: '从你反复听什么、追新还是怀旧、会不会搜幕后信息，看内容平台眼中的文化兴趣。',
-    dimensions: [
-      { id: 'nostalgia', label: '经典偏好', low: '追新内容', high: '经典共鸣', lowTag: '追新内容型', highTag: '经典共鸣型' },
-      { id: 'depth', label: '内容深挖', low: '看完即走', high: '持续深挖', lowTag: '轻消费型', highTag: '内容深潜型' },
-      { id: 'diversity', label: '兴趣跨度', low: '类型集中', high: '跨类型', lowTag: '垂直审美型', highTag: '多元审美型' },
-      { id: 'initiative', label: '主动发现', low: '榜单推荐', high: '主动搜索', lowTag: '榜单推荐型', highTag: '主动发现型' },
-      { id: 'social', label: '文化表达', low: '自己享受', high: '讨论分享', lowTag: '私人欣赏型', highTag: '文化表达型' }
-    ],
-    questions: [
-      { id: 'era', title: '你平时更容易被哪类内容吸引？', type: 'single', options: [
-        { value: 'new', label: '最近的新歌 / 新剧 / 新电影', effects: { nostalgia: -26 }, global: { nostalgia: -20, exploration: 8 } },
-        { value: 'mix', label: '新老都会看', effects: { nostalgia: 2, diversity: 8 } },
-        { value: 'classic', label: '老歌 / 经典剧 / 老电影', effects: { nostalgia: 30 }, global: { nostalgia: 24 } }
-      ]},
-      { id: 'repeat', title: '真正喜欢的内容，你会反复听 / 看吗？', type: 'single', options: [
-        { value: 'rare', label: '很少重复', effects: { depth: -20 } },
-        { value: 'some', label: '偶尔重温', effects: { depth: 8, nostalgia: 5 } },
-        { value: 'often', label: '经常循环 / 重刷', effects: { depth: 28, nostalgia: 8 }, global: { depth: 20 } }
-      ]},
-      { id: 'discover', title: '你通常怎么找到下一首歌 / 下一部剧？', type: 'single', options: [
-        { value: 'recommend', label: '首页推荐 / 榜单', effects: { initiative: -22 } },
-        { value: 'friend', label: '朋友推荐 / 社交平台看到', effects: { initiative: -4, social: 8 }, global: { social: 7 } },
-        { value: 'search', label: '自己搜演员、导演、歌手、主题', effects: { initiative: 28, depth: 10 }, global: { exploration: 10, depth: 10 } }
-      ]},
-      { id: 'types', title: '你的内容口味有多杂？', type: 'single', options: [
-        { value: 'focus', label: '长期就喜欢少数几类', effects: { diversity: -24 }, global: { depth: 5 } },
-        { value: 'some', label: '有主线，也会尝试别的', effects: { diversity: 8 } },
-        { value: 'wide', label: '音乐影视类型跨度很大', effects: { diversity: 28 }, global: { exploration: 14 } }
-      ]},
-      { id: 'share', title: '遇到特别喜欢的内容，你会？', type: 'multiple', max: 3, options: [
-        { value: 'self', label: '自己收藏就好', effects: { social: -18 }, global: { social: -12 } },
-        { value: 'comment', label: '看评论 / 写短评', effects: { social: 10, depth: 6 }, global: { depth: 4 } },
-        { value: 'share', label: '发给朋友', effects: { social: 20 }, global: { social: 16 } },
-        { value: 'discuss', label: '和别人认真讨论', effects: { social: 26, depth: 8 }, global: { social: 20, depth: 5 } }
+      { id: 'new', title: '新品、首发或新品牌会吸引你吗？', type: 'single', options: [
+        { value: 'stable', label: '还是熟悉款更放心', effects: { novelty: -26 }, global: { exploration: -12 } },
+        { value: 'look', label: '会看看，但不一定买', effects: { novelty: 8 } },
+        { value: 'try', label: '喜欢尝试新品 / 新品牌', effects: { novelty: 28 }, global: { exploration: 18 } }
       ]}
     ]
   }
