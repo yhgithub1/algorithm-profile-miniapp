@@ -8,12 +8,14 @@ const tagLabels = tags.reduce((map, item) => {
 }, {})
 
 const dimensionFeedbackNodes = {
-  exploration: ['active_explore', 'weekend_explore', 'exploration'],
-  deepDive: ['deep_consume', 'deep_dive'],
+  exploration: ['active_explore', 'weekend_explore', 'local_explore', 'exploration', 'familiar_preference'],
+  deepDive: ['longform_content', 'deep_story', 'deep_consume', 'deep_dive', 'quick_consume'],
   nostalgia: ['cn_pop', 'classic_tv', 'early_web', 'nostalgia', 'nostalgia_score'],
-  priceSensitivity: ['price_compare', 'price_sensitive', 'price_score'],
-  decisionCare: ['price_compare', 'price_sensitive'],
-  contentInitiative: ['active_explore', 'exploration']
+  priceSensitivity: ['price_compare', 'price_sensitive', 'price_score', 'convenience_preference'],
+  decisionCare: ['decision_research', 'decision_care', 'decision_score', 'convenience_preference'],
+  contentInitiative: ['active_explore', 'exploration'],
+  socialExpression: ['social_context', 'social_expression', 'private_mode'],
+  trendSensitivity: ['trend_follow', 'trend_score', 'stable_interest']
 }
 
 function clamp(value, min, max) {
@@ -33,11 +35,17 @@ function buildTitle(dimensionMap) {
   const price = dimensionMap.priceSensitivity?.score || 50
   const decision = dimensionMap.decisionCare?.score || 50
   const initiative = dimensionMap.contentInitiative?.score || 50
+  const social = dimensionMap.socialExpression?.score || 50
+  const trend = dimensionMap.trendSensitivity?.score || 50
 
-  if (exploration >= 65 && deepDive >= 65) return '深潜探索者'
-  if (nostalgia >= 65 && deepDive >= 60) return '怀旧深潜者'
-  if (price >= 65 && decision >= 60) return '理性比价者'
-  if (initiative >= 65 && exploration >= 60) return '主动发现者'
+  if (exploration >= 68 && deepDive >= 65 && initiative >= 62) return '深潜探索者'
+  if (nostalgia >= 68 && deepDive >= 60) return '怀旧深潜者'
+  if (price >= 68 && decision >= 62) return '理性比价者'
+  if (initiative >= 68 && exploration >= 60) return '主动发现者'
+  if (social >= 68 && trend >= 62) return '热点共鸣者'
+  if (exploration >= 65 && social >= 60) return '城市发现者'
+  if (trend <= 35 && nostalgia >= 60) return '稳定经典派'
+  if (social <= 35 && deepDive >= 60) return '安静深潜者'
   if (nostalgia >= 65) return '经典共鸣者'
   if (deepDive >= 65) return '深度内容型'
   if (exploration >= 65) return '主动探索者'
@@ -48,7 +56,7 @@ function buildSummary(items, feedbackMap) {
   const strongest = [...items]
     .filter(item => item.evidenceCount > 0)
     .sort((a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50))
-    .slice(0, 2)
+    .slice(0, 3)
 
   if (!strongest.length) {
     return '当前行为证据还比较少，先把它看作一个待补充的数字画像。'
@@ -71,7 +79,7 @@ function applyDimensionFeedback(item, feedbackMap = {}) {
     applied.push({ nodeId, status })
   })
 
-  // 用户否定的是“算法推断”，因此只削弱从中性 50 向外的偏移，不直接反向判定人格。
+  // 用户否定的是算法推断，所以只削弱相对中性 50 的偏移，不直接反向判定人格。
   const deviation = item.score - 50
   const score = clamp(Math.round(50 + deviation * factor), 0, 100)
 
@@ -114,7 +122,7 @@ function buildPersona(selectedTags, feedbackMap = {}) {
       ...item,
       evidenceCount: item.evidence.length,
       descriptor: getDescriptor(item.score, dimension),
-      evidence: item.evidence.slice(0, 3)
+      evidence: item.evidence.slice(0, 4)
     }
   })
 
@@ -131,7 +139,7 @@ function buildPersona(selectedTags, feedbackMap = {}) {
     summary: buildSummary(items, feedbackMap),
     evidenceTotal,
     correctedCount,
-    completeness: Math.min(100, Math.round((evidenceTotal / 10) * 100)),
+    completeness: Math.min(100, Math.round((evidenceTotal / 14) * 100)),
     items
   }
 }
