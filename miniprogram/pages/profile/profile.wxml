@@ -2,7 +2,7 @@
   <view class="card intro-card">
     <view class="step">02 / 02</view>
     <view class="h2">算法眼中的你</view>
-    <view class="muted">下面不是一组静态标签，而是一条条从你的真实线索向外扩散的推断路径。</view>
+    <view class="muted">下面不是一组静态标签，而是一条条从你的真实线索向外扩散的推断路径。你可以直接纠错，看看整张画像如何变化。</view>
   </view>
 
   <view class="summary card">
@@ -17,8 +17,8 @@
     </view>
     <view class="summary-divider"></view>
     <view>
-      <view class="summary-number">{{visibleDepth}}</view>
-      <view class="summary-label">当前展开层级</view>
+      <view class="summary-number">{{feedbackStats.total}}</view>
+      <view class="summary-label">已纠错节点</view>
     </view>
   </view>
 
@@ -49,7 +49,7 @@
       正在展开第 {{visibleDepth}} 层推断…
     </view>
     <view class="graph-status done" wx:else>
-      推断链路已展开完成
+      {{feedbackStats.total > 0 ? '图谱已按你的反馈重新计算' : '推断链路已展开完成'}}
     </view>
   </view>
 
@@ -69,6 +69,10 @@
 
     <view class="persona-progress">
       <view class="persona-progress-fill" style="width: {{persona.completeness}}%;"></view>
+    </view>
+
+    <view wx:if="{{persona.correctedCount > 0}}" class="corrected-banner">
+      已根据 {{persona.correctedCount}} 条纠错反馈重新计算人格维度
     </view>
 
     <view class="dimension-list">
@@ -94,18 +98,27 @@
       </view>
     </view>
 
-    <view class="persona-note">这不是心理学人格测评。当前分数只表示你主动提供的行为证据在这套模拟维度中的位置，后续线索增加后会变化。</view>
+    <view class="persona-note">这不是心理学人格测评。当前分数只表示你主动提供的行为证据在这套模拟维度中的位置；当你纠正某个算法推断后，相关维度会向中性位置回调。</view>
   </view>
 
-  <view wx:if="{{profile.length > 0}}" class="detail-title">推断依据</view>
+  <view wx:if="{{profile.length > 0}}" class="detail-head">
+    <view>
+      <view class="detail-title">帮算法纠错</view>
+      <view class="detail-subtitle">点一下“符合 / 不确定 / 不符合”，后续链路会同步增减权重。</view>
+    </view>
+    <button wx:if="{{feedbackStats.total > 0}}" class="reset-button" bindtap="resetFeedback">清空纠错</button>
+  </view>
 
-  <view wx:for="{{profile}}" wx:key="id" class="node-card depth-{{item.depth}}">
+  <view wx:for="{{profile}}" wx:key="id" class="node-card depth-{{item.depth}} {{item.feedbackClass}}">
     <view class="node-head">
       <view class="node-main">
         <view class="depth-label">第 {{item.depth}} 层推断</view>
         <view class="node-title">{{item.label}}</view>
       </view>
-      <view class="score">{{item.score}}%</view>
+      <view class="score-wrap">
+        <view class="score">{{item.score}}%</view>
+        <view wx:if="{{item.originalScore !== item.score}}" class="original-score">原 {{item.originalScore}}%</view>
+      </view>
     </view>
 
     <view class="confidence-track">
@@ -113,6 +126,26 @@
     </view>
 
     <view class="reason">为什么：{{item.reasons[0]}}</view>
+
+    <view class="feedback-block">
+      <view class="feedback-question">这个判断符合你吗？</view>
+      <view class="feedback-actions">
+        <button class="feedback-button accurate {{item.feedback === 'accurate' ? 'active' : ''}}" data-id="{{item.id}}" data-status="accurate" bindtap="submitFeedback">符合</button>
+        <button class="feedback-button unsure {{item.feedback === 'unsure' ? 'active' : ''}}" data-id="{{item.id}}" data-status="unsure" bindtap="submitFeedback">不确定</button>
+        <button class="feedback-button inaccurate {{item.feedback === 'inaccurate' ? 'active' : ''}}" data-id="{{item.id}}" data-status="inaccurate" bindtap="submitFeedback">不符合</button>
+      </view>
+      <view wx:if="{{item.feedbackText}}" class="feedback-result">已记录：{{item.feedbackText}}。图谱和数字人格已重新计算。</view>
+    </view>
+  </view>
+
+  <view class="card feedback-summary" wx:if="{{feedbackStats.total > 0}}">
+    <view class="feedback-summary-title">本轮纠错</view>
+    <view class="feedback-summary-grid">
+      <view><text class="feedback-stat-number">{{feedbackStats.accurate}}</text><text> 符合</text></view>
+      <view><text class="feedback-stat-number">{{feedbackStats.unsure}}</text><text> 不确定</text></view>
+      <view><text class="feedback-stat-number">{{feedbackStats.inaccurate}}</text><text> 不符合</text></view>
+    </view>
+    <view class="muted feedback-summary-note">当前反馈只保存在本机，用于这版原型验证；后续接云开发后再做匿名规则优化。</view>
   </view>
 
   <view class="card disclaimer">
