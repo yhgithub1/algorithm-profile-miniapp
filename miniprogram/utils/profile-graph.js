@@ -6,15 +6,27 @@ const inputLabels = tags.reduce((map, item) => {
   return map
 }, {})
 
+const dimensionNodeIds = new Set([
+  'exploration',
+  'deep_dive',
+  'nostalgia_score',
+  'price_score',
+  'decision_score',
+  'social_expression',
+  'trend_score',
+  'familiar_preference',
+  'quick_consume',
+  'convenience_preference',
+  'private_mode',
+  'stable_interest'
+])
+
 function nodeLabel(id) {
   return inputLabels[id] || labels[id] || id
 }
 
 function isDimension(id) {
-  return id === 'exploration' ||
-    id === 'deep_dive' ||
-    id === 'nostalgia_score' ||
-    id === 'price_score'
+  return dimensionNodeIds.has(id)
 }
 
 function buildProfileGraph(selectedTags, profile) {
@@ -55,7 +67,7 @@ function buildProfileGraph(selectedTags, profile) {
           nodeMap[id] = {
             id,
             label: source ? source.label : nodeLabel(id),
-            depth: index,
+            depth: source ? source.depth : index,
             score: source ? source.score : 50,
             originalScore: source ? (source.originalScore || source.score) : 50,
             type: index === 0 ? 'input' : (isDimension(id) ? 'dimension' : 'inference'),
