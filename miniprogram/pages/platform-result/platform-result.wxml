@@ -1,0 +1,61 @@
+<view class="page" wx:if="{{profile && platform}}">
+  <view class="result-hero" style="background: {{platform.color}};">
+    <view class="result-icon">{{platform.icon}}</view>
+    <view class="result-kicker" style="color: {{platform.accent}};">{{platform.name}}眼中的你</view>
+    <view class="result-title">{{profile.title}}</view>
+    <view class="result-summary">{{profile.summary}}</view>
+
+    <view class="tag-row">
+      <view wx:for="{{profile.tags}}" wx:key="*this" class="tag-chip" style="color: {{platform.accent}}; border-color: {{platform.accent}};">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">这个平台可能给你的行为分层</view>
+  <view class="card dimension-card">
+    <view wx:for="{{profile.items}}" wx:key="id" class="dimension-row">
+      <view class="dimension-head">
+        <view>
+          <view class="dimension-name">{{item.label}}</view>
+          <view class="dimension-desc">{{item.descriptor}}</view>
+        </view>
+        <view class="dimension-score">{{item.score}}</view>
+      </view>
+      <view class="dimension-track">
+        <view class="dimension-mid"></view>
+        <view class="dimension-fill" style="width: {{item.score}}%; background: {{platform.accent}};"></view>
+      </view>
+      <view class="axis-labels"><text>{{item.low}}</text><text>{{item.high}}</text></view>
+    </view>
+  </view>
+
+  <view class="section-title">如果平台相信这张画像</view>
+  <view class="card impact-card">
+    <view wx:for="{{profile.impact}}" wx:key="*this" class="impact-item">
+      <view class="impact-dot" style="background: {{platform.accent}};"></view>
+      <view>{{item}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">它是从这些生活细节拼出来的</view>
+  <view class="card evidence-card">
+    <view wx:for="{{profile.evidence}}" wx:key="question" class="evidence-row">
+      <view class="evidence-question">{{item.question}}</view>
+      <view class="evidence-answer">{{item.answer}}</view>
+    </view>
+  </view>
+
+  <view class="merge-cta" bindtap="goMerge">
+    <view>
+      <view class="merge-kicker">不要只看一个 App</view>
+      <view class="merge-title">把不同平台眼中的你拼起来 →</view>
+      <view class="merge-desc">同一个人在外卖、短视频、旅游和购物场景里，可能暴露完全不同的侧面。</view>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="secondary" bindtap="redo">重新回答</button>
+    <button class="primary" bindtap="goPlatforms">继续看其他 App</button>
+  </view>
+
+  <view class="disclaimer">这是本地规则仿真，不代表任何真实平台的内部算法、用户标签或实际推荐逻辑。</view>
+</view>
