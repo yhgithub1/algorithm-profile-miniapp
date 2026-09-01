@@ -1,29 +1,33 @@
 <view class="page">
-  <view class="card hero">
+  <view class="hero">
     <view class="eyebrow">ALGORITHM PROFILE</view>
-    <view class="h1">别人通过问卷认识你，算法通过行为认识你</view>
-    <view class="muted intro">只选择几个真实兴趣和行为线索，看看一个模拟算法能把它们发散成多少关于你的判断。</view>
+    <view class="h1">你以为自己只有一个身份，但每个 App 都认识一个不一样的你。</view>
+    <view class="intro">从“今天点什么外卖”“刷到什么视频”“旅行住多少钱的酒店”这些普通小事出发，看看算法可能怎样一点点拼出你的数字画像。</view>
 
-    <view class="hero-flow">
-      <view>真实线索</view><text>→</text>
-      <view>人物图谱</view><text>→</text>
-      <view>数字人格</view><text>→</text>
-      <view>算法影响</view>
+    <view class="app-strip">
+      <view class="app-pill"><text>🥡</text> 外卖</view>
+      <view class="app-pill"><text>📱</text> 短视频</view>
+      <view class="app-pill"><text>✈️</text> 旅游</view>
+      <view class="app-pill"><text>🛒</text> 电商</view>
+      <view class="app-pill"><text>🎧</text> 音乐影视</view>
     </view>
 
-    <button class="primary" bindtap="start">开始体验</button>
+    <button class="primary start" bindtap="start">看看不同 App 眼中的我</button>
   </view>
 
-  <view class="card journey-card">
-    <view class="journey-title">你会经历什么</view>
-    <view class="journey-row"><view class="journey-no">01</view><view><view class="journey-name">给算法几个事实</view><view class="journey-desc">兴趣、消费习惯、内容行为，而不是自我评价。</view></view></view>
-    <view class="journey-row"><view class="journey-no">02</view><view><view class="journey-name">看推断链路逐层展开</view><view class="journey-desc">每个标签都能追溯到来源、权重和推断理由。</view></view></view>
-    <view class="journey-row"><view class="journey-no">03</view><view><view class="journey-name">告诉算法哪里猜错了</view><view class="journey-desc">纠错会继续影响后面的数字人格、推荐与优惠仿真。</view></view></view>
-    <view class="journey-row"><view class="journey-no">04</view><view><view class="journey-name">看看两个人为什么聊得来</view><view class="journey-desc">拆解圈子重合、行为节奏和兴趣互补，而不是只给一个神秘百分比。</view></view></view>
-    <view class="journey-row"><view class="journey-no">05</view><view><view class="journey-name">生成“算法眼中的我”</view><view class="journey-desc">保存成一张数字人格分享卡。</view></view></view>
+  <view class="story-card">
+    <view class="story-kicker">它会怎样认识你？</view>
+    <view class="story-row"><view class="story-num">01</view><view><view class="story-title">回答生活化问题</view><view class="story-desc">例如外卖价位、常点餐厅、旅行频率、短视频推荐内容。</view></view></view>
+    <view class="story-row"><view class="story-num">02</view><view><view class="story-title">分别生成平台画像</view><view class="story-desc">外卖平台可能觉得你价格敏感，短视频平台却可能觉得你深度观看。</view></view></view>
+    <view class="story-row"><view class="story-num">03</view><view><view class="story-title">把它们拼成数字分身</view><view class="story-desc">单个平台只知道一部分，跨平台合并后却可能越来越接近你的生活方式。</view></view></view>
   </view>
 
-  <view class="notice">
-    本项目为算法科普模拟。默认只使用你主动选择的线索，不读取通讯录、聊天记录或第三方平台行为；推断结果不是事实判断，也不是心理学测评。
+  <view class="advanced" bindtap="goAdvanced">
+    <view class="advanced-kicker">高级模式</view>
+    <view class="advanced-title">想直接看“一个线索怎样扩散成十几个标签”？</view>
+    <view class="advanced-desc">进入原来的算法图谱实验室，体验推断链、纠错、推荐与优惠仿真。</view>
+    <view class="advanced-link">进入高级实验室 →</view>
   </view>
+
+  <view class="notice">本项目不会读取或登录任何真实外卖、短视频、旅游、电商账号。所有画像都来自你主动填写的本地模拟数据，也不代表任何真实平台的内部算法。</view>
 </view>
