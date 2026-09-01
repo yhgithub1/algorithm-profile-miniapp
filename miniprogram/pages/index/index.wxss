@@ -1,0 +1,29 @@
+.hero {
+  padding-top: 54rpx;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 22rpx;
+  padding: 10rpx 16rpx;
+  border-radius: 999rpx;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+}
+
+.intro {
+  margin-top: 24rpx;
+}
+
+.notice {
+  margin-top: 30rpx;
+  padding: 22rpx;
+  border-radius: 20rpx;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 25rpx;
+  line-height: 1.65;
+}
