@@ -1,0 +1,65 @@
+<view class="page" wx:if="{{twin}}">
+  <view class="merge-hero">
+    <view class="merge-kicker">跨平台数字分身</view>
+    <view class="merge-title">{{twin.title}}</view>
+    <view class="merge-summary">{{twin.summary}}</view>
+    <view class="merge-count">已合并 {{twin.completedCount}} 个平台画像</view>
+  </view>
+
+  <view wx:if="{{!twin.enough}}" class="need-more card">
+    <view class="need-title">还差一点才看得出“跨平台”效果</view>
+    <view class="need-desc">至少完成 2 个平台。比如先做“外卖 + 短视频”，你就能看到生活消费和内容兴趣在一起时会形成什么新判断。</view>
+    <button class="primary" bindtap="goPlatforms">继续完成其他 App</button>
+  </view>
+
+  <view wx:if="{{twin.completedCount > 0}}" class="section-title">不同平台分别认识了哪一面的你</view>
+  <view wx:for="{{twin.snapshots}}" wx:key="platformId" class="snapshot-card" data-id="{{item.platformId}}" bindtap="openPlatform">
+    <view class="snapshot-icon">{{item.icon}}</view>
+    <view class="snapshot-main">
+      <view class="snapshot-name">{{item.name}}</view>
+      <view class="snapshot-title">{{item.title}}</view>
+      <view class="snapshot-tags">
+        <text wx:for="{{item.tags}}" wx:key="*this">{{item}} </text>
+      </view>
+    </view>
+    <view class="snapshot-arrow">›</view>
+  </view>
+
+  <view wx:if="{{twin.enough}}" class="section-title">当这些画像被拼在一起</view>
+  <view wx:if="{{twin.enough}}" class="card axis-card">
+    <view wx:for="{{twin.axes}}" wx:key="id" class="axis-row">
+      <view class="axis-head">
+        <view>
+          <view class="axis-name">{{item.label}}</view>
+          <view class="axis-desc">{{item.descriptor}} · 来自 {{item.sourceCount}} 个平台信号</view>
+        </view>
+        <view class="axis-score">{{item.score}}</view>
+      </view>
+      <view class="axis-track">
+        <view class="axis-mid"></view>
+        <view class="axis-fill" style="width: {{item.score}}%;"></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{twin.overlap.length > 0}}" class="section-title">平台之间出现了重复证据</view>
+  <view wx:if="{{twin.overlap.length > 0}}" class="card overlap-card">
+    <view wx:for="{{twin.overlap}}" wx:key="*this" class="overlap-item">
+      <view class="overlap-dot"></view>
+      <view>{{item}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{twin.enough}}" class="insight-card">
+    <view class="insight-kicker">这才是最值得注意的地方</view>
+    <view class="insight-title">单个平台只看到你的一部分，合并以后却可能迅速逼近你的生活方式。</view>
+    <view class="insight-desc">外卖平台可能知道你的餐饮预算，短视频平台知道你对什么停留，旅游平台知道消费区间，电商平台知道决策方式。每一块都不完整，但拼起来会越来越像一个“数字分身”。</view>
+  </view>
+
+  <view class="actions">
+    <button class="primary" bindtap="goPlatforms">{{twin.completedCount === 0 ? '开始建立平台画像' : '继续补充其他 App'}}</button>
+    <button wx:if="{{twin.completedCount > 0}}" class="secondary" bindtap="resetAll">清空本机画像</button>
+  </view>
+
+  <view class="disclaimer">本页面只合并你主动填写的模拟数据，不代表真实平台之间存在数据共享。</view>
+</view>
