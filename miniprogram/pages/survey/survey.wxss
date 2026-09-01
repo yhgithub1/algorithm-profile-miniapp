@@ -1,0 +1,144 @@
+.survey-head {
+  padding: 8rpx 4rpx 24rpx;
+}
+
+.platform-line {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.platform-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  font-size: 36rpx;
+}
+
+.platform-name {
+  color: #111827;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.question-count {
+  margin-top: 5rpx;
+  color: #94a3b8;
+  font-size: 20rpx;
+}
+
+.progress-track {
+  height: 10rpx;
+  margin-top: 22rpx;
+  overflow: hidden;
+  background: #eef2f7;
+  border-radius: 999rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  transition: width .2s ease;
+}
+
+.question-card {
+  padding: 34rpx;
+  background: #ffffff;
+  border-radius: 28rpx;
+}
+
+.question-title {
+  color: #111827;
+  font-size: 36rpx;
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.question-tip {
+  margin-top: 10rpx;
+  color: #94a3b8;
+  font-size: 21rpx;
+}
+
+.option-list {
+  margin-top: 28rpx;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  min-height: 88rpx;
+  margin-bottom: 14rpx;
+  padding: 18rpx 20rpx;
+  background: #f8fafc;
+  border: 2rpx solid #eef2f7;
+  border-radius: 20rpx;
+}
+
+.option.active {
+  font-weight: 700;
+}
+
+.option-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34rpx;
+  height: 34rpx;
+  background: #ffffff;
+  border: 2rpx solid #cbd5e1;
+  border-radius: 50%;
+}
+
+.check {
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 900;
+}
+
+.option-label {
+  color: #334155;
+  font-size: 25rpx;
+  line-height: 1.45;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 22rpx;
+}
+
+.nav-actions button {
+  margin: 0;
+}
+
+.secondary {
+  flex: 0 0 180rpx;
+  color: #475569;
+  background: #ffffff;
+  border-radius: 18rpx;
+  font-size: 23rpx;
+  font-weight: 800;
+}
+
+.secondary::after {
+  border: 2rpx solid #e2e8f0;
+  border-radius: 18rpx;
+}
+
+.next {
+  flex: 1;
+}
+
+.privacy {
+  margin: 24rpx 16rpx 4rpx;
+  color: #94a3b8;
+  font-size: 19rpx;
+  line-height: 1.6;
+  text-align: center;
+}
