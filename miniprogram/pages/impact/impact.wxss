@@ -1,0 +1,255 @@
+.step {
+  color: #a5b4fc;
+  font-size: 22rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+
+.hero-card {
+  padding: 34rpx;
+  color: #ffffff;
+  background: linear-gradient(145deg, #111827, #312e81);
+}
+
+.hero-kicker {
+  margin-top: 18rpx;
+  color: #c7d2fe;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.hero-title {
+  margin-top: 12rpx;
+  font-size: 42rpx;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.hero-desc {
+  margin-top: 18rpx;
+  color: #dbe4ff;
+  font-size: 23rpx;
+  line-height: 1.7;
+}
+
+.persona-mini-label {
+  color: #8b5cf6;
+  font-size: 21rpx;
+  font-weight: 800;
+}
+
+.persona-mini-title {
+  margin-top: 8rpx;
+  color: #111827;
+  font-size: 36rpx;
+  font-weight: 900;
+}
+
+.persona-mini-summary {
+  margin-top: 10rpx;
+  color: #64748b;
+  font-size: 22rpx;
+  line-height: 1.65;
+}
+
+.section-title {
+  margin: 32rpx 0 16rpx;
+  color: #334155;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.scenario-card {
+  padding: 30rpx;
+}
+
+.impact-row {
+  padding: 22rpx 0;
+  border-bottom: 2rpx solid #eef2f7;
+}
+
+.impact-row:last-child {
+  border-bottom: none;
+}
+
+.impact-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.impact-label {
+  color: #1f2937;
+  font-size: 25rpx;
+  font-weight: 800;
+}
+
+.impact-value {
+  color: #7c3aed;
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.impact-track {
+  height: 12rpx;
+  margin-top: 14rpx;
+  overflow: hidden;
+  background: #eef2ff;
+  border-radius: 999rpx;
+}
+
+.impact-fill {
+  height: 100%;
+  background: #7c3aed;
+  border-radius: 999rpx;
+}
+
+.impact-track.soft {
+  background: #ecfeff;
+}
+
+.soft-fill {
+  background: #0891b2;
+}
+
+.impact-reason {
+  margin-top: 9rpx;
+  color: #94a3b8;
+  font-size: 20rpx;
+  line-height: 1.55;
+}
+
+.pricing-card {
+  padding: 30rpx;
+}
+
+.pricing-note,
+.correction-intro {
+  color: #64748b;
+  font-size: 22rpx;
+  line-height: 1.65;
+}
+
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.price-box {
+  padding: 22rpx;
+  background: #f8fafc;
+  border-radius: 20rpx;
+}
+
+.price-box.accent {
+  background: #f5f3ff;
+}
+
+.price-box.dark {
+  color: #ffffff;
+  background: #111827;
+}
+
+.price-label {
+  color: #7c8592;
+  font-size: 19rpx;
+}
+
+.price-box.dark .price-label {
+  color: #cbd5e1;
+}
+
+.price-number {
+  margin-top: 8rpx;
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.difference {
+  margin-top: 22rpx;
+  color: #475569;
+  font-size: 21rpx;
+  line-height: 1.6;
+}
+
+.difference text {
+  color: #7c3aed;
+  font-weight: 900;
+}
+
+.warning-box {
+  margin-top: 22rpx;
+  padding: 18rpx 20rpx;
+  color: #9a3412;
+  background: #fff7ed;
+  border-radius: 18rpx;
+  font-size: 20rpx;
+  line-height: 1.65;
+}
+
+.correction-card {
+  padding: 28rpx;
+}
+
+.correction-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 18rpx 0;
+  border-bottom: 2rpx solid #eef2f7;
+}
+
+.correction-row:last-child {
+  border-bottom: none;
+}
+
+.correction-id {
+  color: #475569;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.correction-values {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  color: #94a3b8;
+  font-size: 21rpx;
+}
+
+.correction-values .arrow {
+  color: #cbd5e1;
+}
+
+.correction-values .after {
+  color: #111827;
+  font-weight: 900;
+}
+
+.correction-values .delta {
+  color: #7c3aed;
+  font-weight: 800;
+}
+
+.conclusion-card {
+  margin-top: 30rpx;
+  padding: 30rpx;
+  background: #f8fafc;
+}
+
+.conclusion-title {
+  color: #111827;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.conclusion-text {
+  margin-top: 12rpx;
+  color: #64748b;
+  font-size: 22rpx;
+  line-height: 1.7;
+}
