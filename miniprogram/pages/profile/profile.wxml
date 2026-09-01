@@ -57,6 +57,46 @@
     当前线索还没有形成足够强的推断。返回上一页换一组线索试试。
   </view>
 
+  <view class="persona-card card">
+    <view class="persona-kicker">阶段性数字人格</view>
+    <view class="persona-title">{{persona.title}}</view>
+    <view class="persona-summary">{{persona.summary}}</view>
+
+    <view class="persona-meta">
+      <view>行为证据 {{persona.evidenceTotal}} 条</view>
+      <view>画像完整度 {{persona.completeness}}%</view>
+    </view>
+
+    <view class="persona-progress">
+      <view class="persona-progress-fill" style="width: {{persona.completeness}}%;"></view>
+    </view>
+
+    <view class="dimension-list">
+      <view wx:for="{{persona.items}}" wx:key="id" class="dimension-row {{item.evidenceCount === 0 ? 'dimension-inactive' : ''}}">
+        <view class="dimension-head">
+          <view>
+            <view class="dimension-name">{{item.label}}</view>
+            <view class="dimension-desc">{{item.evidenceCount > 0 ? item.descriptor : '证据不足'}}</view>
+          </view>
+          <view class="dimension-score">{{item.evidenceCount > 0 ? item.score : '--'}}</view>
+        </view>
+        <view class="dimension-track">
+          <view class="dimension-mid"></view>
+          <view wx:if="{{item.evidenceCount > 0}}" class="dimension-fill" style="width: {{item.score}}%;"></view>
+        </view>
+        <view class="dimension-axis">
+          <view>{{item.lowLabel}}</view>
+          <view>{{item.highLabel}}</view>
+        </view>
+        <view wx:if="{{item.evidenceCount > 0}}" class="dimension-evidence">
+          <view wx:for="{{item.evidence}}" wx:key="tagId" class="evidence-chip">{{item.tagLabel}} · +{{item.delta}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="persona-note">这不是心理学人格测评。当前分数只表示你主动提供的行为证据在这套模拟维度中的位置，后续线索增加后会变化。</view>
+  </view>
+
   <view wx:if="{{profile.length > 0}}" class="detail-title">推断依据</view>
 
   <view wx:for="{{profile}}" wx:key="id" class="node-card depth-{{item.depth}}">
