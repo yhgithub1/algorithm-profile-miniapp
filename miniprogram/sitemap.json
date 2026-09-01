@@ -1,0 +1,9 @@
+{
+  "desc": "算法侧写 MVP sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}
