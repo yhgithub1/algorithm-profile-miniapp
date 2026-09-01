@@ -1,13 +1,29 @@
 <view class="page">
   <view class="card hero">
     <view class="eyebrow">ALGORITHM PROFILE</view>
-    <view class="h1">看看算法是怎样一步步“认识”你的</view>
-    <view class="muted intro">
-      只选择几个真实兴趣和行为线索，观察一个模拟算法如何把它们扩展成人物画像。
+    <view class="h1">别人通过问卷认识你，算法通过行为认识你</view>
+    <view class="muted intro">只选择几个真实兴趣和行为线索，看看一个模拟算法能把它们发散成多少关于你的判断。</view>
+
+    <view class="hero-flow">
+      <view>真实线索</view><text>→</text>
+      <view>人物图谱</view><text>→</text>
+      <view>数字人格</view><text>→</text>
+      <view>算法影响</view>
     </view>
-    <view class="notice">
-      本项目为算法科普模拟，所有推断都是概率性标签，不代表对你的真实身份判断。
-    </view>
+
     <button class="primary" bindtap="start">开始体验</button>
+  </view>
+
+  <view class="card journey-card">
+    <view class="journey-title">你会经历什么</view>
+    <view class="journey-row"><view class="journey-no">01</view><view><view class="journey-name">给算法几个事实</view><view class="journey-desc">兴趣、消费习惯、内容行为，而不是自我评价。</view></view></view>
+    <view class="journey-row"><view class="journey-no">02</view><view><view class="journey-name">看推断链路逐层展开</view><view class="journey-desc">每个标签都能追溯到来源、权重和推断理由。</view></view></view>
+    <view class="journey-row"><view class="journey-no">03</view><view><view class="journey-name">告诉算法哪里猜错了</view><view class="journey-desc">纠错会继续影响后面的数字人格、推荐与优惠仿真。</view></view></view>
+    <view class="journey-row"><view class="journey-no">04</view><view><view class="journey-name">看看两个人为什么聊得来</view><view class="journey-desc">拆解圈子重合、行为节奏和兴趣互补，而不是只给一个神秘百分比。</view></view></view>
+    <view class="journey-row"><view class="journey-no">05</view><view><view class="journey-name">生成“算法眼中的我”</view><view class="journey-desc">保存成一张数字人格分享卡。</view></view></view>
+  </view>
+
+  <view class="notice">
+    本项目为算法科普模拟。默认只使用你主动选择的线索，不读取通讯录、聊天记录或第三方平台行为；推断结果不是事实判断，也不是心理学测评。
   </view>
 </view>
