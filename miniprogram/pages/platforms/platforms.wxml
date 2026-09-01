@@ -1,20 +1,20 @@
 <view class="page">
   <view class="hero-card">
     <view class="eyebrow">不同 App 眼中的你</view>
-    <view class="title">同一个你，在不同算法里可能是完全不同的人。</view>
-    <view class="desc">不用登录任何第三方账号。只回答一些日常问题，看看外卖、短视频、旅游、电商和内容平台可能怎样理解你。</view>
+    <view class="title">同一个你，在美团、抖音、小红书和淘宝里，可能是四个不同的人。</view>
+    <view class="desc">不用登录这些 App。你只需要根据自己的真实使用习惯回答几个问题，就能看到四套不同的“算法画像”。</view>
   </view>
 
   <view class="merge-card" bindtap="goMerge">
     <view>
       <view class="merge-kicker">跨平台数字分身</view>
-      <view class="merge-title">已完成 {{completedCount}} / {{platforms.length}} 个平台</view>
-      <view class="merge-desc">完成 2 个以上，就能开始看不同平台画像拼在一起是什么样。</view>
+      <view class="merge-title">已完成 {{completedCount}} / {{platforms.length}} 个 App</view>
+      <view class="merge-desc">完成 2 个以上，就能开始看四个平台分别认识了你的哪一面。</view>
     </view>
     <view class="merge-arrow">→</view>
   </view>
 
-  <view class="section-title">选择一个你熟悉的生活场景</view>
+  <view class="section-title">先选一个你最熟悉的 App</view>
 
   <view wx:for="{{platforms}}" wx:key="id" class="platform-card" data-id="{{item.id}}" bindtap="openPlatform">
     <view class="platform-icon" style="background: {{item.color}}; color: {{item.accent}};">{{item.icon}}</view>
@@ -29,11 +29,16 @@
     <view class="arrow">›</view>
   </view>
 
+  <view class="merge-explain">
+    <view class="merge-explain-title">为什么要看四个平台？</view>
+    <view class="merge-explain-text">美团更容易看到你的吃饭与即时消费，抖音更容易看到你的注意力，小红书更容易看到你的生活方式与攻略意图，淘宝更容易看到你的购买决策。它们拼起来，会形成一个更完整的数字分身。</view>
+  </view>
+
   <view class="advanced-card" bindtap="goAdvanced">
     <view class="advanced-title">想看更“黑箱”的推断过程？</view>
     <view class="advanced-desc">进入高级实验室：从兴趣线索展开人物图谱、纠错，再看推荐和优惠如何变化。</view>
     <view class="advanced-link">进入算法图谱实验室 →</view>
   </view>
 
-  <view class="privacy-note">所有问答与画像目前只保存在本机，本项目不读取外卖、短视频、旅游或电商平台的真实账号数据。</view>
+  <view class="privacy-note">本项目不会读取美团、抖音、小红书或淘宝账号，也不代表知道这些平台的真实内部算法。所有结果都来自你主动填写的数据和公开透明的本地模拟规则。</view>
 </view>
