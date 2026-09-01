@@ -32,7 +32,8 @@ function buildProfileGraph(selectedTags, profile) {
       label: nodeLabel(id),
       depth: 0,
       score: 100,
-      type: 'input'
+      type: 'input',
+      feedback: ''
     }
   })
 
@@ -42,7 +43,9 @@ function buildProfileGraph(selectedTags, profile) {
       label: item.label,
       depth: item.depth,
       score: item.score,
-      type: isDimension(item.id) ? 'dimension' : 'inference'
+      originalScore: item.originalScore || item.score,
+      type: isDimension(item.id) ? 'dimension' : 'inference',
+      feedback: item.feedback || ''
     }
 
     item.paths.forEach(path => {
@@ -54,7 +57,9 @@ function buildProfileGraph(selectedTags, profile) {
             label: source ? source.label : nodeLabel(id),
             depth: index,
             score: source ? source.score : 50,
-            type: index === 0 ? 'input' : (isDimension(id) ? 'dimension' : 'inference')
+            originalScore: source ? (source.originalScore || source.score) : 50,
+            type: index === 0 ? 'input' : (isDimension(id) ? 'dimension' : 'inference'),
+            feedback: source ? (source.feedback || '') : ''
           }
         }
 
