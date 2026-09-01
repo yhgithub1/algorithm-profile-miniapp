@@ -136,6 +136,162 @@
   color: #64748b;
 }
 
+.persona-card {
+  margin-top: 24rpx;
+  padding: 32rpx;
+  overflow: hidden;
+  background: linear-gradient(180deg, #111827 0, #111827 260rpx, #ffffff 260rpx, #ffffff 100%);
+}
+
+.persona-kicker {
+  color: #a5b4fc;
+  font-size: 21rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+
+.persona-title {
+  margin-top: 12rpx;
+  color: #ffffff;
+  font-size: 46rpx;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.persona-summary {
+  min-height: 76rpx;
+  margin-top: 14rpx;
+  color: #d1d5db;
+  font-size: 23rpx;
+  line-height: 1.65;
+}
+
+.persona-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24rpx;
+  color: #cbd5e1;
+  font-size: 20rpx;
+}
+
+.persona-progress {
+  height: 10rpx;
+  margin-top: 12rpx;
+  overflow: hidden;
+  background: rgba(255,255,255,.16);
+  border-radius: 999rpx;
+}
+
+.persona-progress-fill {
+  height: 100%;
+  background: #a78bfa;
+  border-radius: 999rpx;
+}
+
+.dimension-list {
+  margin-top: 46rpx;
+}
+
+.dimension-row {
+  padding: 26rpx 0;
+  border-bottom: 2rpx solid #eef2f7;
+}
+
+.dimension-row:last-child {
+  border-bottom: none;
+}
+
+.dimension-inactive {
+  opacity: .48;
+}
+
+.dimension-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.dimension-name {
+  color: #1f2937;
+  font-size: 27rpx;
+  font-weight: 800;
+}
+
+.dimension-desc {
+  margin-top: 6rpx;
+  color: #7c8592;
+  font-size: 21rpx;
+}
+
+.dimension-score {
+  color: #111827;
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.dimension-track {
+  position: relative;
+  height: 12rpx;
+  margin-top: 18rpx;
+  overflow: hidden;
+  background: #eef2f7;
+  border-radius: 999rpx;
+}
+
+.dimension-mid {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: -2rpx;
+  bottom: -2rpx;
+  width: 2rpx;
+  background: #cbd5e1;
+}
+
+.dimension-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #8b5cf6;
+  border-radius: 999rpx;
+}
+
+.dimension-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8rpx;
+  color: #94a3b8;
+  font-size: 18rpx;
+}
+
+.dimension-evidence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  margin-top: 14rpx;
+}
+
+.evidence-chip {
+  padding: 8rpx 12rpx;
+  color: #5b21b6;
+  background: #f5f3ff;
+  border-radius: 999rpx;
+  font-size: 18rpx;
+}
+
+.persona-note {
+  margin-top: 16rpx;
+  padding: 20rpx;
+  color: #64748b;
+  background: #f8fafc;
+  border-radius: 18rpx;
+  font-size: 20rpx;
+  line-height: 1.65;
+}
+
 .detail-title {
   margin: 34rpx 0 18rpx;
 }
