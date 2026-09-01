@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/select/select",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarTitleText": "算法侧写",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f6f7fb"
+  },
+  "style": "v2"
+}
