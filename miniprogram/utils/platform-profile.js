@@ -51,30 +51,25 @@ function buildImpact(platformId, items) {
   }, {})
 
   const copy = {
-    takeaway: [
-      map.price >= 62 ? '更可能对满减、红包、低价套餐等促销信息产生响应。' : '平台可能更强调送达效率、口味和熟悉商家，而不是只靠低价吸引。',
-      map.novelty >= 62 ? '新店、附近新商家和新品类可能获得更高曝光。' : '你常点过的店、相似餐厅和复购入口可能更靠前。',
-      map.frequency >= 62 ? '平台可能把你视为高频餐饮需求用户，在常用时段提前强化推荐。' : '平台掌握到的外卖行为信号相对有限。'
+    meituan: [
+      map.price >= 62 ? '优惠、满减和低价套餐可能更容易影响你的点餐选择。' : '推荐可能更强调送达效率、口味和熟悉商家。',
+      map.novelty >= 62 ? '新店、附近新商家和新品类可能更容易进入候选列表。' : '常点过的店、相似餐厅和复购入口可能更符合当前画像。',
+      map.frequency >= 62 ? '高频点餐会让常用时段、常用地点和客单价显得更稳定。' : '低频点餐时，可形成的稳定行为信号会更少。'
     ],
-    shortvideo: [
-      map.depth >= 62 ? '相似主题可能被连续强化，因为完整观看是较强的兴趣信号。' : '推荐可能更快尝试不同内容，以寻找能让你停留的题材。',
-      map.initiative >= 62 ? '搜索、主页访问等主动行为可能比单纯刷到的视频拥有更高权重。' : '首页推荐本身会成为塑造兴趣画像的主要来源。',
-      map.interaction >= 62 ? '评论、分享等互动可能让系统进一步判断你的社交表达和圈层归属。' : '平台更难从公开互动判断你的表达倾向。'
+    douyin: [
+      map.depth >= 62 ? '完整观看、重播或看合集会让相似主题更容易被继续强化。' : '快速划走较多时，推荐可能继续尝试不同题材。',
+      map.initiative >= 62 ? '搜索关键词、点主页等主动行为会显得更像明确兴趣。' : '首页推荐本身会成为塑造兴趣画像的重要来源。',
+      map.interaction >= 62 ? '评论、分享、收藏等互动会让兴趣圈层和表达倾向显得更清晰。' : '只看不互动时，画像更多依赖观看行为。'
     ],
-    travel: [
-      map.planning >= 62 ? '提前预订、套餐和行程规划类内容可能更适合你的决策周期。' : '临期酒店、即时出发和灵活取消等内容可能更有吸引力。',
-      map.compare >= 62 ? '价格提醒、比价和优惠标签可能更容易被展示。' : '系统可能更强调省事的一站式组合和默认推荐。',
-      map.exploration >= 62 ? '小众路线、目的地灵感和新城市可能获得更高推荐权重。' : '成熟热门目的地和经典线路可能更容易进入你的推荐池。'
+    xiaohongshu: [
+      map.initiative >= 62 ? '主动搜索攻略、评价和关键词会让需求意图显得更明确。' : '首页推荐会更大程度影响后续看到的生活方式内容。',
+      map.planning >= 62 ? '收藏、整理清单和反复查看会让未来意图显得更稳定。' : '随手浏览为主时，长期意图更难确定。',
+      map.commercial >= 62 ? '高种草响应会让同类产品、探店和生活消费内容继续被强化。' : '二次查证和比价会削弱看到即转化的判断。'
     ],
-    shopping: [
-      map.price >= 62 ? '历史价、优惠券、大促提醒和同款比价可能更容易影响你的推荐页。' : '平台可能更偏向强调品牌、便利和直接购买。',
-      map.research >= 62 ? '测评、参数、问大家和长评论可能被视为关键决策信息。' : '短链路购买和直接推荐可能更符合你的行为。',
-      map.impulse >= 62 ? '直播、限时优惠和“猜你喜欢”可能更容易触发即时购买。' : '收藏、降价提醒和长期决策链可能更适合你。'
-    ],
-    content: [
-      map.nostalgia >= 62 ? '经典歌单、老剧回顾和同年代内容可能被持续强化。' : '新歌、新剧、热榜和首发内容可能更常出现。',
-      map.depth >= 62 ? '同导演、同演员、同歌手、幕后信息和深度内容可能继续向外扩展。' : '平台可能更依赖轻量推荐与快速切换。',
-      map.initiative >= 62 ? '你的主动搜索会成为建立长尾兴趣画像的重要依据。' : '榜单和首页推荐会更大程度影响系统对你的理解。'
+    taobao: [
+      map.price >= 62 ? '优惠券、大促提醒和同款比价更可能影响购买路径。' : '品牌、便利和直接购买可能更符合当前画像。',
+      map.research >= 62 ? '参数、买家秀、问大家和长评论会显得是关键决策信息。' : '短链路购买和直接推荐可能更符合你的行为。',
+      map.impulse >= 62 ? '限时优惠、直播和猜你喜欢更可能触发即时购买。' : '收藏、购物车、降价提醒和长期决策链可能更适合你。'
     ]
   }
 
@@ -107,10 +102,7 @@ function buildPlatformProfile(platformId, answers) {
       globalMap[id] = clamp((globalMap[id] || 50) + option.global[id], 0, 100)
     })
 
-    evidence.push({
-      question: question.title,
-      answer: option.label
-    })
+    evidence.push({ question: question.title, answer: option.label })
   })
 
   const items = platform.dimensions.map(config => ({
@@ -128,7 +120,7 @@ function buildPlatformProfile(platformId, answers) {
 
   const strongest = ranked.slice(0, 2)
   const summary = strongest.length
-    ? `${platform.name}可能会把你理解成“${buildTitle(items, platform)}”。目前最明显的信号来自${strongest.map(item => `${item.label}（${item.score}）`).join('、')}。`
+    ? `在这套模拟中，${platform.name}可能会把你理解成“${buildTitle(items, platform)}”。目前最明显的信号来自${strongest.map(item => `${item.label}（${item.score}）`).join('、')}。`
     : '目前提供的信息还不足以形成明显画像。'
 
   return {
