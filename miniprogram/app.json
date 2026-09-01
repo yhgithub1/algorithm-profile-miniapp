@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/select/select",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/impact/impact"
   ],
   "window": {
     "navigationBarTitleText": "算法侧写",
