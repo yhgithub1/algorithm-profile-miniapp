@@ -1,6 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/platforms/platforms",
+    "pages/survey/survey",
+    "pages/platform-result/platform-result",
+    "pages/merge/merge",
     "pages/select/select",
     "pages/profile/profile",
     "pages/impact/impact",
