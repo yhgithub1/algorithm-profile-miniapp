@@ -58,8 +58,7 @@
   line-height: 1.55;
 }
 
-.merge-arrow,
-.arrow {
+.merge-arrow {
   flex: none;
   color: #7c3aed;
   font-size: 36rpx;
@@ -74,18 +73,22 @@
 }
 
 .platform-card {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 18rpx;
   padding: 24rpx;
   background: #ffffff;
   border: 2rpx solid #eef2f7;
   border-radius: 24rpx;
 }
 
+.platform-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+}
+
 .platform-icon {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: center;
   width: 84rpx;
@@ -132,8 +135,51 @@
   color: #5b21b6;
   font-size: 19rpx;
   font-weight: 700;
+  line-height: 1.55;
 }
 
+.source-badge {
+  display: inline-block;
+  margin-left: 8rpx;
+  padding: 3rpx 8rpx;
+  color: #475569;
+  background: #f1f5f9;
+  border-radius: 999rpx;
+  font-size: 16rpx;
+}
+
+.platform-actions {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.platform-button {
+  flex: 1;
+  height: 66rpx;
+  padding: 0 12rpx;
+  margin: 0;
+  border-radius: 16rpx;
+  font-size: 20rpx;
+  font-weight: 800;
+  line-height: 66rpx;
+}
+
+.platform-button::after {
+  border: none;
+}
+
+.survey-button {
+  color: #475569;
+  background: #f8fafc;
+}
+
+.screenshot-button {
+  color: #ffffff;
+  background: #111827;
+}
+
+.screenshot-explain,
 .merge-explain {
   margin-top: 24rpx;
   padding: 26rpx;
@@ -142,12 +188,18 @@
   border-radius: 24rpx;
 }
 
+.screenshot-explain {
+  background: #f8fafc;
+}
+
+.screenshot-explain-title,
 .merge-explain-title {
   color: #111827;
   font-size: 25rpx;
   font-weight: 900;
 }
 
+.screenshot-explain-text,
 .merge-explain-text {
   margin-top: 10rpx;
   color: #64748b;
