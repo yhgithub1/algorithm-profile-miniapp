@@ -1,6 +1,9 @@
 App({
   globalData: {
     selectedTags: [],
-    profile: null
+    profile: null,
+    adjustedProfile: null,
+    feedbackMap: {},
+    persona: null
   }
 })
