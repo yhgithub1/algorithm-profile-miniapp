@@ -1,21 +1,46 @@
 <view class="page">
   <view class="card">
-    <view class="step">01 / 02</view>
-    <view class="h2">给算法 2～5 个线索</view>
-    <view class="muted">尽量选择你真实的兴趣和行为，看看这些少量信息能被发散到哪里。</view>
+    <view class="step">01 / 05</view>
+    <view class="h2">给算法 2～5 个真实线索</view>
+    <view class="muted">不要回答“你觉得自己是什么样的人”，只选择你真实做过、喜欢过或习惯做的事情。</view>
+  </view>
 
-    <view class="tag-list">
-      <view
-        wx:for="{{tags}}"
-        wx:key="id"
-        class="tag {{selectedMap[item.id] ? 'active' : ''}}"
-        data-id="{{item.id}}"
-        bindtap="toggle"
-      >
-        {{item.label}}
+  <view class="card preset-card">
+    <view class="preset-head">
+      <view>
+        <view class="section-name">比赛快速演示</view>
+        <view class="section-note">一键装入一组示例线索，方便快速走完整流程。</view>
       </view>
+      <button wx:if="{{selected.length > 0}}" class="mini-button" bindtap="clearSelection">清空</button>
     </view>
 
+    <scroll-view scroll-x="true" class="preset-scroll" show-scrollbar="false">
+      <view class="preset-row">
+        <view wx:for="{{presets}}" wx:key="id" class="preset-item" data-id="{{item.id}}" bindtap="usePreset">
+          <view class="preset-name">{{item.name}}</view>
+          <view class="preset-desc">{{item.desc}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view wx:for="{{groups}}" wx:key="name" wx:for-item="group" class="card group-card">
+    <view class="group-title">{{group.name}}</view>
+    <view class="tag-list">
+      <view
+        wx:for="{{group.items}}"
+        wx:key="id"
+        wx:for-item="tagItem"
+        class="tag {{selectedMap[tagItem.id] ? 'active' : ''}}"
+        data-id="{{tagItem.id}}"
+        bindtap="toggle"
+      >
+        {{tagItem.label}}
+      </view>
+    </view>
+  </view>
+
+  <view class="sticky-action">
     <view class="counter">已选择 {{selected.length}} / 5</view>
     <button class="primary" bindtap="generate" disabled="{{selected.length < 2}}">生成我的算法侧写</button>
   </view>
