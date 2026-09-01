@@ -1,0 +1,86 @@
+<view class="page" wx:if="{{platform}}">
+  <view class="hero" style="background: {{platform.color}};">
+    <view class="hero-icon">{{platform.icon}}</view>
+    <view class="hero-kicker" style="color: {{platform.accent}};">{{platform.name}}推荐页识别</view>
+    <view class="hero-title">把算法已经推给你的首页，直接拿来看看。</view>
+    <view class="hero-desc">不读取账号，只分析你主动上传的推荐页截图。视觉识别在你自己的分析服务里完成，不调用商业大模型 API。</view>
+  </view>
+
+  <view class="privacy-card">
+    <view class="privacy-title">上传前先注意</view>
+    <view class="privacy-text">尽量只上传推荐首页，不要上传订单详情、收货地址、聊天页面。可以先裁掉头像、昵称、定位等无关个人信息。</view>
+  </view>
+
+  <view class="section-head">
+    <view>
+      <view class="section-title">上传推荐页截图</view>
+      <view class="section-subtitle" wx:if="{{platformId === 'douyin'}}">抖音一张图通常只有一个视频，建议连续上传 5～9 张。</view>
+      <view class="section-subtitle" wx:else>建议上传 2～4 张不同时间看到的推荐页，样本会更稳定。</view>
+    </view>
+    <view class="count">{{images.length}} / {{maxImages}}</view>
+  </view>
+
+  <view class="image-grid">
+    <view wx:for="{{images}}" wx:key="path" class="image-item">
+      <image class="thumb" src="{{item.path}}" mode="aspectFill" data-index="{{index}}" bindtap="previewImage"></image>
+      <view class="remove" data-index="{{index}}" bindtap="removeImage">×</view>
+      <view class="image-index">{{index + 1}}</view>
+    </view>
+
+    <view wx:if="{{images.length < maxImages}}" class="add-image" bindtap="chooseImages">
+      <view class="plus">＋</view>
+      <view>选择截图</view>
+    </view>
+  </view>
+
+  <button class="primary analyze-button" bindtap="analyze" loading="{{analyzing}}" disabled="{{images.length === 0 || analyzing}}">
+    {{analyzing ? '正在识别推荐页…' : '开始分析这些截图'}}
+  </button>
+
+  <view wx:if="{{progressText}}" class="progress-text">{{progressText}}</view>
+  <view wx:if="{{errorText}}" class="error-card">{{errorText}}</view>
+
+  <view wx:if="{{result}}" class="result-wrap">
+    <view class="result-hero card">
+      <view class="result-kicker" style="color: {{platform.accent}};">这些截图里的 {{platform.name}}</view>
+      <view class="result-title">{{result.title}}</view>
+      <view class="result-summary">{{result.summary}}</view>
+      <view class="tag-row">
+        <view wx:for="{{result.tags}}" wx:key="*this" class="tag-chip" style="border-color: {{platform.accent}}; color: {{platform.accent}};">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="section-title result-section">推荐内容构成</view>
+    <view class="card category-card">
+      <view wx:for="{{result.categories}}" wx:key="label" class="category-row">
+        <view class="category-name">{{item.label}}</view>
+        <view class="category-bar"><view class="category-fill" style="width: {{item.count * 18 > 100 ? 100 : item.count * 18}}%; background: {{platform.accent}};"></view></view>
+        <view class="category-count">{{item.count}}</view>
+      </view>
+    </view>
+
+    <view class="section-title result-section">系统看到了哪些证据</view>
+    <view class="card evidence-card">
+      <view wx:for="{{result.evidence}}" wx:key="label" class="evidence-row">
+        <view class="evidence-label">{{item.label}}</view>
+        <view class="evidence-value">{{item.value}}</view>
+      </view>
+    </view>
+
+    <view class="section-title result-section">如果这种推荐持续出现</view>
+    <view class="card impact-card">
+      <view wx:for="{{result.impact}}" wx:key="*this" class="impact-row">
+        <view class="impact-dot" style="background: {{platform.accent}};"></view>
+        <view class="impact-text">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="method-card">
+      <view class="method-title">这次不是“大模型猜人格”</view>
+      <view class="method-text">截图 → PaddleOCR 识别文字/价格 → OpenCLIP 分类图片内容 → 规则统计 → 画像。每一步都能解释，也可以替换和校正。</view>
+    </view>
+
+    <button class="primary" bindtap="goMerge">加入跨平台数字分身</button>
+    <button class="secondary" bindtap="goPlatforms">继续看其他 App</button>
+  </view>
+</view>
