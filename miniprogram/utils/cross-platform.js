@@ -35,7 +35,9 @@ function buildCrossPlatform(profiles) {
   const valid = (profiles || []).filter(Boolean)
   const axisMap = {}
   const axes = Object.keys(globalAxes).map(id => {
-    const values = valid.map(profile => profile.globalSignals && profile.globalSignals[id]).filter(value => typeof value === 'number')
+    const values = valid
+      .map(profile => profile.globalSignals && profile.globalSignals[id])
+      .filter(value => typeof value === 'number' && value !== 50)
     const score = average(values)
     axisMap[id] = score
     return {
@@ -48,14 +50,15 @@ function buildCrossPlatform(profiles) {
   })
 
   const strongest = [...axes]
+    .filter(item => item.sourceCount > 0)
     .sort((a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50))
     .slice(0, 3)
 
   const title = buildTwinTitle(axisMap)
   const platformNames = valid.map(item => item.platform.shortName).join('、')
-  const summary = valid.length
+  const summary = valid.length && strongest.length
     ? `把${platformNames}这些原本分散的行为放在一起后，一个更完整的“数字分身”开始出现：${strongest.map(item => `${item.label}更偏向“${item.descriptor}”`).join('，')}。`
-    : '至少完成一个平台画像后，才能开始拼出跨平台数字分身。'
+    : (valid.length ? `已经收集了${platformNames}的画像，但跨平台共同信号还不够明显。` : '至少完成一个平台画像后，才能开始拼出跨平台数字分身。')
 
   const snapshots = valid.map(profile => ({
     platformId: profile.platformId,
@@ -68,7 +71,7 @@ function buildCrossPlatform(profiles) {
   const overlap = []
   axes.forEach(axis => {
     if (axis.sourceCount < 2 || Math.abs(axis.score - 50) < 8) return
-    overlap.push(`${axis.label}在多个平台中出现一致信号，合并后可信度会显得更高。`)
+    overlap.push(`${axis.label}在多个平台中出现一致信号，合并后会显得比单一平台判断更稳定。`)
   })
 
   return {
