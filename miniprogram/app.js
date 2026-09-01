@@ -4,6 +4,7 @@ App({
     profile: null,
     adjustedProfile: null,
     feedbackMap: {},
-    persona: null
+    persona: null,
+    currentPlatformProfile: null
   }
 })
