@@ -1,6 +1,6 @@
 <view class="page">
   <view class="card intro-card">
-    <view class="step">02 / 02</view>
+    <view class="step">02 / 03</view>
     <view class="h2">算法眼中的你</view>
     <view class="muted">下面不是一组静态标签，而是一条条从你的真实线索向外扩散的推断路径。你可以直接纠错，看看整张画像如何变化。</view>
   </view>
@@ -100,6 +100,12 @@
 
     <view class="persona-note">这不是心理学人格测评。当前分数只表示你主动提供的行为证据在这套模拟维度中的位置；当你纠正某个算法推断后，相关维度会向中性位置回调。</view>
   </view>
+
+  <button class="impact-button" bindtap="goImpact">
+    <view class="impact-button-kicker">下一步</view>
+    <view class="impact-button-title">看看这张画像会怎样影响你 →</view>
+    <view class="impact-button-desc">模拟推荐、广告与优惠分配</view>
+  </button>
 
   <view wx:if="{{profile.length > 0}}" class="detail-head">
     <view>
