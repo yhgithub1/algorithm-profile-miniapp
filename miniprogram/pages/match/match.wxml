@@ -1,0 +1,79 @@
+<view class="page">
+  <view class="card hero-card">
+    <view class="step">04 / 05</view>
+    <view class="h2">圈子融合度实验</view>
+    <view class="muted">不是用一句“匹配度 92%”糊弄你，而是拆成共同圈层、行为节奏和兴趣互补三个部分。</view>
+  </view>
+
+  <view class="card my-card">
+    <view class="section-title">我的线索</view>
+    <view class="chip-row">
+      <view wx:for="{{myLabels}}" wx:key="*this" class="chip dark">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="partner-head">
+      <view>
+        <view class="section-title">选择另一个人的 2～5 个线索</view>
+        <view class="section-note">比赛演示可以直接生成一个模拟对象。</view>
+      </view>
+      <button class="demo-button" bindtap="useDemoPartner">模拟对象</button>
+    </view>
+
+    <view wx:for="{{groups}}" wx:key="name" wx:for-item="group" class="group-block">
+      <view class="group-name">{{group.name}}</view>
+      <view class="tag-row">
+        <view
+          wx:for="{{group.items}}"
+          wx:key="id"
+          wx:for-item="tagItem"
+          class="tag {{otherMap[tagItem.id] ? 'active' : ''}}"
+          data-id="{{tagItem.id}}"
+          bindtap="toggleOther"
+        >{{tagItem.label}}</view>
+      </view>
+    </view>
+
+    <view class="counter">对方已选择 {{otherTags.length}} / 5</view>
+    <button class="primary" disabled="{{otherTags.length < 2}}" bindtap="calculate">计算圈子融合度</button>
+  </view>
+
+  <view wx:if="{{result}}" class="card result-card">
+    <view class="result-kicker">模拟匹配结果</view>
+    <view class="fit-number">{{result.fit}}%</view>
+    <view class="fit-label">综合融合度</view>
+    <view class="result-summary">{{result.summary}}</view>
+
+    <view class="metric-list">
+      <view class="metric-row">
+        <view class="metric-head"><text>圈子重合度</text><text>{{result.circleOverlap}}%</text></view>
+        <view class="metric-track"><view class="metric-fill" style="width: {{result.circleOverlap}}%;"></view></view>
+      </view>
+      <view class="metric-row">
+        <view class="metric-head"><text>行为节奏相似度</text><text>{{result.behaviorSimilarity}}%</text></view>
+        <view class="metric-track"><view class="metric-fill" style="width: {{result.behaviorSimilarity}}%;"></view></view>
+      </view>
+      <view class="metric-row">
+        <view class="metric-head"><text>兴趣互补度</text><text>{{result.complementarity}}%</text></view>
+        <view class="metric-track"><view class="metric-fill" style="width: {{result.complementarity}}%;"></view></view>
+      </view>
+    </view>
+
+    <view wx:if="{{result.sharedLabels.length > 0}}" class="subsection">
+      <view class="sub-title">你们直接重合的兴趣</view>
+      <view class="chip-row">
+        <view wx:for="{{result.sharedLabels}}" wx:key="*this" class="chip">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">最容易聊起来的话题</view>
+      <view wx:for="{{result.topics}}" wx:key="*this" class="topic-item">{{index + 1}}. {{item}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{result}}" class="card note-card">这个模块目前只做双方主动提供线索后的本地模拟，不读取通讯录、聊天记录或第三方平台行为。</view>
+
+  <button wx:if="{{result}}" class="secondary-action" bindtap="goShare">生成“算法眼中的我”分享卡 →</button>
+</view>
