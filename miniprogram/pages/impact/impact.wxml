@@ -1,0 +1,94 @@
+<view class="page">
+  <view class="hero-card card">
+    <view class="step">03 / 03</view>
+    <view class="hero-kicker">画像进入算法之后</view>
+    <view class="hero-title">如果平台相信了这张画像，会发生什么？</view>
+    <view class="hero-desc">下面全部是透明的本地仿真，用来展示“画像可能怎样参与推荐、广告与优惠决策”。不代表任何真实平台算法。</view>
+  </view>
+
+  <view class="persona-mini card">
+    <view class="persona-mini-label">当前数字人格</view>
+    <view class="persona-mini-title">{{persona.title}}</view>
+    <view class="persona-mini-summary">{{persona.summary}}</view>
+  </view>
+
+  <view class="section-title">内容推荐可能怎样改变</view>
+  <view class="card scenario-card">
+    <view wx:for="{{impact.content}}" wx:key="label" class="impact-row">
+      <view class="impact-head">
+        <view class="impact-label">{{item.label}}</view>
+        <view class="impact-value">{{item.value}}</view>
+      </view>
+      <view class="impact-track">
+        <view class="impact-fill" style="width: {{item.value}}%;"></view>
+      </view>
+      <view class="impact-reason">{{item.reason}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">广告 / 促销触达可能怎样改变</view>
+  <view class="card scenario-card">
+    <view wx:for="{{impact.promotion}}" wx:key="label" class="impact-row">
+      <view class="impact-head">
+        <view class="impact-label">{{item.label}}</view>
+        <view class="impact-value">{{item.value}}</view>
+      </view>
+      <view class="impact-track soft">
+        <view class="impact-fill soft-fill" style="width: {{item.value}}%;"></view>
+      </view>
+      <view class="impact-reason">{{item.reason}}</view>
+    </view>
+  </view>
+
+  <view class="section-title">差异化优惠仿真</view>
+  <view class="card pricing-card">
+    <view class="pricing-note">同一个模拟商品，基础价始终保持不变，只演示“画像参与优惠券分配”的可能机制。</view>
+
+    <view class="price-grid">
+      <view class="price-box">
+        <view class="price-label">基础价</view>
+        <view class="price-number">¥{{impact.pricing.basePrice}}</view>
+      </view>
+      <view class="price-box">
+        <view class="price-label">中性画像模拟券</view>
+        <view class="price-number">-¥{{impact.pricing.neutralCoupon}}</view>
+      </view>
+      <view class="price-box accent">
+        <view class="price-label">当前画像模拟券</view>
+        <view class="price-number">-¥{{impact.pricing.profileCoupon}}</view>
+      </view>
+      <view class="price-box dark">
+        <view class="price-label">当前模拟实付</view>
+        <view class="price-number">¥{{impact.pricing.payable}}</view>
+      </view>
+    </view>
+
+    <view class="difference" wx:if="{{impact.pricing.difference !== 0}}">
+      相比中性画像，当前画像的模拟优惠差异为
+      <text>{{impact.pricing.difference > 0 ? '+' : ''}}{{impact.pricing.difference}} 元</text>
+    </view>
+
+    <view class="warning-box">这是机制演示，不是真实价格检测，也不代表美团、携程、电商或其他平台的实际规则。</view>
+  </view>
+
+  <view wx:if="{{impact.hasCorrections}}" class="section-title">你的纠错真的改变了什么</view>
+  <view wx:if="{{impact.hasCorrections}}" class="card correction-card">
+    <view class="correction-intro">你在上一页否定或质疑了部分推断，所以系统重新计算了人格维度。下面是纠错前后差异。</view>
+    <view wx:for="{{impact.corrections}}" wx:key="id" class="correction-row">
+      <view class="correction-id">{{item.id}}</view>
+      <view class="correction-values">
+        <text>{{item.before}}</text>
+        <text class="arrow">→</text>
+        <text class="after">{{item.after}}</text>
+        <text class="delta">{{item.delta > 0 ? '+' : ''}}{{item.delta}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card conclusion-card">
+    <view class="conclusion-title">这就是项目真正想展示的东西</view>
+    <view class="conclusion-text">算法不只是“猜你喜欢什么”。一旦画像形成，它可能继续影响你看到什么内容、广告、促销，以及系统如何对你进行分类。更重要的是：这些画像并不一定正确。</view>
+  </view>
+
+  <button class="primary" bindtap="backToProfile">返回画像继续纠错</button>
+</view>
