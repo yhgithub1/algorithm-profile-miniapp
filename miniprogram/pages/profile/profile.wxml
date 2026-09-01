@@ -1,6 +1,6 @@
 <view class="page">
   <view class="card intro-card">
-    <view class="step">02 / 03</view>
+    <view class="step">02 / 05</view>
     <view class="h2">算法眼中的你</view>
     <view class="muted">下面不是一组静态标签，而是一条条从你的真实线索向外扩散的推断路径。你可以直接纠错，看看整张画像如何变化。</view>
   </view>
@@ -93,7 +93,7 @@
           <view>{{item.highLabel}}</view>
         </view>
         <view wx:if="{{item.evidenceCount > 0}}" class="dimension-evidence">
-          <view wx:for="{{item.evidence}}" wx:key="tagId" class="evidence-chip">{{item.tagLabel}} · +{{item.delta}}</view>
+          <view wx:for="{{item.evidence}}" wx:key="tagId" class="evidence-chip">{{item.tagLabel}} · {{item.delta > 0 ? '+' : ''}}{{item.delta}}</view>
         </view>
       </view>
     </view>
