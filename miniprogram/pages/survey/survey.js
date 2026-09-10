@@ -1,5 +1,7 @@
-const { getPlatform } = require('../../data/platforms')
-const { buildPlatformProfile } = require('../../utils/platform-profile')
+const { getObservationPlatform } = require('../../data/observation-platforms')
+const { buildPlatformObservation } = require('../../utils/observation-engine')
+
+const FRAGMENT_COLORS = ['#6f7bf7', '#f28b72', '#f3bf4f', '#55b9a7', '#bd78d6', '#ef6d8c']
 
 Page({
   data: {
@@ -9,13 +11,16 @@ Page({
     currentQuestion: null,
     currentSelected: {},
     answers: {},
-    progress: 0
+    progress: 0,
+    fragments: [],
+    flyingFragment: null,
+    fragmentAnimation: null
   },
 
   onLoad(options) {
-    const platform = getPlatform(options.platform)
+    const platform = getObservationPlatform(options.platform)
     if (!platform) {
-      wx.showToast({ title: '平台配置不存在', icon: 'none' })
+      wx.showToast({ title: '观察视角不存在', icon: 'none' })
       setTimeout(() => wx.navigateBack(), 500)
       return
     }
@@ -27,20 +32,33 @@ Page({
     this.setData({
       platform,
       questions: platform.questions,
-      answers
+      answers,
+      fragments: this.buildFragments(platform, answers)
     }, () => this.refreshQuestion())
+  },
+
+  buildFragments(platform, answers) {
+    if (!platform) return []
+    const fragments = []
+    platform.questions.forEach((question, index) => {
+      const value = answers[question.id]
+      const option = question.options.find(item => item.value === value)
+      if (!option) return
+      const seed = (index * 37 + String(value).length * 13) % 100
+      fragments.push({
+        id: question.id,
+        label: option.label,
+        style: `left:${18 + (seed % 62)}%;top:${12 + ((seed * 3) % 66)}%;background:${FRAGMENT_COLORS[index % FRAGMENT_COLORS.length]};transform:rotate(${(seed % 22) - 11}deg);`
+      })
+    })
+    return fragments
   },
 
   refreshQuestion() {
     const question = this.data.questions[this.data.currentIndex]
     const selected = this.data.answers[question.id]
     const currentSelected = {}
-
-    if (Array.isArray(selected)) {
-      selected.forEach(value => { currentSelected[value] = true })
-    } else if (selected) {
-      currentSelected[selected] = true
-    }
+    if (selected) currentSelected[selected] = true
 
     this.setData({
       currentQuestion: question,
@@ -52,37 +70,59 @@ Page({
   selectOption(e) {
     const value = e.currentTarget.dataset.value
     const question = this.data.currentQuestion
-    const answers = { ...this.data.answers }
+    const option = question.options.find(item => item.value === value)
+    if (!option) return
 
-    if (question.type === 'multiple') {
-      const list = Array.isArray(answers[question.id]) ? [...answers[question.id]] : []
-      const index = list.indexOf(value)
-      if (index >= 0) {
-        list.splice(index, 1)
-      } else {
-        if (question.max && list.length >= question.max) {
-          wx.showToast({ title: `最多选择 ${question.max} 个`, icon: 'none' })
-          return
-        }
-        list.push(value)
-      }
-      answers[question.id] = list
-    } else {
-      answers[question.id] = value
-    }
-
+    const answers = { ...this.data.answers, [question.id]: value }
     this.setData({ answers }, () => this.refreshQuestion())
+    this.flyFragment(e, option, answers)
+  },
+
+  flyFragment(e, option, answers) {
+    const query = wx.createSelectorQuery().in(this)
+    query.select(`#option-${option.value}`).boundingClientRect(rect => {
+      if (!rect) {
+        this.setData({ fragments: this.buildFragments(this.data.platform, answers) })
+        return
+      }
+
+      const info = typeof wx.getWindowInfo === 'function' ? wx.getWindowInfo() : wx.getSystemInfoSync()
+      const targetX = info.windowWidth / 2 - rect.left - 26
+      const targetY = info.windowHeight - 190 - rect.top
+      const colorIndex = this.data.currentIndex % FRAGMENT_COLORS.length
+      const animation = wx.createAnimation({ duration: 520, timingFunction: 'ease-in-out' })
+
+      this.setData({
+        flyingFragment: {
+          label: option.label,
+          style: `left:${rect.left}px;top:${rect.top}px;background:${FRAGMENT_COLORS[colorIndex]};`
+        },
+        fragmentAnimation: null
+      })
+
+      setTimeout(() => {
+        animation.translate(targetX, targetY).scale(0.34).rotate((Math.random() * 50) - 25).opacity(0).step()
+        this.setData({ fragmentAnimation: animation.export() })
+      }, 20)
+
+      setTimeout(() => {
+        this.setData({
+          fragments: this.buildFragments(this.data.platform, answers),
+          flyingFragment: null,
+          fragmentAnimation: null
+        })
+      }, 570)
+    }).exec()
   },
 
   hasAnswer() {
     const question = this.data.currentQuestion
-    const value = this.data.answers[question.id]
-    return Array.isArray(value) ? value.length > 0 : !!value
+    return !!this.data.answers[question.id]
   },
 
   next() {
     if (!this.hasAnswer()) {
-      wx.showToast({ title: '先选择一个答案', icon: 'none' })
+      wx.showToast({ title: '先选择一个行为', icon: 'none' })
       return
     }
 
@@ -103,14 +143,12 @@ Page({
   },
 
   finish() {
-    const profile = buildPlatformProfile(this.data.platform.id, this.data.answers)
+    const profile = buildPlatformObservation(this.data.platform.id, this.data.answers)
     const saved = wx.getStorageSync('algorithmPlatformProfiles') || {}
     saved[this.data.platform.id] = profile
     wx.setStorageSync('algorithmPlatformProfiles', saved)
 
-    const app = getApp()
-    app.globalData.currentPlatformProfile = profile
-
+    getApp().globalData.currentPlatformProfile = profile
     wx.redirectTo({ url: `/pages/platform-result/platform-result?platform=${this.data.platform.id}` })
   }
 })
