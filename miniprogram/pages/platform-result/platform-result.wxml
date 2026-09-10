@@ -1,61 +1,70 @@
 <view class="page" wx:if="{{profile && platform}}">
   <view class="result-hero" style="background: {{platform.color}};">
     <view class="result-icon">{{platform.icon}}</view>
-    <view class="result-kicker" style="color: {{platform.accent}};">{{platform.name}}眼中的你</view>
-    <view class="result-title">{{profile.title}}</view>
+    <view class="result-kicker" style="color: {{platform.accent}};">{{platform.name}} · {{platform.viewName}}</view>
+    <view class="result-title">这个平台，只看见了这一部分你。</view>
     <view class="result-summary">{{profile.summary}}</view>
+  </view>
 
-    <view class="tag-row">
-      <view wx:for="{{profile.tags}}" wx:key="*this" class="tag-chip" style="color: {{platform.accent}}; border-color: {{platform.accent}};">{{item}}</view>
+  <view class="section-title">算法从这些痕迹开始猜</view>
+  <view class="projection-stage">
+    <view class="projection-avatar">
+      <view class="avatar-head"></view>
+      <view class="avatar-torso"></view>
+      <view class="avatar-arm left"></view>
+      <view class="avatar-arm right"></view>
+      <view class="avatar-leg left"></view>
+      <view class="avatar-leg right"></view>
+      <view wx:for="{{visualFragments}}" wx:key="id" class="avatar-fragment" style="{{item.style}}"></view>
+    </view>
+
+    <view wx:for="{{visualInferences}}" wx:key="id" class="inference-node {{item.positionClass}} {{item.feedbackClass}}">
+      <view class="node-dot" style="background: {{platform.accent}};"></view>
+      <view class="node-axis">{{item.axisLabel}} · {{item.confidence}}把握</view>
+      <view class="node-text">{{item.statement}}</view>
     </view>
   </view>
 
-  <view class="section-title">这个平台可能给你的行为分层</view>
-  <view class="card dimension-card">
-    <view wx:for="{{profile.items}}" wx:key="id" class="dimension-row">
-      <view class="dimension-head">
-        <view>
-          <view class="dimension-name">{{item.label}}</view>
-          <view class="dimension-desc">{{item.descriptor}}</view>
-        </view>
-        <view class="dimension-score">{{item.score}}</view>
+  <view wx:if="{{profile.inferences.length === 0}}" class="empty-card">
+    当前行为痕迹还没有形成足够一致的方向。系统选择暂时不猜。
+  </view>
+
+  <view class="section-title">每一条推断都可以被你否定</view>
+  <view class="inference-list">
+    <view wx:for="{{profile.inferences}}" wx:key="id" class="inference-card {{item.feedback ? 'has-feedback' : ''}} {{item.feedback === 'inaccurate' ? 'is-rejected' : ''}}">
+      <view class="inference-line">{{item.line}}</view>
+      <view class="inference-detail">{{item.detail}}</view>
+      <view class="feedback-row">
+        <button class="feedback-button {{item.feedback === 'accurate' ? 'active accurate' : ''}}" data-id="{{item.id}}" data-status="accurate" bindtap="feedback">比较像我</button>
+        <button class="feedback-button {{item.feedback === 'unsure' ? 'active unsure' : ''}}" data-id="{{item.id}}" data-status="unsure" bindtap="feedback">不确定</button>
+        <button class="feedback-button {{item.feedback === 'inaccurate' ? 'active inaccurate' : ''}}" data-id="{{item.id}}" data-status="inaccurate" bindtap="feedback">完全不是</button>
       </view>
-      <view class="dimension-track">
-        <view class="dimension-mid"></view>
-        <view class="dimension-fill" style="width: {{item.score}}%; background: {{platform.accent}};"></view>
-      </view>
-      <view class="axis-labels"><text>{{item.low}}</text><text>{{item.high}}</text></view>
+      <view wx:if="{{item.feedback === 'inaccurate'}}" class="misread-note">算法看到了行为，却可能误解了原因。</view>
     </view>
   </view>
 
-  <view class="section-title">如果平台相信这张画像</view>
-  <view class="card impact-card">
-    <view wx:for="{{profile.impact}}" wx:key="*this" class="impact-item">
-      <view class="impact-dot" style="background: {{platform.accent}};"></view>
-      <view>{{item}}</view>
+  <view wx:if="{{profile.neutralAxes.length > 0 || profile.unobservedAxes.length > 0}}" class="section-title">这一面，算法还没看清</view>
+  <view wx:if="{{profile.neutralAxes.length > 0 || profile.unobservedAxes.length > 0}}" class="unknown-card">
+    <view wx:for="{{profile.neutralAxes}}" wx:key="id" class="unknown-row">
+      <view class="unknown-name">{{item.label}}</view>
+      <view class="unknown-value">暂无明显行为倾向</view>
     </view>
-  </view>
-
-  <view class="section-title">它是从这些生活细节拼出来的</view>
-  <view class="card evidence-card">
-    <view wx:for="{{profile.evidence}}" wx:key="question" class="evidence-row">
-      <view class="evidence-question">{{item.question}}</view>
-      <view class="evidence-answer">{{item.answer}}</view>
+    <view wx:for="{{profile.unobservedAxes}}" wx:key="id" class="unknown-row">
+      <view class="unknown-name">{{item.label}}</view>
+      <view class="unknown-value muted">尚未充分观察</view>
     </view>
   </view>
 
   <view class="merge-cta" bindtap="goMerge">
-    <view>
-      <view class="merge-kicker">不要只看一个 App</view>
-      <view class="merge-title">把不同平台眼中的你拼起来 →</view>
-      <view class="merge-desc">同一个人在外卖、短视频、旅游和购物场景里，可能暴露完全不同的侧面。</view>
-    </view>
+    <view class="merge-kicker">把不同视角拼起来</view>
+    <view class="merge-title">看看目前的数字分身 →</view>
+    <view class="merge-desc">每个平台只贡献一部分外在痕迹，没有任何一个平台等于完整的你。</view>
   </view>
 
   <view class="actions">
-    <button class="secondary" bindtap="redo">重新回答</button>
-    <button class="primary" bindtap="goPlatforms">继续看其他 App</button>
+    <button class="secondary" bindtap="redo">重新观察</button>
+    <button class="primary" bindtap="goPlatforms">继续解锁其他视角</button>
   </view>
 
-  <view class="disclaimer">这是本地规则仿真，不代表任何真实平台的内部算法、用户标签或实际推荐逻辑。</view>
+  <view class="disclaimer">本工具仅做行为模拟推演，不是人格判定或心理评估。推断不一定代表真实情况。</view>
 </view>
