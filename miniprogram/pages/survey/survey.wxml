@@ -3,8 +3,8 @@
     <view class="platform-line">
       <view class="platform-icon" style="background: {{platform.color}}; color: {{platform.accent}};">{{platform.icon}}</view>
       <view>
-        <view class="platform-name">{{platform.name}}眼中的你</view>
-        <view class="question-count">第 {{currentIndex + 1}} / {{questions.length}} 题</view>
+        <view class="platform-name">{{platform.viewName}}</view>
+        <view class="question-count">{{platform.name}} · 第 {{currentIndex + 1}} / {{questions.length}} 题</view>
       </view>
     </view>
     <view class="progress-track"><view class="progress-fill" style="width: {{progress}}%; background: {{platform.accent}};"></view></view>
@@ -12,12 +12,13 @@
 
   <view class="question-card">
     <view class="question-title">{{currentQuestion.title}}</view>
-    <view wx:if="{{currentQuestion.type === 'multiple'}}" class="question-tip">可多选{{currentQuestion.max ? '，最多 ' + currentQuestion.max + ' 个' : ''}}</view>
+    <view class="question-tip">只选最接近你真实习惯的一项。一个答案不会直接决定结论。</view>
 
     <view class="option-list">
       <view
         wx:for="{{currentQuestion.options}}"
         wx:key="value"
+        id="option-{{item.value}}"
         class="option {{currentSelected[item.value] ? 'active' : ''}}"
         style="{{currentSelected[item.value] ? 'border-color:' + platform.accent + ';background:' + platform.color + ';' : ''}}"
         data-value="{{item.value}}"
@@ -31,10 +32,33 @@
     </view>
   </view>
 
-  <view class="nav-actions">
-    <button class="secondary" bindtap="previous">{{currentIndex === 0 ? '返回' : '上一题'}}</button>
-    <button class="primary next" bindtap="next">{{currentIndex === questions.length - 1 ? '生成这个平台眼中的我' : '下一题'}}</button>
+  <view class="avatar-dock">
+    <view class="avatar-copy">
+      <view class="avatar-kicker">你的数字投影正在形成</view>
+      <view class="avatar-desc">每个答案都会变成一块行为碎片。灰白区域代表这个视角还没有看见的部分。</view>
+    </view>
+
+    <view class="avatar-stage">
+      <view class="avatar-shadow"></view>
+      <view class="avatar-body">
+        <view class="avatar-head"></view>
+        <view class="avatar-torso"></view>
+        <view class="avatar-arm left"></view>
+        <view class="avatar-arm right"></view>
+        <view class="avatar-leg left"></view>
+        <view class="avatar-leg right"></view>
+        <view wx:for="{{fragments}}" wx:key="id" class="body-fragment" style="{{item.style}}"></view>
+      </view>
+      <view class="fragment-count">已留下 {{fragments.length}} 块行为碎片</view>
+    </view>
   </view>
 
-  <view class="privacy">这里填写的是你的主观回忆，不会连接或读取任何第三方 App 账号。</view>
+  <view class="nav-actions">
+    <button class="secondary" bindtap="previous">{{currentIndex === 0 ? '返回' : '上一题'}}</button>
+    <button class="primary next" bindtap="next">{{currentIndex === questions.length - 1 ? '看看算法怎么猜' : '下一题'}}</button>
+  </view>
+
+  <view class="privacy">平台只能看到行为痕迹，无法知道你为什么这样选择。最终结果只做概率推演。</view>
+
+  <view wx:if="{{flyingFragment}}" class="flying-fragment" style="{{flyingFragment.style}}" animation="{{fragmentAnimation}}">{{flyingFragment.label}}</view>
 </view>
