@@ -1,9 +1,17 @@
 Page({
-  start() {
-    wx.navigateTo({ url: '/pages/platforms/platforms' })
+  data: {
+    hasProjection: false
   },
 
-  goAdvanced() {
-    wx.navigateTo({ url: '/pages/select/select' })
+  onShow() {
+    this.setData({ hasProjection: !!wx.getStorageSync('algorithmFirstProjection') })
+  },
+
+  start() {
+    wx.navigateTo({ url: '/pages/first-observation/first-observation' })
+  },
+
+  openProjection() {
+    wx.navigateTo({ url: '/pages/first-result/first-result' })
   }
 })
