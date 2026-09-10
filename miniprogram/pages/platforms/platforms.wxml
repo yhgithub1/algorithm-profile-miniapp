@@ -1,58 +1,46 @@
 <view class="page">
   <view class="hero-card">
-    <view class="eyebrow">不同 App 眼中的你</view>
-    <view class="title">同一个你，在美团、抖音、小红书和淘宝里，可能是四个不同的人。</view>
-    <view class="desc">现在有两种方式：回答几个生活问题，或者直接上传推荐首页截图，看“算法已经在给你看什么”。</view>
+    <view class="eyebrow">算法的观察窗口</view>
+    <view class="title">没有一个平台看得到完整的你。</view>
+    <view class="desc">每个平台只能从自己的场景里看到一部分行为痕迹。多完成一个视角，数字分身就多出现一块彩色投影。</view>
   </view>
 
   <view class="merge-card" bindtap="goMerge">
     <view>
-      <view class="merge-kicker">跨平台数字分身</view>
-      <view class="merge-title">已完成 {{completedCount}} / {{platforms.length}} 个 App</view>
-      <view class="merge-desc">完成 2 个以上，就能开始看四个平台分别认识了你的哪一面。</view>
+      <view class="merge-kicker">数字分身</view>
+      <view class="merge-title">已解锁 {{completedCount}} / {{platforms.length}} 个观察视角</view>
+      <view class="merge-desc">不是完成度，也不是人格测试。这里只表示算法从多少种生活场景观察过你。</view>
     </view>
     <view class="merge-arrow">→</view>
   </view>
 
-  <view class="section-title">先选一个你最熟悉的 App</view>
+  <view class="section-title">选择一个算法观察你的窗口</view>
 
-  <view wx:for="{{platforms}}" wx:key="id" class="platform-card">
+  <view wx:for="{{platforms}}" wx:key="id" class="platform-card" data-id="{{item.id}}" bindtap="openPlatform">
     <view class="platform-top">
       <view class="platform-icon" style="background: {{item.color}}; color: {{item.accent}};">{{item.icon}}</view>
       <view class="platform-main">
         <view class="platform-head">
-          <view class="platform-name">{{item.name}}</view>
-          <view wx:if="{{item.completed}}" class="done-badge">已完成</view>
+          <view>
+            <view class="platform-name">{{item.name}}</view>
+            <view class="view-name">{{item.viewName}}</view>
+          </view>
+          <view wx:if="{{item.completed}}" class="done-badge">已观察</view>
         </view>
         <view class="platform-subtitle">{{item.subtitle}}</view>
-        <view wx:if="{{item.completed}}" class="result-preview">
-          上次画像：{{item.resultTitle}}
-          <text class="source-badge">{{item.resultSource === 'screenshot' ? '截图识别' : '问答生成'}}</text>
+        <view class="observe-chips">
+          <text wx:for="{{item.observes}}" wx:key="*this">{{item}}</text>
         </view>
+        <view wx:if="{{item.completed}}" class="result-preview">已形成 {{item.inferenceCount}} 条概率推断 · {{item.observedCount}} 个行为侧面有足够证据</view>
       </view>
+      <view class="arrow">›</view>
     </view>
-
-    <view class="platform-actions">
-      <button class="platform-button survey-button" data-id="{{item.id}}" bindtap="openPlatform">回答几个问题</button>
-      <button class="platform-button screenshot-button" data-id="{{item.id}}" bindtap="openScreenshot">上传推荐页截图</button>
-    </view>
-  </view>
-
-  <view class="screenshot-explain">
-    <view class="screenshot-explain-title">截图识别不是“大模型猜人格”</view>
-    <view class="screenshot-explain-text">后端只用 PaddleOCR 读文字/价格，用 OpenCLIP 给推荐图片做内容分类，再由本项目自己的透明规则统计出推荐主题、价格带和促销曝光。</view>
   </view>
 
   <view class="merge-explain">
-    <view class="merge-explain-title">为什么要看四个平台？</view>
-    <view class="merge-explain-text">美团更容易暴露吃饭与即时消费，抖音更直接表现注意力主题，小红书更接近生活方式与攻略意图，淘宝则更多反映商品和价格带。它们拼起来，会形成一个更完整的数字分身。</view>
+    <view class="merge-explain-title">规则只有一条：看不到的，就不猜。</view>
+    <view class="merge-explain-text">一个答案不会直接变成一个“人格标签”。只有多条行为痕迹指向同一方向时，系统才会生成推断；证据不足的部分会保留为空白。</view>
   </view>
 
-  <view class="advanced-card" bindtap="goAdvanced">
-    <view class="advanced-title">想看更“黑箱”的推断过程？</view>
-    <view class="advanced-desc">进入高级实验室：从兴趣线索展开人物图谱、纠错，再看推荐和优惠如何变化。</view>
-    <view class="advanced-link">进入算法图谱实验室 →</view>
-  </view>
-
-  <view class="privacy-note">本项目不会读取美团、抖音、小红书或淘宝账号，也不代表知道这些平台的真实内部算法。截图只分析你主动上传的页面；当前本地后端不会把原图写入磁盘。</view>
+  <view class="privacy-note">本项目模拟平台如何从外在行为痕迹做概率推演，不读取真实平台后台标签，不代表任何平台的真实用户画像。</view>
 </view>
