@@ -16,31 +16,36 @@ Page({
   },
 
   decorate(result, feedback) {
+    const discoveries = (result.discoveries || []).map(item => {
+      const key = `discovery:${item.id}`
+      const selectedFeedback = feedback[key] || ''
+      return {
+        ...item,
+        feedbackKey: key,
+        selectedFeedback,
+        feedbackNote: selectedFeedback === 'wrong'
+          ? '你否定了这条发现：这正说明“行为结构”仍然不能替代真实动机。'
+          : (selectedFeedback === 'right'
+            ? '这条模式得到了你的确认。'
+            : (selectedFeedback === 'unsure' ? '先保留它，不把这条模式当成稳定结论。' : ''))
+      }
+    })
+
     const platforms = (result.platforms || []).map(platform => ({
       ...platform,
-      inferences: (platform.inferences || []).map(item => {
-        const key = `${platform.id}:${item.axisId}`
-        const selectedFeedback = feedback[key] || ''
-        return {
-          ...item,
-          feedbackKey: key,
-          selectedFeedback,
-          feedbackNote: selectedFeedback === 'wrong'
-            ? '算法看到了行为，却可能误解了原因。这个结论会被降权。'
-            : (selectedFeedback === 'right' ? '这条推断得到了你的确认。' : '')
-        }
-      })
+      tracePreview: platform.tracePreview || (platform.traces || []).slice(0, 2).join(' · ')
     }))
 
     return {
       ...result,
+      discoveries,
       platforms,
       unknownText: (result.unknownAxes || []).map(item => item.label).join(' · '),
       coverageStyle: `opacity:${Math.min(0.78, 0.22 + (result.colorCoverage || 30) / 130)};`
     }
   },
 
-  feedbackInference(e) {
+  feedbackDiscovery(e) {
     const key = e.currentTarget.dataset.key
     const value = e.currentTarget.dataset.value
     const feedback = { ...this.data.feedback, [key]: value }
@@ -68,8 +73,9 @@ Page({
   },
 
   onShareAppMessage() {
+    const first = this.data.result && this.data.result.discoveries && this.data.result.discoveries[0]
     return {
-      title: '我们只看了几个日常选择，算法已经开始猜了',
+      title: first ? `算法发现：${first.title}` : '算法从几个日常选择里发现了什么？',
       path: '/pages/index/index'
     }
   }
