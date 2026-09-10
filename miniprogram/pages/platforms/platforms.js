@@ -1,4 +1,4 @@
-const { platforms } = require('../../data/platforms')
+const { observationPlatforms } = require('../../data/observation-platforms')
 
 Page({
   data: {
@@ -8,15 +8,16 @@ Page({
 
   onShow() {
     const saved = wx.getStorageSync('algorithmPlatformProfiles') || {}
-    const list = platforms.map(item => ({
+    const list = observationPlatforms.map(item => ({
       ...item,
       completed: !!saved[item.id],
-      resultTitle: saved[item.id] ? saved[item.id].title : '',
-      resultSource: saved[item.id] ? saved[item.id].source || 'survey' : ''
+      inferenceCount: saved[item.id] ? (saved[item.id].inferences || []).length : 0,
+      observedCount: saved[item.id] ? (saved[item.id].observedCount || 0) : 0
     }))
+
     this.setData({
       platforms: list,
-      completedCount: Object.keys(saved).length
+      completedCount: list.filter(item => item.completed).length
     })
   },
 
@@ -25,16 +26,7 @@ Page({
     wx.navigateTo({ url: `/pages/survey/survey?platform=${id}` })
   },
 
-  openScreenshot(e) {
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: `/pages/screenshot/screenshot?platform=${id}` })
-  },
-
   goMerge() {
     wx.navigateTo({ url: '/pages/merge/merge' })
-  },
-
-  goAdvanced() {
-    wx.navigateTo({ url: '/pages/select/select' })
   }
 })
