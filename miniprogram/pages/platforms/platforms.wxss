@@ -1,12 +1,12 @@
 .hero-card {
   padding: 38rpx;
   color: #ffffff;
-  background: linear-gradient(145deg, #111827, #312e81);
+  background: #262624;
   border-radius: 30rpx;
 }
 
 .eyebrow {
-  color: #c7d2fe;
+  color: #b9b6ae;
   font-size: 21rpx;
   font-weight: 800;
   letter-spacing: 2rpx;
@@ -21,7 +21,7 @@
 
 .desc {
   margin-top: 18rpx;
-  color: #dbe4ff;
+  color: #d5d2cb;
   font-size: 23rpx;
   line-height: 1.7;
 }
@@ -34,40 +34,41 @@
   margin-top: 22rpx;
   padding: 28rpx;
   background: #ffffff;
-  border: 2rpx solid #e9e5ff;
+  border: 2rpx solid #e7e3db;
   border-radius: 26rpx;
 }
 
 .merge-kicker {
-  color: #7c3aed;
+  color: #6d6a63;
   font-size: 20rpx;
   font-weight: 800;
 }
 
 .merge-title {
   margin-top: 7rpx;
-  color: #111827;
+  color: #1f1f1d;
   font-size: 29rpx;
   font-weight: 900;
 }
 
 .merge-desc {
   margin-top: 8rpx;
-  color: #7c8592;
+  color: #85827b;
   font-size: 21rpx;
   line-height: 1.55;
 }
 
-.merge-arrow {
+.merge-arrow,
+.arrow {
   flex: none;
-  color: #7c3aed;
-  font-size: 36rpx;
+  color: #8b877f;
+  font-size: 34rpx;
   font-weight: 800;
 }
 
 .section-title {
   margin: 34rpx 0 18rpx;
-  color: #334155;
+  color: #34332f;
   font-size: 27rpx;
   font-weight: 900;
 }
@@ -76,7 +77,7 @@
   margin-bottom: 18rpx;
   padding: 24rpx;
   background: #ffffff;
-  border: 2rpx solid #eef2f7;
+  border: 2rpx solid #ebe7df;
   border-radius: 24rpx;
 }
 
@@ -104,139 +105,88 @@
 
 .platform-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 12rpx;
 }
 
 .platform-name {
-  color: #111827;
+  color: #191918;
   font-size: 28rpx;
   font-weight: 900;
 }
 
+.view-name {
+  margin-top: 4rpx;
+  color: #8d8982;
+  font-size: 18rpx;
+  font-weight: 800;
+}
+
 .done-badge {
+  flex: none;
   padding: 5rpx 10rpx;
-  color: #166534;
-  background: #dcfce7;
+  color: #416a59;
+  background: #edf4ef;
   border-radius: 999rpx;
   font-size: 17rpx;
   font-weight: 800;
 }
 
 .platform-subtitle {
-  margin-top: 8rpx;
-  color: #7c8592;
+  margin-top: 10rpx;
+  color: #77746e;
   font-size: 20rpx;
-  line-height: 1.55;
+  line-height: 1.58;
+}
+
+.observe-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 14rpx;
+}
+
+.observe-chips text {
+  padding: 6rpx 10rpx;
+  color: #64615b;
+  background: #f4f2ed;
+  border-radius: 999rpx;
+  font-size: 17rpx;
 }
 
 .result-preview {
-  margin-top: 10rpx;
-  color: #5b21b6;
-  font-size: 19rpx;
+  margin-top: 12rpx;
+  color: #5e5a54;
+  font-size: 18rpx;
   font-weight: 700;
   line-height: 1.55;
 }
 
-.source-badge {
-  display: inline-block;
-  margin-left: 8rpx;
-  padding: 3rpx 8rpx;
-  color: #475569;
-  background: #f1f5f9;
-  border-radius: 999rpx;
-  font-size: 16rpx;
-}
-
-.platform-actions {
-  display: flex;
-  gap: 12rpx;
-  margin-top: 20rpx;
-}
-
-.platform-button {
-  flex: 1;
-  height: 66rpx;
-  padding: 0 12rpx;
-  margin: 0;
-  border-radius: 16rpx;
-  font-size: 20rpx;
-  font-weight: 800;
-  line-height: 66rpx;
-}
-
-.platform-button::after {
-  border: none;
-}
-
-.survey-button {
-  color: #475569;
-  background: #f8fafc;
-}
-
-.screenshot-button {
-  color: #ffffff;
-  background: #111827;
-}
-
-.screenshot-explain,
 .merge-explain {
   margin-top: 24rpx;
   padding: 26rpx;
-  background: #ffffff;
-  border: 2rpx solid #eef2f7;
+  background: #f3f1ec;
+  border: 2rpx solid #e7e3db;
   border-radius: 24rpx;
 }
 
-.screenshot-explain {
-  background: #f8fafc;
-}
-
-.screenshot-explain-title,
 .merge-explain-title {
-  color: #111827;
+  color: #262522;
   font-size: 25rpx;
   font-weight: 900;
 }
 
-.screenshot-explain-text,
 .merge-explain-text {
   margin-top: 10rpx;
-  color: #64748b;
+  color: #74716a;
   font-size: 21rpx;
   line-height: 1.72;
 }
 
-.advanced-card {
-  margin-top: 30rpx;
-  padding: 28rpx;
-  background: #f8fafc;
-  border-radius: 24rpx;
-}
-
-.advanced-title {
-  color: #111827;
-  font-size: 26rpx;
-  font-weight: 900;
-}
-
-.advanced-desc {
-  margin-top: 10rpx;
-  color: #64748b;
-  font-size: 21rpx;
-  line-height: 1.65;
-}
-
-.advanced-link {
-  margin-top: 14rpx;
-  color: #7c3aed;
-  font-size: 21rpx;
-  font-weight: 800;
-}
-
 .privacy-note {
   margin: 26rpx 10rpx 10rpx;
-  color: #94a3b8;
+  color: #9a9790;
   font-size: 19rpx;
   line-height: 1.65;
   text-align: center;
