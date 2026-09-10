@@ -33,11 +33,13 @@ function buildCrossPlatform(profiles) {
       })
       .filter(Boolean)
     const info = describeAxis(id, contributors.map(item => item.value))
+    const sources = contributors.map(item => item.platform)
     return {
       id,
       label: observationAxes[id].label,
       sourceCount: contributors.length,
-      sources: contributors.map(item => item.platform),
+      sources,
+      sourceText: sources.join('、'),
       ...info
     }
   })
@@ -50,7 +52,7 @@ function buildCrossPlatform(profiles) {
 
   const overlap = axes
     .filter(item => item.sourceCount >= 2 && !item.mixed && item.observed && item.raw !== null && Math.abs(item.raw) >= 0.22)
-    .map(item => `${item.label}在 ${item.sources.join('、')} 中出现了相近方向的行为痕迹，但这仍只是跨场景的一致性，不代表事实。`)
+    .map(item => `${item.label}在 ${item.sourceText} 中出现了相近方向的行为痕迹，但这仍只是跨场景的一致性，不代表事实。`)
 
   const snapshots = valid.map(profile => ({
     platformId: profile.platformId,
