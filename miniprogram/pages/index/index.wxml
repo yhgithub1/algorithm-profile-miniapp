@@ -1,24 +1,57 @@
-<view class="page">
+<view class="home-page">
   <view class="hero">
     <view class="eyebrow">ALGORITHM PROFILE</view>
-    <view class="h1">算法真的比星座 / MBTI 更懂你吗？</view>
-    <view class="intro">星座从生日猜，MBTI 从自我描述分类；互联网算法只能看见你留下的行为痕迹，再一点点做概率推断。它可能越来越像你，也可能一直误解你。</view>
+    <view class="hero-title">别告诉我你是什么样的人。</view>
+    <view class="hero-title muted">给我几个你平时会做的选择就够了。</view>
+    <view class="hero-desc">星座从生日猜，MBTI 从自我描述分类；互联网算法只能看见你留下的行为痕迹，再一点点推测你可能是什么样。</view>
 
-    <view class="app-strip">
-      <view class="app-pill"><text>🥡</text> 美团 · 生活消费</view>
-      <view class="app-pill"><text>🎵</text> 抖音 · 内容注意力</view>
-      <view class="app-pill"><text>📕</text> 小红书 · 生活决策</view>
+    <view class="hero-stage">
+      <view class="halo halo-a"></view>
+      <view class="halo halo-b"></view>
+      <view class="home-person">
+        <view class="home-head"></view>
+        <view class="home-neck"></view>
+        <view class="home-body"></view>
+        <view class="home-arm left"></view>
+        <view class="home-arm right"></view>
+        <view class="home-leg left"></view>
+        <view class="home-leg right"></view>
+      </view>
+      <view class="trace-dot dot-a"></view>
+      <view class="trace-dot dot-b"></view>
+      <view class="trace-dot dot-c"></view>
     </view>
 
-    <button class="primary start" bindtap="start">开始留下第一块行为碎片</button>
+    <view class="stage-copy">现在，它几乎什么都不知道。</view>
+    <button class="start-button" bindtap="start">开始留下痕迹</button>
+    <view wx:if="{{hasProjection}}" class="resume-link" bindtap="openProjection">查看上一次数字投影 →</view>
   </view>
 
-  <view class="story-card">
-    <view class="story-kicker">这个小程序不会告诉你“你是哪一类人”</view>
-    <view class="story-row"><view class="story-num">01</view><view><view class="story-title">每个平台只观察一个侧面</view><view class="story-desc">美团看消费选择，抖音看注意力，小红书看攻略、收藏与行动。看不到的部分保持空白。</view></view></view>
-    <view class="story-row"><view class="story-num">02</view><view><view class="story-title">每次选择都会变成一块彩色痕迹</view><view class="story-desc">这些碎片逐渐进入数字分身，但单个答案不会直接变成人格标签。</view></view></view>
-    <view class="story-row"><view class="story-num">03</view><view><view class="story-title">算法开始猜，你可以当场反驳</view><view class="story-desc">只有多条证据指向同一方向才生成概率推断。猜错时，你可以直接告诉它“完全不是”。</view></view></view>
+  <view class="idea-card">
+    <view class="idea-kicker">不是测试，是一次“被算法观察”的体验</view>
+    <view class="idea-row">
+      <view class="idea-num">01</view>
+      <view>
+        <view class="idea-title">回答 8 个日常场景</view>
+        <view class="idea-desc">吃什么、刷到什么、买不买、会不会继续搜索。没有人格题，也没有标准答案。</view>
+      </view>
+    </view>
+    <view class="idea-row">
+      <view class="idea-num">02</view>
+      <view>
+        <view class="idea-title">算法只记录行为痕迹</view>
+        <view class="idea-desc">单个选择不会直接变成标签；证据不足的地方，保持空白。</view>
+      </view>
+    </view>
+    <view class="idea-row">
+      <view class="idea-num">03</view>
+      <view>
+        <view class="idea-title">看看它从不同窗口怎样理解你</view>
+        <view class="idea-desc">生活消费、内容注意力、生活决策，会形成三个不同的局部投影。</view>
+      </view>
+    </view>
   </view>
 
-  <view class="notice">互联网只能看见你的行为痕迹，无法读懂你的想法。这里展示的，是碎片拼成的算法投影，不是人格判定，也不是任何平台的真实后台画像。</view>
+  <view class="closing-copy">它看到的可能是真实行为，但它永远不知道你为什么这样做。</view>
+  <view class="notice">本工具仅做行为模拟推演，不读取第三方平台账号，不代表任何平台真实后台画像，也不是人格或心理评估。</view>
 </view>
