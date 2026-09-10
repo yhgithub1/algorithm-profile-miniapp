@@ -1,0 +1,49 @@
+<view class="observe-page" wx:if="{{currentQuestion}}">
+  <view class="topbar">
+    <view class="back" bindtap="previous">‹</view>
+    <view class="top-copy">
+      <view class="top-title">正在留下痕迹</view>
+      <view class="top-sub">{{phaseText}}</view>
+    </view>
+    <view class="step-count">{{currentIndex + 1}} / {{totalSteps}}</view>
+  </view>
+
+  <view class="step-track">
+    <view wx:for="{{stepMarks}}" wx:key="*this" class="step-dot {{index <= currentIndex ? 'active' : ''}}"></view>
+  </view>
+
+  <view class="scene-label">{{currentQuestion.scene}}</view>
+  <view class="question-title">{{currentQuestion.title}}</view>
+  <view class="question-hint">别想“正确答案”，选更像你平时会做的。</view>
+
+  <view class="option-stack">
+    <view
+      wx:for="{{currentQuestion.options}}"
+      wx:key="value"
+      class="choice-card {{selectedValue === item.value ? 'selected' : ''}} {{transitioning && selectedValue !== item.value ? 'dimmed' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="selectOption"
+    >
+      <view class="choice-text">{{item.label}}</view>
+      <view class="choice-arrow">→</view>
+    </view>
+  </view>
+
+  <view class="projection-caption">你的数字投影 · 仍然大部分未知</view>
+  <view class="projection-stage">
+    <view class="aura aura-one"></view>
+    <view class="aura aura-two"></view>
+    <view class="mini-person">
+      <view class="mini-head"></view>
+      <view class="mini-neck"></view>
+      <view class="mini-body"></view>
+      <view class="mini-arm left"></view>
+      <view class="mini-arm right"></view>
+      <view class="mini-leg left"></view>
+      <view class="mini-leg right"></view>
+      <view wx:for="{{fragments}}" wx:key="id" class="data-fragment" style="{{item.style}}"></view>
+    </view>
+  </view>
+
+  <view class="micro-copy">每个答案只是一条痕迹。单独一条，不足以定义你。</view>
+</view>
