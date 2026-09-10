@@ -1,144 +1,42 @@
-.survey-head {
-  padding: 8rpx 4rpx 24rpx;
-}
-
-.platform-line {
-  display: flex;
-  align-items: center;
-  gap: 18rpx;
-}
-
-.platform-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: 20rpx;
-  font-size: 36rpx;
-}
-
-.platform-name {
-  color: #111827;
-  font-size: 28rpx;
-  font-weight: 900;
-}
-
-.question-count {
-  margin-top: 5rpx;
-  color: #94a3b8;
-  font-size: 20rpx;
-}
-
-.progress-track {
-  height: 10rpx;
-  margin-top: 22rpx;
-  overflow: hidden;
-  background: #eef2f7;
-  border-radius: 999rpx;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 999rpx;
-  transition: width .2s ease;
-}
-
-.question-card {
-  padding: 34rpx;
-  background: #ffffff;
-  border-radius: 28rpx;
-}
-
-.question-title {
-  color: #111827;
-  font-size: 36rpx;
-  font-weight: 900;
-  line-height: 1.4;
-}
-
-.question-tip {
-  margin-top: 10rpx;
-  color: #94a3b8;
-  font-size: 21rpx;
-}
-
-.option-list {
-  margin-top: 28rpx;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 18rpx;
-  min-height: 88rpx;
-  margin-bottom: 14rpx;
-  padding: 18rpx 20rpx;
-  background: #f8fafc;
-  border: 2rpx solid #eef2f7;
-  border-radius: 20rpx;
-}
-
-.option.active {
-  font-weight: 700;
-}
-
-.option-radio {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  width: 34rpx;
-  height: 34rpx;
-  background: #ffffff;
-  border: 2rpx solid #cbd5e1;
-  border-radius: 50%;
-}
-
-.check {
-  color: #ffffff;
-  font-size: 20rpx;
-  font-weight: 900;
-}
-
-.option-label {
-  color: #334155;
-  font-size: 25rpx;
-  line-height: 1.45;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 16rpx;
-  margin-top: 22rpx;
-}
-
-.nav-actions button {
-  margin: 0;
-}
-
-.secondary {
-  flex: 0 0 180rpx;
-  color: #475569;
-  background: #ffffff;
-  border-radius: 18rpx;
-  font-size: 23rpx;
-  font-weight: 800;
-}
-
-.secondary::after {
-  border: 2rpx solid #e2e8f0;
-  border-radius: 18rpx;
-}
-
-.next {
-  flex: 1;
-}
-
-.privacy {
-  margin: 24rpx 16rpx 4rpx;
-  color: #94a3b8;
-  font-size: 19rpx;
-  line-height: 1.6;
-  text-align: center;
-}
+.survey-head { padding: 8rpx 4rpx 24rpx; }
+.platform-line { display:flex; align-items:center; gap:18rpx; }
+.platform-icon { display:flex; align-items:center; justify-content:center; width:72rpx; height:72rpx; border-radius:20rpx; font-size:36rpx; }
+.platform-name { color:#111827; font-size:28rpx; font-weight:900; }
+.question-count { margin-top:5rpx; color:#94a3b8; font-size:20rpx; }
+.progress-track { height:8rpx; margin-top:22rpx; overflow:hidden; background:#e9e7e1; border-radius:999rpx; }
+.progress-fill { height:100%; border-radius:999rpx; transition:width .2s ease; }
+.question-card { padding:32rpx; background:#fff; border:2rpx solid #ece9e2; border-radius:28rpx; }
+.question-title { color:#151515; font-size:34rpx; font-weight:900; line-height:1.42; }
+.question-tip { margin-top:10rpx; color:#8a8a86; font-size:20rpx; line-height:1.55; }
+.option-list { margin-top:26rpx; }
+.option { display:flex; align-items:center; gap:18rpx; min-height:84rpx; margin-bottom:14rpx; padding:17rpx 20rpx; background:#f8f7f3; border:2rpx solid #ece9e2; border-radius:20rpx; }
+.option.active { font-weight:700; }
+.option-radio { display:flex; align-items:center; justify-content:center; flex:none; width:34rpx; height:34rpx; background:#fff; border:2rpx solid #c9c8c2; border-radius:50%; }
+.check { color:#fff; font-size:20rpx; font-weight:900; }
+.option-label { color:#343434; font-size:25rpx; line-height:1.45; }
+.avatar-dock { display:flex; align-items:center; justify-content:space-between; gap:20rpx; margin-top:20rpx; padding:24rpx 26rpx; background:#f0eee8; border-radius:26rpx; overflow:hidden; }
+.avatar-copy { flex:1; }
+.avatar-kicker { color:#202020; font-size:22rpx; font-weight:900; }
+.avatar-desc { margin-top:8rpx; color:#777773; font-size:19rpx; line-height:1.6; }
+.avatar-stage { position:relative; flex:none; width:190rpx; height:240rpx; }
+.avatar-shadow { position:absolute; left:44rpx; bottom:26rpx; width:104rpx; height:20rpx; background:rgba(0,0,0,.09); border-radius:50%; filter:blur(5rpx); }
+.avatar-body { position:absolute; left:28rpx; top:4rpx; width:136rpx; height:196rpx; animation:avatarTurn 4.8s ease-in-out infinite; transform-origin:50% 55%; }
+.avatar-head { position:absolute; left:44rpx; top:0; width:52rpx; height:52rpx; background:linear-gradient(145deg,#fff,#e4e2dc); border-radius:50%; box-shadow:0 8rpx 20rpx rgba(0,0,0,.08); }
+.avatar-torso { position:absolute; left:35rpx; top:48rpx; width:70rpx; height:92rpx; background:linear-gradient(145deg,#fff,#e1dfd8); border-radius:34rpx 34rpx 28rpx 28rpx; }
+.avatar-arm,.avatar-leg { position:absolute; background:linear-gradient(145deg,#fff,#ddd9d1); border-radius:999rpx; }
+.avatar-arm { top:58rpx; width:25rpx; height:86rpx; }
+.avatar-arm.left { left:18rpx; transform:rotate(9deg); }
+.avatar-arm.right { right:18rpx; transform:rotate(-9deg); }
+.avatar-leg { top:128rpx; width:29rpx; height:68rpx; }
+.avatar-leg.left { left:38rpx; transform:rotate(4deg); }
+.avatar-leg.right { right:38rpx; transform:rotate(-4deg); }
+.body-fragment { position:absolute; z-index:5; width:30rpx; height:24rpx; border-radius:10rpx; opacity:.88; box-shadow:0 4rpx 12rpx rgba(0,0,0,.08); }
+.fragment-count { position:absolute; left:0; right:0; bottom:0; color:#777773; font-size:17rpx; text-align:center; }
+.flying-fragment { position:fixed; z-index:999; max-width:220rpx; padding:12rpx 18rpx; color:#fff; border-radius:999rpx; font-size:20rpx; font-weight:800; box-shadow:0 10rpx 26rpx rgba(0,0,0,.18); }
+.nav-actions { display:flex; gap:16rpx; margin-top:22rpx; }
+.nav-actions button { margin:0; }
+.secondary { flex:0 0 180rpx; color:#555; background:#fff; border-radius:18rpx; font-size:23rpx; font-weight:800; }
+.secondary::after { border:2rpx solid #e2dfd7; border-radius:18rpx; }
+.next { flex:1; }
+.privacy { margin:24rpx 16rpx 4rpx; color:#989791; font-size:19rpx; line-height:1.6; text-align:center; }
+@keyframes avatarTurn { 0%,100% { transform:rotateY(-12deg) translateY(0); } 50% { transform:rotateY(12deg) translateY(-4rpx); } }
