@@ -1,49 +1,71 @@
 <view class="page" wx:if="{{twin}}">
   <view class="merge-hero">
-    <view class="merge-kicker">跨平台数字分身</view>
+    <view class="merge-kicker">你的数字投影</view>
     <view class="merge-title">{{twin.title}}</view>
     <view class="merge-summary">{{twin.summary}}</view>
-    <view class="merge-count">已合并 {{twin.completedCount}} 个平台画像</view>
+    <view class="merge-count">已解锁 {{twin.completedCount}} 个观察视角</view>
+  </view>
+
+  <view class="twin-stage">
+    <view class="twin-avatar">
+      <view class="twin-head"></view>
+      <view class="twin-body"></view>
+      <view class="twin-arm left"></view>
+      <view class="twin-arm right"></view>
+      <view class="twin-leg left"></view>
+      <view class="twin-leg right"></view>
+    </view>
+    <view wx:for="{{twin.snapshots}}" wx:key="platformId" class="view-orbit orbit-{{index}}">
+      <view class="orbit-icon">{{item.icon}}</view>
+      <view class="orbit-name">{{item.name}}</view>
+      <view class="orbit-view">{{item.viewName}}</view>
+    </view>
+    <view wx:if="{{twin.completedCount === 0}}" class="empty-projection">还没有行为碎片进入这里</view>
   </view>
 
   <view wx:if="{{!twin.enough}}" class="need-more card">
-    <view class="need-title">还差一点才看得出“跨平台”效果</view>
-    <view class="need-desc">至少完成 2 个平台。比如先做“外卖 + 短视频”，你就能看到生活消费和内容兴趣在一起时会形成什么新判断。</view>
-    <button class="primary" bindtap="goPlatforms">继续完成其他 App</button>
+    <view class="need-title">先让算法从两个不同场景看过你</view>
+    <view class="need-desc">一个视角只能形成局部投影。解锁第二个之后，才有机会看到跨场景的一致、矛盾和空白。</view>
+    <button class="primary" bindtap="goPlatforms">继续解锁观察视角</button>
   </view>
 
-  <view wx:if="{{twin.completedCount > 0}}" class="section-title">不同平台分别认识了哪一面的你</view>
+  <view wx:if="{{twin.completedCount > 0}}" class="section-title">每个平台留下的，只是局部</view>
   <view wx:for="{{twin.snapshots}}" wx:key="platformId" class="snapshot-card" data-id="{{item.platformId}}" bindtap="openPlatform">
     <view class="snapshot-icon">{{item.icon}}</view>
     <view class="snapshot-main">
-      <view class="snapshot-name">{{item.name}}</view>
-      <view class="snapshot-title">{{item.title}}</view>
+      <view class="snapshot-name">{{item.name}} · {{item.viewName}}</view>
+      <view class="snapshot-title">形成 {{item.inferenceCount}} 条概率推断</view>
       <view class="snapshot-tags">
-        <text wx:for="{{item.tags}}" wx:key="*this">{{item}} </text>
+        <text wx:for="{{item.anchors}}" wx:key="*this">「{{item}}」 </text>
       </view>
     </view>
     <view class="snapshot-arrow">›</view>
   </view>
 
-  <view wx:if="{{twin.enough}}" class="section-title">当这些画像被拼在一起</view>
-  <view wx:if="{{twin.enough}}" class="card axis-card">
-    <view wx:for="{{twin.axes}}" wx:key="id" class="axis-row">
-      <view class="axis-head">
-        <view>
-          <view class="axis-name">{{item.label}}</view>
-          <view class="axis-desc">{{item.descriptor}} · 来自 {{item.sourceCount}} 个平台信号</view>
-        </view>
-        <view class="axis-score">{{item.score}}</view>
-      </view>
-      <view class="axis-track">
-        <view class="axis-mid"></view>
-        <view class="axis-fill" style="width: {{item.score}}%;"></view>
-      </view>
+  <view wx:if="{{twin.observedAxes.length > 0}}" class="section-title">把视角放在一起之后</view>
+  <view wx:if="{{twin.observedAxes.length > 0}}" class="axis-card card">
+    <view wx:for="{{twin.observedAxes}}" wx:key="id" class="axis-row">
+      <view class="axis-name">{{item.label}}</view>
+      <view class="axis-result">{{item.descriptor}}</view>
+      <view class="axis-desc">来自 {{item.sourceCount}} 个视角：{{item.sources.join('、')}}</view>
     </view>
   </view>
 
-  <view wx:if="{{twin.overlap.length > 0}}" class="section-title">平台之间出现了重复证据</view>
-  <view wx:if="{{twin.overlap.length > 0}}" class="card overlap-card">
+  <view wx:if="{{twin.unobservedAxes.length > 0}}" class="section-title">算法仍然没有看见的部分</view>
+  <view wx:if="{{twin.unobservedAxes.length > 0}}" class="unknown-card card">
+    <view wx:for="{{twin.unobservedAxes}}" wx:key="id" class="unknown-item">
+      <view>{{item.label}}</view>
+      <view class="unknown-state">尚未充分观察</view>
+    </view>
+  </view>
+
+  <view wx:if="{{twin.contrasts.length > 0}}" class="section-title">不同场景里的你，并不总是一致</view>
+  <view wx:if="{{twin.contrasts.length > 0}}" class="contrast-card card">
+    <view wx:for="{{twin.contrasts}}" wx:key="*this" class="contrast-item">{{item}}</view>
+  </view>
+
+  <view wx:if="{{twin.overlap.length > 0}}" class="section-title">不同视角出现了相近信号</view>
+  <view wx:if="{{twin.overlap.length > 0}}" class="overlap-card card">
     <view wx:for="{{twin.overlap}}" wx:key="*this" class="overlap-item">
       <view class="overlap-dot"></view>
       <view>{{item}}</view>
@@ -51,15 +73,15 @@
   </view>
 
   <view wx:if="{{twin.enough}}" class="insight-card">
-    <view class="insight-kicker">这才是最值得注意的地方</view>
-    <view class="insight-title">单个平台只看到你的一部分，合并以后却可能迅速逼近你的生活方式。</view>
-    <view class="insight-desc">外卖平台可能知道你的餐饮预算，短视频平台知道你对什么停留，旅游平台知道消费区间，电商平台知道决策方式。每一块都不完整，但拼起来会越来越像一个“数字分身”。</view>
+    <view class="insight-kicker">最重要的不是“猜中了多少”</view>
+    <view class="insight-title">它们看到的都可能是真实行为，但没有任何一个平台看到完整的你。</view>
+    <view class="insight-desc">互联网看不见你的想法，只能从一次次选择、停留、比较和表达中做概率推断。数字分身永远应该保留空白。</view>
   </view>
 
   <view class="actions">
-    <button class="primary" bindtap="goPlatforms">{{twin.completedCount === 0 ? '开始建立平台画像' : '继续补充其他 App'}}</button>
-    <button wx:if="{{twin.completedCount > 0}}" class="secondary" bindtap="resetAll">清空本机画像</button>
+    <button class="primary" bindtap="goPlatforms">{{twin.completedCount === 0 ? '选择第一个观察视角' : '继续补充其他视角'}}</button>
+    <button wx:if="{{twin.completedCount > 0}}" class="secondary" bindtap="resetAll">清空本机投影</button>
   </view>
 
-  <view class="disclaimer">本页面只合并你主动填写的模拟数据，不代表真实平台之间存在数据共享。</view>
+  <view class="disclaimer">本工具仅为行为模拟推演，不是人格判定或心理评估；所有推断都可能存在误判。</view>
 </view>
