@@ -1,32 +1,24 @@
 <view class="page">
   <view class="hero">
     <view class="eyebrow">ALGORITHM PROFILE</view>
-    <view class="h1">同一个你，在美团、抖音、小红书和淘宝眼里，可能完全不一样。</view>
-    <view class="intro">从“今天点什么外卖”“抖音给你刷什么”“小红书给你种什么草”“淘宝猜你会买什么”这些普通小事出发，看看算法可能怎样一点点拼出你的数字画像。</view>
+    <view class="h1">算法真的比星座 / MBTI 更懂你吗？</view>
+    <view class="intro">星座从生日猜，MBTI 从自我描述分类；互联网算法只能看见你留下的行为痕迹，再一点点做概率推断。它可能越来越像你，也可能一直误解你。</view>
 
     <view class="app-strip">
-      <view class="app-pill"><text>🥡</text> 美团</view>
-      <view class="app-pill"><text>🎵</text> 抖音</view>
-      <view class="app-pill"><text>📕</text> 小红书</view>
-      <view class="app-pill"><text>🛒</text> 淘宝</view>
+      <view class="app-pill"><text>🥡</text> 美团 · 生活消费</view>
+      <view class="app-pill"><text>🎵</text> 抖音 · 内容注意力</view>
+      <view class="app-pill"><text>📕</text> 小红书 · 生活决策</view>
     </view>
 
-    <button class="primary start" bindtap="start">看看四个 App 眼中的我</button>
+    <button class="primary start" bindtap="start">开始留下第一块行为碎片</button>
   </view>
 
   <view class="story-card">
-    <view class="story-kicker">它们分别认识你的哪一面？</view>
-    <view class="story-row"><view class="story-num">01</view><view><view class="story-title">回答真实生活问题</view><view class="story-desc">比如美团一顿花多少、抖音刷到什么、小红书会不会先搜攻略、淘宝会不会等大促。</view></view></view>
-    <view class="story-row"><view class="story-num">02</view><view><view class="story-title">生成四套不同画像</view><view class="story-desc">美团可能觉得你优惠敏感，抖音可能觉得你深度观看，小红书觉得你爱做攻略，淘宝却觉得你决策谨慎。</view></view></view>
-    <view class="story-row"><view class="story-num">03</view><view><view class="story-title">把碎片拼成数字分身</view><view class="story-desc">每个平台只看到一部分；当这些生活信号被放在一起，一个更完整的“你”就开始出现。</view></view></view>
+    <view class="story-kicker">这个小程序不会告诉你“你是哪一类人”</view>
+    <view class="story-row"><view class="story-num">01</view><view><view class="story-title">每个平台只观察一个侧面</view><view class="story-desc">美团看消费选择，抖音看注意力，小红书看攻略、收藏与行动。看不到的部分保持空白。</view></view></view>
+    <view class="story-row"><view class="story-num">02</view><view><view class="story-title">每次选择都会变成一块彩色痕迹</view><view class="story-desc">这些碎片逐渐进入数字分身，但单个答案不会直接变成人格标签。</view></view></view>
+    <view class="story-row"><view class="story-num">03</view><view><view class="story-title">算法开始猜，你可以当场反驳</view><view class="story-desc">只有多条证据指向同一方向才生成概率推断。猜错时，你可以直接告诉它“完全不是”。</view></view></view>
   </view>
 
-  <view class="advanced" bindtap="goAdvanced">
-    <view class="advanced-kicker">高级模式</view>
-    <view class="advanced-title">想直接看“一个线索怎样扩散成十几个标签”？</view>
-    <view class="advanced-desc">进入算法图谱实验室，体验推断链、纠错、推荐与优惠仿真。</view>
-    <view class="advanced-link">进入高级实验室 →</view>
-  </view>
-
-  <view class="notice">本项目不会读取或登录美团、抖音、小红书或淘宝账号。所有画像都来自你主动填写的本地模拟数据，不代表这些平台的真实内部算法，也不暗示平台之间实际共享数据。</view>
+  <view class="notice">互联网只能看见你的行为痕迹，无法读懂你的想法。这里展示的，是碎片拼成的算法投影，不是人格判定，也不是任何平台的真实后台画像。</view>
 </view>
