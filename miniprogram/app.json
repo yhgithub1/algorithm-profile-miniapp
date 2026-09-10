@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/first-observation/first-observation",
+    "pages/first-result/first-result",
     "pages/platforms/platforms",
     "pages/screenshot/screenshot",
     "pages/survey/survey",
@@ -14,9 +16,9 @@
   ],
   "window": {
     "navigationBarTitleText": "算法侧写",
-    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarBackgroundColor": "#f5f2ec",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#f6f7fb"
+    "backgroundColor": "#f5f2ec"
   },
   "style": "v2"
 }
