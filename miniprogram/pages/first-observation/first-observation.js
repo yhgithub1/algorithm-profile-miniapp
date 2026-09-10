@@ -33,6 +33,7 @@ Page({
         questions,
         currentIndex: safeIndex,
         currentQuestion: questions[safeIndex],
+        selectedValue: answers[questions[safeIndex].id] || '',
         fragments: draft.fragments || [],
         phaseText: safeIndex >= baseQuestions.length ? '算法还想看清两个模糊的地方' : '先从几个很普通的选择开始'
       })
@@ -44,7 +45,9 @@ Page({
     const value = e.currentTarget.dataset.value
     const question = this.data.currentQuestion
     const answers = { ...this.data.answers, [question.id]: value }
-    const fragments = this.data.fragments.concat(this.makeFragment(question.platform))
+    const fragments = this.data.fragments
+      .filter(item => item.questionId !== question.id)
+      .concat(this.makeFragment(question.platform, question.id))
 
     this.setData({
       answers,
@@ -59,17 +62,18 @@ Page({
       fragments
     })
 
-    setTimeout(() => this.advance(answers, fragments), 360)
+    setTimeout(() => this.advance(answers, fragments), 380)
   },
 
-  makeFragment(platformId) {
+  makeFragment(platformId, questionId) {
     const meta = platformMeta[platformId] || platformMeta.douyin
     const left = 26 + Math.round(Math.random() * 48)
     const top = 24 + Math.round(Math.random() * 54)
     const size = 18 + Math.round(Math.random() * 18)
     const rotate = Math.round(Math.random() * 120 - 60)
     return {
-      id: `${Date.now()}-${Math.round(Math.random() * 99999)}`,
+      id: `${questionId}-${Date.now()}-${Math.round(Math.random() * 99999)}`,
+      questionId,
       color: meta.color,
       style: `left:${left}%;top:${top}%;width:${size}rpx;height:${Math.round(size * 0.72)}rpx;transform:rotate(${rotate}deg);background:${meta.color};`
     }
