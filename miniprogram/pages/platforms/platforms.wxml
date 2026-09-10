@@ -1,20 +1,20 @@
 <view class="page">
   <view class="hero-card">
-    <view class="eyebrow">算法的观察窗口</view>
-    <view class="title">没有一个平台看得到完整的你。</view>
-    <view class="desc">每个平台只能从自己的场景里看到一部分行为痕迹。多完成一个视角，数字分身就多出现一块彩色投影。</view>
+    <view class="eyebrow">继续深入 · 可选</view>
+    <view class="title">第一次投影之后，你想让算法再看清哪一面？</view>
+    <view class="desc">不用把三个平台都做完。挑一个你最好奇的场景，再补几条更具体的行为痕迹即可。</view>
   </view>
 
   <view class="merge-card" bindtap="goMerge">
     <view>
-      <view class="merge-kicker">数字分身</view>
-      <view class="merge-title">已解锁 {{completedCount}} / {{platforms.length}} 个观察视角</view>
-      <view class="merge-desc">不是完成度，也不是人格测试。这里只表示算法从多少种生活场景观察过你。</view>
+      <view class="merge-kicker">更深的数字投影</view>
+      <view class="merge-title">已深入 {{completedCount}} / {{platforms.length}} 个观察视角</view>
+      <view class="merge-desc">这里不是完成度。你随时可以停下；算法看不到的部分继续保持空白。</view>
     </view>
     <view class="merge-arrow">→</view>
   </view>
 
-  <view class="section-title">选择一个算法观察你的窗口</view>
+  <view class="section-title">挑一个你最想放大的窗口</view>
 
   <view wx:for="{{platforms}}" wx:key="id" class="platform-card" data-id="{{item.id}}" bindtap="openPlatform">
     <view class="platform-top">
@@ -25,7 +25,7 @@
             <view class="platform-name">{{item.name}}</view>
             <view class="view-name">{{item.viewName}}</view>
           </view>
-          <view wx:if="{{item.completed}}" class="done-badge">已观察</view>
+          <view wx:if="{{item.completed}}" class="done-badge">已深入</view>
         </view>
         <view class="platform-subtitle">{{item.subtitle}}</view>
         <view class="observe-chips">
@@ -38,8 +38,8 @@
   </view>
 
   <view class="merge-explain">
-    <view class="merge-explain-title">规则只有一条：看不到的，就不猜。</view>
-    <view class="merge-explain-text">一个答案不会直接变成一个“人格标签”。只有多条行为痕迹指向同一方向时，系统才会生成推断；证据不足的部分会保留为空白。</view>
+    <view class="merge-explain-title">不用追求“测完”。</view>
+    <view class="merge-explain-text">成熟的算法画像本来就不是一次完成的。你愿意多留下一个场景，它就多看到一块；没有证据的地方，继续保持未知。</view>
   </view>
 
   <view class="privacy-note">本项目模拟平台如何从外在行为痕迹做概率推演，不读取真实平台后台标签，不代表任何平台的真实用户画像。</view>
