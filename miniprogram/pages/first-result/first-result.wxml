@@ -1,0 +1,90 @@
+<view class="result-page" wx:if="{{result}}">
+  <view class="result-head">
+    <view class="eyebrow">FIRST PROJECTION</view>
+    <view class="result-title">我们只看了 {{result.questionCount}} 个日常选择。</view>
+    <view class="result-subtitle">但算法已经开始猜了。</view>
+    <view class="result-desc">{{result.summary}}</view>
+  </view>
+
+  <view class="projection-stage">
+    <view class="ray ray-a"></view>
+    <view class="ray ray-b"></view>
+    <view class="ray ray-c"></view>
+
+    <view class="lens lens-a">
+      <view class="lens-icon">{{result.platforms[0].icon}}</view>
+      <view class="lens-name">{{result.platforms[0].name}}</view>
+      <view class="lens-view">{{result.platforms[0].viewName}}</view>
+    </view>
+    <view class="lens lens-b">
+      <view class="lens-icon">{{result.platforms[1].icon}}</view>
+      <view class="lens-name">{{result.platforms[1].name}}</view>
+      <view class="lens-view">{{result.platforms[1].viewName}}</view>
+    </view>
+    <view class="lens lens-c">
+      <view class="lens-icon">{{result.platforms[2].icon}}</view>
+      <view class="lens-name">{{result.platforms[2].name}}</view>
+      <view class="lens-view">{{result.platforms[2].viewName}}</view>
+    </view>
+
+    <view class="projection-person">
+      <view class="wash wash-one" style="{{result.coverageStyle}}"></view>
+      <view class="wash wash-two" style="{{result.coverageStyle}}"></view>
+      <view class="wash wash-three" style="{{result.coverageStyle}}"></view>
+      <view class="person-head"></view>
+      <view class="person-neck"></view>
+      <view class="person-body"></view>
+      <view class="person-arm left"></view>
+      <view class="person-arm right"></view>
+      <view class="person-leg left"></view>
+      <view class="person-leg right"></view>
+    </view>
+  </view>
+
+  <view class="projection-note">同一个人，被三个观察窗口看成了三个不同的局部。</view>
+
+  <view class="section-kicker">它们分别看见了什么</view>
+
+  <view wx:for="{{result.platforms}}" wx:key="id" class="platform-card">
+    <view class="platform-head">
+      <view class="platform-icon" style="background:{{item.soft}};color:{{item.color}};">{{item.icon}}</view>
+      <view class="platform-meta">
+        <view class="platform-name">{{item.name}}</view>
+        <view class="platform-view">{{item.viewName}} · 已留下 {{item.observedCount}} 条痕迹</view>
+      </view>
+    </view>
+
+    <view wx:for="{{item.inferences}}" wx:for-item="inference" wx:key="axisId" class="inference-card">
+      <view class="confidence">{{inference.confidence}} · {{inference.axisLabel}}</view>
+      <view class="trace">【{{inference.traceText}}】</view>
+      <view class="inference">→ 算法推断：{{inference.inference}}</view>
+
+      <view class="feedback-title">这条像你吗？</view>
+      <view class="feedback-row">
+        <view class="feedback-btn {{inference.selectedFeedback === 'right' ? 'active' : ''}}" data-key="{{inference.feedbackKey}}" data-value="right" bindtap="feedbackInference">比较像我</view>
+        <view class="feedback-btn {{inference.selectedFeedback === 'unsure' ? 'active' : ''}}" data-key="{{inference.feedbackKey}}" data-value="unsure" bindtap="feedbackInference">不确定</view>
+        <view class="feedback-btn {{inference.selectedFeedback === 'wrong' ? 'wrong' : ''}}" data-key="{{inference.feedbackKey}}" data-value="wrong" bindtap="feedbackInference">看错了</view>
+      </view>
+      <view wx:if="{{inference.feedbackNote}}" class="feedback-note">{{inference.feedbackNote}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{result.unknownAxes.length > 0}}" class="unknown-card">
+    <view class="unknown-kicker">算法还看不清的地方</view>
+    <view class="unknown-title">{{result.unknownText}}</view>
+    <view class="unknown-desc">这些行为侧面目前证据不足，所以保持空白，而不是用默认值补满。</view>
+  </view>
+
+  <view class="truth-card">
+    <view class="truth-small">这才是整个体验最重要的部分</view>
+    <view class="truth-title">它看到的可能是真实行为，但它不知道你为什么这样做。</view>
+    <view class="truth-desc">互联网看不见你的想法，只能从选择、停留、比较和表达中做概率推断。它可以猜得越来越像，也可以一直理解错。</view>
+  </view>
+
+  <view class="actions">
+    <button class="primary" bindtap="deepen">继续让算法从某个场景深入看我</button>
+    <button class="secondary" bindtap="restart">重新观察一次</button>
+  </view>
+
+  <view class="disclaimer">本工具仅为行为模拟推演，不读取第三方平台账号，不代表任何平台真实后台画像，也不是人格或心理评估。</view>
+</view>
