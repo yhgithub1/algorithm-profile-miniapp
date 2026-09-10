@@ -47,7 +47,7 @@
     <view wx:for="{{twin.observedAxes}}" wx:key="id" class="axis-row">
       <view class="axis-name">{{item.label}}</view>
       <view class="axis-result">{{item.descriptor}}</view>
-      <view class="axis-desc">来自 {{item.sourceCount}} 个视角：{{item.sources.join('、')}}</view>
+      <view class="axis-desc">来自 {{item.sourceCount}} 个视角：{{item.sourceText}}</view>
     </view>
   </view>
 
