@@ -1,3 +1,5 @@
+const { buildFirstResult, restoreQuestions } = require('../../utils/first-observation')
+
 Page({
   data: {
     result: null,
@@ -5,12 +7,22 @@ Page({
   },
 
   onLoad() {
-    const result = wx.getStorageSync('algorithmFirstProjection') || getApp().globalData.firstProjection
+    let result = wx.getStorageSync('algorithmFirstProjection') || getApp().globalData.firstProjection
     if (!result) {
       wx.showToast({ title: '先留下几条行为痕迹', icon: 'none' })
       setTimeout(() => wx.redirectTo({ url: '/pages/first-observation/first-observation' }), 500)
       return
     }
+
+    if (!result.discoveries && result.questionIds && result.answers) {
+      const questions = restoreQuestions(result.questionIds)
+      if (questions.length) {
+        result = buildFirstResult(questions, result.answers)
+        wx.setStorageSync('algorithmFirstProjection', result)
+        getApp().globalData.firstProjection = result
+      }
+    }
+
     const feedback = wx.getStorageSync('algorithmFirstProjectionFeedback') || {}
     this.setData({ result: this.decorate(result, feedback), feedback })
   },
@@ -40,6 +52,15 @@ Page({
       ...result,
       discoveries,
       platforms,
+      blindSpot: result.blindSpot || {
+        kicker: '算法最可能误解你的地方',
+        title: '行为相同，也可能来自完全不同的原因',
+        body: '算法只能看到你做了什么，无法直接知道你为什么这样做。'
+      },
+      consequence: result.consequence || {
+        title: '算法不只是在观察，也可能继续放大已有行为',
+        steps: ['行为痕迹', '形成假设', '调整推荐', '产生新的行为痕迹']
+      },
       unknownText: (result.unknownAxes || []).map(item => item.label).join(' · '),
       coverageStyle: `opacity:${Math.min(0.78, 0.22 + (result.colorCoverage || 30) / 130)};`
     }
