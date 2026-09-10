@@ -1,86 +1,90 @@
-const { globalAxes } = require('../data/platforms')
+const { observationAxes } = require('../data/observation-platforms')
 
-function average(values) {
-  if (!values.length) return 50
-  return Math.round(values.reduce((sum, item) => sum + item, 0) / values.length)
-}
+function describeAxis(id, values) {
+  const meta = observationAxes[id]
+  if (!values.length) return { observed: false, descriptor: '尚未充分观察', raw: null, mixed: false }
 
-function descriptor(id, score) {
-  const labels = {
-    price: ['便利优先', '精细比价'],
-    exploration: ['熟悉优先', '主动探索'],
-    planning: ['随性决定', '提前规划'],
-    depth: ['快速消费', '持续深挖'],
-    social: ['私人消费', '表达分享'],
-    nostalgia: ['偏重新内容', '经典共鸣'],
-    convenience: ['过程体验', '效率便利']
+  const positive = values.filter(value => value >= 0.25).length
+  const negative = values.filter(value => value <= -0.25).length
+  const mixed = positive > 0 && negative > 0
+  const raw = values.reduce((sum, value) => sum + value, 0) / values.length
+
+  if (mixed) {
+    return { observed: true, descriptor: '不同场景表现不一致', raw: Number(raw.toFixed(3)), mixed: true }
   }
-  const pair = labels[id] || ['低', '高']
-  if (score >= 62) return pair[1]
-  if (score <= 38) return pair[0]
-  return '中间型'
-}
-
-function buildTwinTitle(axisMap) {
-  if (axisMap.price >= 63 && axisMap.planning >= 60) return '理性规划型数字分身'
-  if (axisMap.exploration >= 63 && axisMap.depth >= 60) return '深度探索型数字分身'
-  if (axisMap.convenience >= 63 && axisMap.price >= 58) return '高效务实型数字分身'
-  if (axisMap.nostalgia >= 63 && axisMap.depth >= 58) return '经典深潜型数字分身'
-  if (axisMap.social >= 63 && axisMap.exploration >= 56) return '外向发现型数字分身'
-  if (axisMap.depth >= 65) return '深度研究型数字分身'
-  return '多面生活型数字分身'
+  if (Math.abs(raw) < 0.18) {
+    return { observed: true, descriptor: '暂无明显行为倾向', raw: Number(raw.toFixed(3)), mixed: false }
+  }
+  return {
+    observed: true,
+    descriptor: raw > 0 ? meta.high : meta.low,
+    raw: Number(raw.toFixed(3)),
+    mixed: false
+  }
 }
 
 function buildCrossPlatform(profiles) {
-  const valid = (profiles || []).filter(Boolean)
-  const axisMap = {}
-  const axes = Object.keys(globalAxes).map(id => {
-    const values = valid
-      .map(profile => profile.globalSignals && profile.globalSignals[id])
-      .filter(value => typeof value === 'number' && value !== 50)
-    const score = average(values)
-    axisMap[id] = score
+  const valid = (profiles || []).filter(profile => profile && profile.axes && profile.platform)
+  const axes = Object.keys(observationAxes).map(id => {
+    const contributors = valid
+      .map(profile => {
+        const axis = profile.axes.find(item => item.id === id && item.observed)
+        return axis && typeof axis.raw === 'number' ? { platform: profile.platform.shortName, value: axis.raw } : null
+      })
+      .filter(Boolean)
+    const info = describeAxis(id, contributors.map(item => item.value))
     return {
       id,
-      label: globalAxes[id],
-      score,
-      descriptor: descriptor(id, score),
-      sourceCount: values.length
+      label: observationAxes[id].label,
+      sourceCount: contributors.length,
+      sources: contributors.map(item => item.platform),
+      ...info
     }
   })
 
-  const strongest = [...axes]
-    .filter(item => item.sourceCount > 0)
-    .sort((a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50))
-    .slice(0, 3)
+  const observedAxes = axes.filter(item => item.observed)
+  const unobservedAxes = axes.filter(item => !item.observed)
+  const contrasts = axes
+    .filter(item => item.mixed)
+    .map(item => `${item.label}在不同生活场景里出现了相反信号，算法暂时不应该把它归结成单一倾向。`)
 
-  const title = buildTwinTitle(axisMap)
-  const platformNames = valid.map(item => item.platform.shortName).join('、')
-  const summary = valid.length && strongest.length
-    ? `把${platformNames}这些原本分散的行为放在一起后，一个更完整的“数字分身”开始出现：${strongest.map(item => `${item.label}更偏向“${item.descriptor}”`).join('，')}。`
-    : (valid.length ? `已经收集了${platformNames}的画像，但跨平台共同信号还不够明显。` : '至少完成一个平台画像后，才能开始拼出跨平台数字分身。')
+  const overlap = axes
+    .filter(item => item.sourceCount >= 2 && !item.mixed && item.observed && item.raw !== null && Math.abs(item.raw) >= 0.22)
+    .map(item => `${item.label}在 ${item.sources.join('、')} 中出现了相近方向的行为痕迹，但这仍只是跨场景的一致性，不代表事实。`)
 
   const snapshots = valid.map(profile => ({
     platformId: profile.platformId,
     icon: profile.platform.icon,
     name: profile.platform.name,
-    title: profile.title,
-    tags: profile.tags.slice(0, 3)
+    viewName: profile.viewName || profile.platform.viewName,
+    anchors: (profile.memoryAnchors || []).slice(0, 2),
+    inferenceCount: (profile.inferences || []).length
   }))
 
-  const overlap = []
-  axes.forEach(axis => {
-    if (axis.sourceCount < 2 || Math.abs(axis.score - 50) < 8) return
-    overlap.push(`${axis.label}在多个平台中出现一致信号，合并后会显得比单一平台判断更稳定。`)
-  })
+  const memoryAnchors = valid
+    .reduce((list, profile) => list.concat(profile.memoryAnchors || []), [])
+    .filter((item, index, list) => list.indexOf(item) === index)
+    .slice(0, 2)
+
+  const title = valid.length
+    ? `算法目前从 ${valid.length} 个生活视角看过你`
+    : '你的数字投影还是空白的'
+
+  const summary = valid.length
+    ? `这些视角一共留下了 ${snapshots.reduce((sum, item) => sum + item.inferenceCount, 0)} 条概率推断。它们只是不同平台从外在行为看到的局部投影，不是对“你是谁”的定义。`
+    : '先选择一个平台场景。每多一个视角，数字分身才会多一块可解释的行为投影。'
 
   return {
     completedCount: valid.length,
     title,
     summary,
     axes,
+    observedAxes,
+    unobservedAxes,
     snapshots,
     overlap: overlap.slice(0, 4),
+    contrasts: contrasts.slice(0, 4),
+    memoryAnchors,
     enough: valid.length >= 2
   }
 }
