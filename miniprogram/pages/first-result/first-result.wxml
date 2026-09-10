@@ -1,8 +1,8 @@
 <view class="result-page" wx:if="{{result}}">
   <view class="result-head">
-    <view class="eyebrow">FIRST PROJECTION</view>
-    <view class="result-title">我们只看了 {{result.questionCount}} 个日常选择。</view>
-    <view class="result-subtitle">但算法已经开始猜了。</view>
+    <view class="eyebrow">BEHAVIOR DISCOVERY</view>
+    <view class="result-title">你刚才告诉我的，是一些普通选择。</view>
+    <view class="result-subtitle">真正有意思的是，它们放在一起以后。</view>
     <view class="result-desc">{{result.summary}}</view>
   </view>
 
@@ -41,49 +41,87 @@
     </view>
   </view>
 
-  <view class="projection-note">同一个人，被三个观察窗口看成了三个不同的局部。</view>
+  <view class="projection-note">同一个人，在不同场景里可能会采用完全不同的策略。</view>
 
-  <view class="section-kicker">它们分别看见了什么</view>
+  <view class="discovery-intro">
+    <view class="discovery-kicker">NOT A SCORE</view>
+    <view class="discovery-heading">我发现了 {{result.discoveries.length}} 个你可能没主动总结过的行为模式</view>
+    <view class="discovery-desc">它们不是“你是什么人”，而是多个场景放在一起后出现的结构。你可以直接反驳。</view>
+  </view>
 
-  <view wx:for="{{result.platforms}}" wx:key="id" class="platform-card">
-    <view class="platform-head">
-      <view class="platform-icon" style="background:{{item.soft}};color:{{item.color}};">{{item.icon}}</view>
-      <view class="platform-meta">
-        <view class="platform-name">{{item.name}}</view>
-        <view class="platform-view">{{item.viewName}} · 已留下 {{item.observedCount}} 条痕迹</view>
+  <view wx:for="{{result.discoveries}}" wx:key="id" class="discovery-card">
+    <view class="discovery-number">{{item.number}}</view>
+    <view class="discovery-title">{{item.title}}</view>
+    <view class="discovery-lead">{{item.lead}}</view>
+
+    <view class="evidence-label">这条发现来自</view>
+    <view class="evidence-list">
+      <view wx:for="{{item.evidence}}" wx:for-item="evidence" wx:key="trace" class="evidence-chip">
+        <text class="evidence-platform">{{evidence.platformName}}</text>
+        <text> {{evidence.trace}}</text>
       </view>
     </view>
 
-    <view wx:for="{{item.inferences}}" wx:for-item="inference" wx:key="axisId" class="inference-card">
-      <view class="confidence">{{inference.confidence}} · {{inference.axisLabel}}</view>
-      <view class="trace">【{{inference.traceText}}】</view>
-      <view class="inference">→ 算法推断：{{inference.inference}}</view>
+    <view class="discovery-explain">{{item.explanation}}</view>
 
-      <view class="feedback-title">这条像你吗？</view>
-      <view class="feedback-row">
-        <view class="feedback-btn {{inference.selectedFeedback === 'right' ? 'active' : ''}}" data-key="{{inference.feedbackKey}}" data-value="right" bindtap="feedbackInference">比较像我</view>
-        <view class="feedback-btn {{inference.selectedFeedback === 'unsure' ? 'active' : ''}}" data-key="{{inference.feedbackKey}}" data-value="unsure" bindtap="feedbackInference">不确定</view>
-        <view class="feedback-btn {{inference.selectedFeedback === 'wrong' ? 'wrong' : ''}}" data-key="{{inference.feedbackKey}}" data-value="wrong" bindtap="feedbackInference">看错了</view>
+    <view class="feedback-title">这个模式像你吗？</view>
+    <view class="feedback-row">
+      <view class="feedback-btn {{item.selectedFeedback === 'right' ? 'active' : ''}}" data-key="{{item.feedbackKey}}" data-value="right" bindtap="feedbackDiscovery">比较像我</view>
+      <view class="feedback-btn {{item.selectedFeedback === 'unsure' ? 'uncertain' : ''}}" data-key="{{item.feedbackKey}}" data-value="unsure" bindtap="feedbackDiscovery">不确定</view>
+      <view class="feedback-btn {{item.selectedFeedback === 'wrong' ? 'wrong' : ''}}" data-key="{{item.feedbackKey}}" data-value="wrong" bindtap="feedbackDiscovery">看错了</view>
+    </view>
+    <view wx:if="{{item.feedbackNote}}" class="feedback-note">{{item.feedbackNote}}</view>
+  </view>
+
+  <view class="blind-card">
+    <view class="blind-kicker">{{result.blindSpot.kicker}}</view>
+    <view class="blind-title">{{result.blindSpot.title}}</view>
+    <view class="blind-body">{{result.blindSpot.body}}</view>
+  </view>
+
+  <view class="consequence-card">
+    <view class="consequence-kicker">FEEDBACK LOOP</view>
+    <view class="consequence-title">{{result.consequence.title}}</view>
+    <view class="consequence-desc">这不是说平台一定会这样做，而是展示一种常见的推荐反馈回路：行为会影响下一轮看到的东西，下一轮内容又会继续影响行为。</view>
+    <view class="chain">
+      <view wx:for="{{result.consequence.steps}}" wx:key="*this" class="chain-row">
+        <view class="chain-dot">{{index + 1}}</view>
+        <view class="chain-text">{{item}}</view>
+        <view wx:if="{{index < result.consequence.steps.length - 1}}" class="chain-arrow">↓</view>
       </view>
-      <view wx:if="{{inference.feedbackNote}}" class="feedback-note">{{inference.feedbackNote}}</view>
+    </view>
+  </view>
+
+  <view class="section-kicker">三个平台其实只看到了三个局部</view>
+  <view class="platform-strip">
+    <view wx:for="{{result.platforms}}" wx:key="id" class="platform-mini">
+      <view class="platform-mini-head">
+        <view class="platform-icon" style="background:{{item.soft}};color:{{item.color}};">{{item.icon}}</view>
+        <view>
+          <view class="platform-name">{{item.name}}</view>
+          <view class="platform-view">{{item.viewName}}</view>
+        </view>
+      </view>
+      <view class="platform-trace">{{item.tracePreview || '这次没有留下足够痕迹'}}</view>
+      <view class="platform-foot">它只能从这些行为往下猜，无法知道你的真实动机。</view>
     </view>
   </view>
 
   <view wx:if="{{result.unknownAxes.length > 0}}" class="unknown-card">
     <view class="unknown-kicker">算法还看不清的地方</view>
     <view class="unknown-title">{{result.unknownText}}</view>
-    <view class="unknown-desc">这些行为侧面目前证据不足，所以保持空白，而不是用默认值补满。</view>
+    <view class="unknown-desc">这些行为侧面目前证据不足，所以保持空白，而不是为了“画像完整”硬给一个结论。</view>
   </view>
 
   <view class="truth-card">
-    <view class="truth-small">这才是整个体验最重要的部分</view>
-    <view class="truth-title">它看到的可能是真实行为，但它不知道你为什么这样做。</view>
-    <view class="truth-desc">互联网看不见你的想法，只能从选择、停留、比较和表达中做概率推断。它可以猜得越来越像，也可以一直理解错。</view>
+    <view class="truth-small">这次体验真正想说的是</view>
+    <view class="truth-title">平台看到的是行为，不是你本人。</view>
+    <view class="truth-desc">算法擅长从重复痕迹里找规律，但“规律”不等于“原因”。同一种行为可以来自完全不同的动机，这也是算法最容易自信地看错人的地方。</view>
   </view>
 
   <view class="actions">
-    <button class="primary" bindtap="deepen">继续让算法从某个场景深入看我</button>
-    <button class="secondary" bindtap="restart">重新观察一次</button>
+    <button class="primary" bindtap="deepen">看看某个场景还能继续发现什么</button>
+    <button class="secondary" bindtap="restart">换一组选择重新观察</button>
   </view>
 
   <view class="disclaimer">本工具仅为行为模拟推演，不读取第三方平台账号，不代表任何平台真实后台画像，也不是人格或心理评估。</view>
