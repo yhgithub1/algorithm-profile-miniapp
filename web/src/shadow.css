@@ -1,0 +1,175 @@
+/* Abstract digital projection: no human anatomy, no mascot feeling. */
+
+.projection-shell {
+  position: relative;
+  width: 320px;
+  height: 430px;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  transition: transform .7s cubic-bezier(.2,.72,.18,1), filter .7s ease, opacity .7s ease;
+}
+
+.projection-shell.large { transform: scale(1.06); }
+.projection-shell.medium { transform: scale(.82); }
+
+.projection-field {
+  position: absolute;
+  inset: 12% 8% 8%;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 48% 42%, rgba(255,255,255,.82), rgba(255,255,255,.10) 46%, transparent 72%),
+    radial-gradient(circle at 58% 62%, rgba(90,83,76,.07), transparent 58%);
+  filter: blur(28px);
+  opacity: .85;
+}
+
+.projection-svg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 28px 42px rgba(75,68,62,.08));
+}
+
+.shadow-contour {
+  fill: url(#projectionFill);
+  stroke: rgba(90,83,76,.15);
+  stroke-width: 1.1;
+}
+
+.shadow-inner {
+  fill: none;
+  stroke: rgba(94,87,80,.11);
+  stroke-width: 1;
+  stroke-dasharray: 2 7;
+  opacity: .72;
+}
+
+.shadow-scan {
+  stroke: rgba(77,70,64,.07);
+  stroke-width: 1;
+}
+
+.shadow-stroke {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  opacity: .58;
+  filter: blur(.25px);
+}
+
+.shadow-stroke.newest {
+  animation: shadowTraceSet .9s cubic-bezier(.2,.72,.18,1) both;
+}
+
+.shadow-node {
+  opacity: .55;
+}
+
+.projection-index {
+  position: absolute;
+  right: 5%;
+  bottom: 4%;
+  z-index: 5;
+  color: #9d958d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.projection-index b {
+  color: #4b4641;
+  font-size: 20px;
+  letter-spacing: -.02em;
+}
+
+.projection-shell .absorb-wave {
+  left: 51%;
+  top: 49%;
+}
+
+.projection-shell.absorbing .absorb-wave {
+  animation: absorbWave .52s cubic-bezier(.2,.72,.18,1) forwards;
+}
+
+.projection-shell.absorbing .projection-svg {
+  filter: drop-shadow(0 24px 36px rgba(75,68,62,.07)) brightness(1.025);
+}
+
+.projection-shell.resolve-in {
+  animation: shadowResolve 1.05s cubic-bezier(.18,.78,.14,1) both;
+}
+
+@keyframes shadowTraceSet {
+  0% { opacity: 0; stroke-width: 2; filter: blur(8px); }
+  45% { opacity: .82; stroke-width: 15; filter: blur(2px); }
+  100% { opacity: .58; stroke-width: 12; filter: blur(.25px); }
+}
+
+@keyframes shadowResolve {
+  0% {
+    opacity: .08;
+    filter: blur(18px);
+    transform: scale(.94);
+  }
+  55% {
+    opacity: .78;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+/* The surrounding evidence network now connects to a projection, not a body. */
+.trace-network {
+  width: min(102%, 470px) !important;
+  opacity: .9;
+}
+
+.network-path {
+  stroke: rgba(87,80,73,.16) !important;
+}
+
+.network-node {
+  fill: rgba(70,64,59,.34) !important;
+}
+
+/* Less 'panel demo', more open canvas. */
+.compact-live {
+  background: rgba(255,255,255,.18) !important;
+  border-color: rgba(100,92,84,.08) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.28);
+}
+
+.live-stage,
+.hero-visual,
+.reveal-person,
+.result-person {
+  min-height: 430px;
+}
+
+.compact-label,
+.compact-signal {
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 800px) {
+  .projection-shell {
+    width: 250px;
+    height: 340px;
+  }
+
+  .projection-shell.large { transform: scale(.96); }
+  .projection-shell.medium { transform: scale(.78); }
+
+  .live-stage,
+  .hero-visual,
+  .reveal-person,
+  .result-person {
+    min-height: 350px;
+  }
+}
