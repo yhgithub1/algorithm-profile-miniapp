@@ -64,9 +64,7 @@
   animation: shadowTraceSet .9s cubic-bezier(.2,.72,.18,1) both;
 }
 
-.shadow-node {
-  opacity: .55;
-}
+.shadow-node { opacity: .55; }
 
 .projection-index {
   position: absolute;
@@ -109,19 +107,20 @@
 }
 
 @keyframes shadowResolve {
-  0% {
-    opacity: .08;
-    filter: blur(18px);
-    transform: scale(.94);
-  }
-  55% {
-    opacity: .78;
-  }
-  100% {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
-  }
+  0% { opacity: .08; filter: blur(18px); }
+  55% { opacity: .78; }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+/* Evidence enters as a short data streak instead of a flying dot. */
+.motion-trace {
+  width: 34px !important;
+  height: 2px !important;
+  margin: -1px 0 0 -17px !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  background: linear-gradient(90deg, transparent, var(--trace-color) 45%, transparent) !important;
+  opacity: .9;
 }
 
 /* The surrounding evidence network now connects to a projection, not a body. */
@@ -130,13 +129,8 @@
   opacity: .9;
 }
 
-.network-path {
-  stroke: rgba(87,80,73,.16) !important;
-}
-
-.network-node {
-  fill: rgba(70,64,59,.34) !important;
-}
+.network-path { stroke: rgba(87,80,73,.16) !important; }
+.network-node { fill: rgba(70,64,59,.34) !important; }
 
 /* Less 'panel demo', more open canvas. */
 .compact-live {
@@ -153,9 +147,7 @@
 }
 
 .compact-label,
-.compact-signal {
-  backdrop-filter: blur(12px);
-}
+.compact-signal { backdrop-filter: blur(12px); }
 
 @media (max-width: 800px) {
   .projection-shell {
