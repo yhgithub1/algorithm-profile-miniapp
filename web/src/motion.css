@@ -2,7 +2,7 @@
 
 .human {
   animation: none !important;
-  transition: filter .45s ease, opacity .45s ease, transform .45s cubic-bezier(.2,.72,.18,1);
+  transition: filter .45s ease, opacity .45s ease;
 }
 
 .orbit,
@@ -134,7 +134,7 @@
   box-shadow: none !important;
   filter: blur(.7px) saturate(.82) !important;
   opacity: .72;
-  transform: translate(-50%, -50%) rotate(var(--r)) !important;
+  transform: translate(-50%, -50%) rotate(var(--r));
   animation: none !important;
 }
 
@@ -146,7 +146,7 @@
   0% {
     opacity: 0;
     filter: blur(8px) saturate(.7);
-    transform: translate(-50%, -50%) rotate(var(--r)) scale(.15) !important;
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(.15);
   }
   55% {
     opacity: .9;
@@ -155,7 +155,7 @@
   100% {
     opacity: .72;
     filter: blur(.7px) saturate(.82);
-    transform: translate(-50%, -50%) rotate(var(--r)) scale(1) !important;
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(1);
   }
 }
 
@@ -203,6 +203,7 @@
 }
 
 .option-card {
+  position: relative;
   overflow: hidden;
 }
 
@@ -215,10 +216,6 @@
   transform: translateX(-30%);
   transition: opacity .2s ease, transform .35s ease;
   pointer-events: none;
-}
-
-.option-card {
-  position: relative;
 }
 
 .option-card:hover {
@@ -243,15 +240,11 @@
   0% {
     opacity: .12;
     filter: blur(16px) drop-shadow(0 0 0 transparent);
-    transform: scale(.965);
   }
-  45% {
-    opacity: .7;
-  }
+  45% { opacity: .7; }
   100% {
     opacity: 1;
     filter: blur(0) drop-shadow(0 30px 45px rgba(69,63,58,.09));
-    transform: scale(1);
   }
 }
 
