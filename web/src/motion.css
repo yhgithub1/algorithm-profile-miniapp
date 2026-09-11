@@ -1,0 +1,313 @@
+/* Motion language: evidence is recorded, absorbed, then resolved. No decorative bobbing. */
+
+.human {
+  animation: none !important;
+  transition: filter .45s ease, opacity .45s ease, transform .45s cubic-bezier(.2,.72,.18,1);
+}
+
+.orbit,
+.live-ring {
+  display: none !important;
+}
+
+.screen-enter {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(5px);
+  transition:
+    opacity .5s cubic-bezier(.2,.72,.18,1),
+    transform .5s cubic-bezier(.2,.72,.18,1),
+    filter .5s cubic-bezier(.2,.72,.18,1);
+}
+
+.screen-enter.is-ready {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.motion-copy {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .55s .05s ease, transform .65s .05s cubic-bezier(.2,.72,.18,1);
+}
+
+.is-ready .motion-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.motion-visual {
+  opacity: 0;
+  transform: translateY(10px) scale(.985);
+  transition: opacity .75s .12s ease, transform .9s .12s cubic-bezier(.2,.72,.18,1);
+}
+
+.is-ready .motion-visual {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.hero-visual,
+.live-stage,
+.reveal-person,
+.result-person {
+  isolation: isolate;
+}
+
+.trace-network {
+  position: absolute;
+  z-index: 1;
+  inset: 50% auto auto 50%;
+  width: min(94%, 430px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.network-path {
+  fill: none;
+  stroke: rgba(97, 90, 83, .18);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+.network-node {
+  fill: rgba(84, 78, 72, .34);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.trace-network.level-1 .path-a,
+.trace-network.level-2 .path-a,
+.trace-network.level-3 .path-a {
+  animation: drawEvidence .8s .14s cubic-bezier(.2,.72,.18,1) forwards;
+}
+
+.trace-network.level-2 .path-b,
+.trace-network.level-3 .path-b {
+  animation: drawEvidence .8s .26s cubic-bezier(.2,.72,.18,1) forwards;
+}
+
+.trace-network.level-3 .path-c {
+  animation: drawEvidence .8s .38s cubic-bezier(.2,.72,.18,1) forwards;
+}
+
+.trace-network.level-1 .node-a,
+.trace-network.level-2 .node-a,
+.trace-network.level-3 .node-a {
+  animation: nodeResolve .4s .72s ease forwards;
+}
+
+.trace-network.level-2 .node-b,
+.trace-network.level-3 .node-b {
+  animation: nodeResolve .4s .84s ease forwards;
+}
+
+.trace-network.level-3 .node-c {
+  animation: nodeResolve .4s .96s ease forwards;
+}
+
+@keyframes drawEvidence {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  14% { opacity: .45; }
+  100% { stroke-dashoffset: 0; opacity: .8; }
+}
+
+@keyframes nodeResolve {
+  0% { opacity: 0; transform: scale(.3); }
+  100% { opacity: .7; transform: scale(1); }
+}
+
+.data-mark {
+  width: var(--w) !important;
+  height: var(--h) !important;
+  border-radius: 999px 70% 999px 65% !important;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--c) 62%, transparent),
+    color-mix(in srgb, var(--c) 28%, transparent)) !important;
+  box-shadow: none !important;
+  filter: blur(.7px) saturate(.82) !important;
+  opacity: .72;
+  transform: translate(-50%, -50%) rotate(var(--r)) !important;
+  animation: none !important;
+}
+
+.data-mark.newest {
+  animation: inkSettle .85s cubic-bezier(.2,.72,.18,1) both !important;
+}
+
+@keyframes inkSettle {
+  0% {
+    opacity: 0;
+    filter: blur(8px) saturate(.7);
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(.15) !important;
+  }
+  55% {
+    opacity: .9;
+    filter: blur(2px) saturate(.85);
+  }
+  100% {
+    opacity: .72;
+    filter: blur(.7px) saturate(.82);
+    transform: translate(-50%, -50%) rotate(var(--r)) scale(1) !important;
+  }
+}
+
+.absorb-wave {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  top: 48%;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(86, 78, 71, .28);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.2);
+  pointer-events: none;
+}
+
+.human.absorbing .absorb-wave {
+  animation: absorbWave .52s cubic-bezier(.2,.72,.18,1) forwards;
+}
+
+.human.absorbing {
+  filter: drop-shadow(0 18px 30px rgba(69,63,58,.08)) brightness(1.015);
+}
+
+@keyframes absorbWave {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); }
+  30% { opacity: .4; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.8); }
+}
+
+.motion-trace {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--trace-color);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--trace-color) 10%, transparent);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.option-card {
+  overflow: hidden;
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 9%, transparent));
+  opacity: 0;
+  transform: translateX(-30%);
+  transition: opacity .2s ease, transform .35s ease;
+  pointer-events: none;
+}
+
+.option-card {
+  position: relative;
+}
+
+.option-card:hover {
+  transform: translateX(2px) !important;
+}
+
+.option-card.committed {
+  transform: translateX(0) scale(.985) !important;
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent) !important;
+}
+
+.option-card.committed::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.human.resolve-in {
+  animation: resolveHuman 1s cubic-bezier(.18,.78,.14,1) both !important;
+}
+
+@keyframes resolveHuman {
+  0% {
+    opacity: .12;
+    filter: blur(16px) drop-shadow(0 0 0 transparent);
+    transform: scale(.965);
+  }
+  45% {
+    opacity: .7;
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 30px 45px rgba(69,63,58,.09));
+    transform: scale(1);
+  }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .7s var(--delay, 0ms) ease,
+    transform .8s var(--delay, 0ms) cubic-bezier(.2,.72,.18,1);
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.discovery-card {
+  transition-property: opacity, transform, background-color;
+}
+
+.discovery-card:hover {
+  background: rgba(255,255,255,.24);
+}
+
+.why-details[open] > *:not(summary),
+.platform-details[open] > *:not(summary) {
+  animation: detailsReveal .32s cubic-bezier(.2,.72,.18,1) both;
+}
+
+@keyframes detailsReveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.feedback-row button {
+  transition: transform .18s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.feedback-row button:active {
+  transform: scale(.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+  .screen-enter,
+  .motion-copy,
+  .motion-visual,
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
