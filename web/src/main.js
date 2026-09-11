@@ -1,6 +1,7 @@
 import './styles.css'
 import './compact.css'
 import './motion.css'
+import './shadow.css'
 import { QUESTIONS, PLATFORM_META, analyzeAnswers } from './logic.js'
 
 const app = document.querySelector('#app')
@@ -27,17 +28,20 @@ function answeredCount() {
   return Object.keys(state.answers).length
 }
 
-function particles() {
+function traceStrokes() {
   const rows = Object.entries(state.answers)
   return rows.map(([id], i) => {
     const q = QUESTIONS.find(item => item.id === id)
-    const color = q ? PLATFORM_META[q.platform].color : '#999'
-    const left = 24 + ((i * 19) % 48)
-    const top = 16 + ((i * 27) % 66)
-    const width = 22 + ((i * 9) % 30)
-    const height = 12 + ((i * 7) % 18)
+    const color = q ? PLATFORM_META[q.platform].color : '#8c837a'
+    const y = 96 + ((i * 43) % 238)
+    const x1 = 82 + ((i * 31) % 58)
+    const x2 = 208 + ((i * 27) % 56)
+    const bend = i % 2 === 0 ? -28 : 32
     const newest = id === state.lastAnswerId ? ' newest' : ''
-    return `<i class="data-mark${newest}" style="--c:${color};--x:${left}%;--y:${top}%;--w:${width}px;--h:${height}px;--r:${(i * 29) % 56 - 28}deg"></i>`
+    return `
+      <path class="shadow-stroke${newest}" stroke="${color}"
+        d="M ${x1} ${y} C ${x1 + 38} ${y + bend}, ${x2 - 34} ${y - bend * .55}, ${x2} ${y + 8}" />
+      <circle class="shadow-node" fill="${color}" cx="${x2}" cy="${y + 8}" r="3.2" />`
   }).join('')
 }
 
@@ -54,21 +58,35 @@ function networkMarkup(level = 0) {
     </svg>`
 }
 
-function personMarkup(size = 'normal', level = answeredCount()) {
+function projectionMarkup(size = 'normal', level = answeredCount()) {
+  const networkLevel = Math.min(3, Math.floor(level / 2) + (level > 0 ? 1 : 0))
   return `
-    <div class="human ${size}" data-projection-target>
-      <div class="human-glow"></div>
-      <div class="human-head"></div>
-      <div class="human-neck"></div>
-      <div class="human-torso"></div>
-      <div class="human-arm left"></div>
-      <div class="human-arm right"></div>
-      <div class="human-leg left"></div>
-      <div class="human-leg right"></div>
-      <div class="human-marks">${particles()}</div>
+    <div class="projection-shell ${size}" data-projection-target>
+      <div class="projection-field"></div>
+      <svg class="projection-svg" viewBox="0 0 320 430" aria-hidden="true">
+        <defs>
+          <linearGradient id="projectionFill" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,.92)" />
+            <stop offset="52%" stop-color="rgba(228,224,217,.70)" />
+            <stop offset="100%" stop-color="rgba(197,191,184,.36)" />
+          </linearGradient>
+          <clipPath id="projectionClip">
+            <path d="M160 28 C208 35 247 71 260 121 C272 165 249 194 265 236 C281 279 263 339 224 379 C199 405 177 416 154 405 C119 421 81 394 62 356 C40 313 57 274 52 237 C47 198 31 166 49 122 C68 76 111 34 160 28 Z" />
+          </clipPath>
+        </defs>
+
+        <path class="shadow-contour" d="M160 28 C208 35 247 71 260 121 C272 165 249 194 265 236 C281 279 263 339 224 379 C199 405 177 416 154 405 C119 421 81 394 62 356 C40 313 57 274 52 237 C47 198 31 166 49 122 C68 76 111 34 160 28 Z" />
+
+        <g clip-path="url(#projectionClip)">
+          <path class="shadow-inner" d="M78 117 C126 82 189 75 239 112 M67 171 C122 145 204 145 254 171 M61 226 C118 206 208 210 260 235 M65 281 C123 265 209 274 250 301 M82 337 C132 325 191 335 224 366" />
+          <path class="shadow-scan" d="M50 145 H270 M47 198 H273 M50 252 H270 M58 307 H260" />
+          ${traceStrokes()}
+        </g>
+      </svg>
+      <div class="projection-index"><b>${String(level).padStart(2, '0')}</b><br>TRACES</div>
       <div class="absorb-wave"></div>
     </div>
-    ${networkMarkup(Math.min(3, Math.floor(level / 2) + (level > 0 ? 1 : 0)))}`
+    ${networkMarkup(networkLevel)}`
 }
 
 function renderHome() {
@@ -87,8 +105,8 @@ function renderHome() {
         </div>
 
         <div class="hero-visual motion-visual">
-          ${personMarkup('large', 0)}
-          <div class="visual-label compact-label">它还什么都不知道</div>
+          ${projectionMarkup('large', 0)}
+          <div class="visual-label compact-label">还没有足够的痕迹</div>
         </div>
       </section>
     </main>`
@@ -136,11 +154,11 @@ function renderObserve() {
         </div>
 
         <aside class="live-zone compact-live motion-visual">
-          <div class="live-caption"><span>LIVE</span><b>${count}</b></div>
+          <div class="live-caption"><span>LIVE PROJECTION</span><b>${count}</b></div>
           <div class="live-stage">
-            ${personMarkup('medium', count)}
+            ${projectionMarkup('medium', count)}
           </div>
-          <div class="compact-signal">${count < 3 ? '正在收集碎片' : count < 6 ? '开始出现模式' : '可以形成判断了'}</div>
+          <div class="compact-signal">${count < 3 ? '正在留下痕迹' : count < 6 ? '开始出现结构' : '投影正在稳定'}</div>
           ${recentTrace() ? `<div class="last-trace">${escapeHtml(recentTrace())}</div>` : ''}
         </aside>
       </section>
@@ -157,9 +175,9 @@ function renderMidReveal() {
     <main class="page reveal-page compact-reveal screen-enter">
       <nav class="topbar"><span>EARLY SIGNAL</span><span>3 / ${QUESTIONS.length}</span></nav>
       <section class="reveal-wrap compact-reveal-wrap">
-        <div class="reveal-person motion-visual">${personMarkup('large', 3)}</div>
+        <div class="reveal-person motion-visual">${projectionMarkup('large', 3)}</div>
         <div class="reveal-copy motion-copy">
-          <p class="eyebrow">它已经开始猜了</p>
+          <p class="eyebrow">第一层投影出现了</p>
           <h2>${escapeHtml(first?.title || '已经出现第一条重复信号')}</h2>
           <button class="primary-button" data-action="continue">继续验证 <span>→</span></button>
         </div>
@@ -190,7 +208,7 @@ function renderResult() {
           <p class="eyebrow">不是性格结论</p>
           <h1>${analysis.discoveries.length} 个<br><span>行为发现</span></h1>
         </div>
-        <div class="result-person motion-visual">${personMarkup('large', 7)}</div>
+        <div class="result-person motion-visual">${projectionMarkup('large', answeredCount())}</div>
       </section>
 
       <section class="discoveries compact-discoveries">
@@ -243,7 +261,7 @@ function renderResult() {
       </details>
 
       <footer class="result-footer compact-footer scroll-reveal">
-        <p>平台看到的是行为，不是你本人。</p>
+        <p>平台看到的是行为留下的投影，不是你本人。</p>
       </footer>
     </main>`
 
@@ -258,13 +276,13 @@ function render() {
   if (state.screen === 'result') renderResult()
 }
 
-function enterScreen(resolveHuman = false) {
+function enterScreen(resolveProjection = false) {
   const page = app.querySelector('.screen-enter')
   if (!page) return
   requestAnimationFrame(() => page.classList.add('is-ready'))
-  if (resolveHuman) {
-    const human = page.querySelector('.human')
-    if (human) human.classList.add('resolve-in')
+  if (resolveProjection) {
+    const projection = page.querySelector('[data-projection-target]')
+    if (projection) projection.classList.add('resolve-in')
   }
 }
 
